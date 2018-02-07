@@ -1,0 +1,7 @@
+{
+  "name": "react-native-select",
+  "version": "1.0.0",
+  "description": "A Picker component for React Native which emulates the native <select> interfaces for each platform",
+  "main": "index.js",
+  "license": "MIT"
+}
