@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Modal,
   Picker,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
@@ -45,11 +46,11 @@ export default class RNSelect extends Component {
     });
   }
 
-  selectValue({ value, idx }) {
-    this.props.onSelect(value);
+  selectValue({ value, index }) {
+    this.props.onSelect({value, index});
 
     this.setState({
-      selectedItem: this.state.items[idx],
+      selectedItem: this.state.items[index],
     });
   }
 
@@ -97,7 +98,7 @@ export default class RNSelect extends Component {
     );
   }
 
-  render() {
+  renderIOS(){
     return (
       <View style={[styles.viewContainer, this.props.style.viewContainer]}>
         <TouchableWithoutFeedback onPress={this.togglePicker}>
@@ -121,8 +122,8 @@ export default class RNSelect extends Component {
           { this.renderDoneBar() }
           <View style={[styles.modalViewBottom, this.props.style.modalViewBottom]}>
             <Picker
-              onValueChange={(value, idx) => {
-                                this.selectValue({ value, idx });
+              onValueChange={(value, index) => {
+                                this.selectValue({ value, index });
                             }}
               selectedValue={this.state.selectedItem.value}
               testId="RNPickerSelectIOS"
@@ -134,13 +135,36 @@ export default class RNSelect extends Component {
       </View>
     );
   }
+
+  renderAndroid() {
+    return (
+      <View style={[styles.viewContainer, this.props.style.viewContainer]}>
+        <Picker
+          style={[this.props.style.inputAndroid, this.renderPlaceholderStyle()]}
+          onValueChange={(value, index) => {
+                        this.selectValue({ value, index });
+                    }}
+          selectedValue={this.state.selectedItem.value}
+          testId="RNPickerSelectAndroid"
+          enabled={!this.props.disabled}
+        >
+          { this.renderPickerItems() }
+        </Picker>
+        <View style={[styles.underline, this.props.style.underline]} />
+      </View>
+    );
+  }
+
+  render() {
+    return Platform.OS === 'ios' ? this.renderIOS() : this.renderAndroid()
+  }
 }
 
 RNSelect.propTypes = {
   onSelect: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.any.isRequired,
     label: PropTypes.string.isRequired,
+    value: PropTypes.any.isRequired,
     key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })).isRequired,
   placeholder: PropTypes.string,
@@ -219,6 +243,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     padding: 10,
     fontSize: 18,
+  },
+  underline: {
+    borderTopWidth: 1,
+    borderTopColor: '#888988',
+    marginHorizontal: 4,
   },
 });
 
