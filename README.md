@@ -1,5 +1,5 @@
 
-# React Native Select
+# React Native Picker Select
 
 A Picker component for React Native which emulates the native `<select>` interfaces for iOS and Android
 
@@ -16,9 +16,9 @@ For either platform, you can alternatively pass down a child element that will b
 
 ### Installing
 
-`npm install react-native-select`
+`npm install react-native-picker-select`
 or
-`yarn add react-native-select`
+`yarn add react-native-picker-select`
 
 ### Usage
 
