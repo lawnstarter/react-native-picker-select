@@ -13,7 +13,7 @@ import {
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 
-export default class RNSelect extends Component {
+export default class RNPickerSelect extends Component {
   constructor(props) {
     super(props);
 
@@ -31,6 +31,7 @@ export default class RNSelect extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (!nextProps.value) { return; }
     const newSelectedItem = this.state.items.find(item => isEqual(item.value, nextProps.value)) || this.placeholderItem;
     if (this.state.selectedItem !== newSelectedItem) {
       this.setState({
@@ -98,17 +99,30 @@ export default class RNSelect extends Component {
     );
   }
 
+  renderTextInputOrChildren() {
+    if (this.props.children) {
+      return (
+        <View pointerEvents="box-only">
+          { this.props.children }
+        </View>
+      )
+    }
+    return (
+      <View pointerEvents="box-only">
+        <TextInput
+          style={[this.props.style.inputIOS, this.renderPlaceholderStyle()]}
+          value={this.state.selectedItem.label}
+        />
+        { this.renderIcon() }
+      </View>
+    )
+  }
+
   renderIOS(){
     return (
       <View style={[styles.viewContainer, this.props.style.viewContainer]}>
         <TouchableWithoutFeedback onPress={this.togglePicker}>
-          <View pointerEvents="box-only">
-            <TextInput
-              style={[this.props.style.inputIOS, this.renderPlaceholderStyle()]}
-              value={this.state.selectedItem.label}
-            />
-            {this.renderIcon()}
-          </View>
+          { this.renderTextInputOrChildren() }
         </TouchableWithoutFeedback>
         <Modal
           visible={this.state.showPicker}
@@ -136,7 +150,31 @@ export default class RNSelect extends Component {
     );
   }
 
+  renderAndroidHeadless() {
+    return (
+      <View style={{ borderWidth: 0 }}>
+        { this.props.children }
+        <Picker
+          style={{ position: absolute, top: 0, width: 1000, height: 1000 }}
+          onValueChange={(value, index) => {
+                        this.selectValue({ value, index });
+                    }}
+          selectedValue={this.state.selectedItem.value}
+          testId="RNPickerSelectAndroid"
+          mode={this.props.mode}
+          enabled={!this.props.disabled}
+        >
+          { this.renderPickerItems() }
+        </Picker>
+      </View>
+    )
+  }
+
   renderAndroid() {
+    if (this.props.children) {
+      return this.renderAndroidHeadless()
+    }
+
     return (
       <View style={[styles.viewContainer, this.props.style.viewContainer]}>
         <Picker
@@ -146,6 +184,7 @@ export default class RNSelect extends Component {
                     }}
           selectedValue={this.state.selectedItem.value}
           testId="RNPickerSelectAndroid"
+          mode={this.props.mode}
           enabled={!this.props.disabled}
         >
           { this.renderPickerItems() }
@@ -160,7 +199,7 @@ export default class RNSelect extends Component {
   }
 }
 
-RNSelect.propTypes = {
+RNPickerSelect.propTypes = {
   onSelect: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
@@ -173,15 +212,17 @@ RNSelect.propTypes = {
   disabled: PropTypes.bool,
   value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
   style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  mode: PropTypes.string,
 };
 
-RNSelect.defaultProps = {
+RNPickerSelect.defaultProps = {
   placeholder: 'Select an item...',
   hideDoneBar: false,
   hideIcon: false,
   disabled: false,
   value: undefined,
   style: {},
+  mode: 'dialog'
 };
 
 const styles = StyleSheet.create({

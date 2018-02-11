@@ -1,7 +1,25 @@
 {
-  "name": "react-native-select",
+  "name": "react-native-picker-select",
   "version": "1.0.0",
   "description": "A Picker component for React Native which emulates the native <select> interfaces for each platform",
-  "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "author": "Michael Lefkowitz <lefkowitz.michael@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lawnstarter/react-native-picker-select.git"
+  },
+  "main": "src/index.js",
+  "keywords": [
+    "react",
+    "react-native",
+    "picker",
+    "select",
+    "dropdown"
+  ],
+  "devDependencies": {
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.1"
+  }
 }
