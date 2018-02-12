@@ -1,6 +1,6 @@
 {
   "name": "react-native-picker-select",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Picker component for React Native which emulates the native <select> interfaces for each platform",
   "license": "MIT",
   "author": "Michael Lefkowitz <lefkowitz.michael@gmail.com>",
@@ -16,10 +16,14 @@
     "select",
     "dropdown"
   ],
+  "dependencies": {
+    "lodash.isequal": "^4.5.0"
+  },
   "devDependencies": {
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.6.1"
+    "eslint-plugin-react": "^7.6.1",
+    "prop-types": "^15.6.0"
   }
 }
