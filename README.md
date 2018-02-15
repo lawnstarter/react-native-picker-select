@@ -38,8 +38,8 @@ or
   * The value can be any data type
 
 **Optional Props**
-* `placeholder` - string
-  * An override for the default placeholder of `Select an item...`
+* `placeholder` - object
+  * An override for the default placeholder object with a label of `Select an item...` and a value of `null`
 * `hideDoneBar` - boolean
   * For the iOS component, hides the bar with tabbing arrows and Done link to exit the modal. While this is typical on `<select>` elements on the web, the [interface guidelines](https://developer.apple.com/ios/human-interface-guidelines/controls/pickers/) does not include it.
 * `hideIcon` - boolean
@@ -54,7 +54,7 @@ or
 ### Styling
 
 * iOS
-  * The component wraps a TextInput without styling. In the style prop, pass a style object named `inputIOS` to style the input (see example)
+  * The component wraps a TextInput without styling. In the style prop, pass a style object named `inputIOS` to style the input
   * Alternatively, you can pass children (such as a custom button or input) for the component to wrap
   * Other styles that can be modified for iOS are named `viewContainer`, `icon`, `done`, `modalViewTop`, `modalViewMiddle`, `modalViewBottom`, and `placeholderColor`
 * Android
@@ -63,6 +63,8 @@ or
   * The main input can be modified with the style object named `inputAndroid`
   * Alternatively, you can pass children (such as a custom button or input) for the component to wrap
   * Other styles that can be modified for Android are named `viewContainer` and `placeholderColor`
+
+[See Examples](https://github.com/lawnstarter/react-native-picker-select/tree/master/example)
 
 ## Testing
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   Modal,
   Picker,
@@ -13,16 +13,20 @@ import {
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 
-export default class RNPickerSelect extends Component {
+export default class RNPickerSelect extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.placeholderItem = { label: props.placeholder, value: null };
-    this.itemsWithPlaceholder = [this.placeholderItem].concat(props.items);
+    this.placeholder = props.placeholder;
+    if (typeof props.placeholder === 'string') {
+      this.placeholder = { label: props.placeholder, value: null };
+    }
+
+    this.itemsWithPlaceholder = [this.placeholder].concat(props.items);
 
     this.state = {
       items: this.itemsWithPlaceholder,
-      selectedItem: this.itemsWithPlaceholder.find(item => isEqual(item.value, props.value)) || this.placeholderItem,
+      selectedItem: this.itemsWithPlaceholder.find(item => isEqual(item.value, props.value)) || this.placeholder,
       showPicker: false,
     };
 
@@ -32,7 +36,7 @@ export default class RNPickerSelect extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.value) { return; }
-    const newSelectedItem = this.state.items.find(item => isEqual(item.value, nextProps.value)) || this.placeholderItem;
+    const newSelectedItem = this.state.items.find(item => isEqual(item.value, nextProps.value)) || this.placeholder;
     if (this.state.selectedItem !== newSelectedItem) {
       this.setState({
         selectedItem: newSelectedItem,
@@ -48,7 +52,7 @@ export default class RNPickerSelect extends Component {
   }
 
   selectValue({ value, index }) {
-    this.props.onSelect({value, index});
+    this.props.onSelect({ value, index });
 
     this.setState({
       selectedItem: this.state.items[index],
@@ -61,7 +65,7 @@ export default class RNPickerSelect extends Component {
 
   renderPlaceholderStyle() {
     const styleModifiers = {};
-    if (this.state.selectedItem.label === this.props.placeholder) {
+    if (this.state.selectedItem.label === this.placeholder.label) {
       styleModifiers.color = this.props.style.placeholderColor || '#C7C7CD';
     }
     return styleModifiers;
@@ -79,9 +83,7 @@ export default class RNPickerSelect extends Component {
         </View>
         <TouchableWithoutFeedback
           onPress={this.togglePicker}
-          hitSlop={{
-            top: 2, right: 2, bottom: 2, left: 2,
-          }}
+          hitSlop={{ top: 2, right: 2, bottom: 2, left: 2 }}
         >
           <View>
             <Text style={styles.done}>Done</Text>
@@ -105,7 +107,7 @@ export default class RNPickerSelect extends Component {
         <View pointerEvents="box-only">
           { this.props.children }
         </View>
-      )
+      );
     }
     return (
       <View pointerEvents="box-only">
@@ -115,10 +117,10 @@ export default class RNPickerSelect extends Component {
         />
         { this.renderIcon() }
       </View>
-    )
+    );
   }
 
-  renderIOS(){
+  renderIOS() {
     return (
       <View style={[styles.viewContainer, this.props.style.viewContainer]}>
         <TouchableWithoutFeedback onPress={this.togglePicker}>
@@ -136,9 +138,7 @@ export default class RNPickerSelect extends Component {
           { this.renderDoneBar() }
           <View style={[styles.modalViewBottom, this.props.style.modalViewBottom]}>
             <Picker
-              onValueChange={(value, index) => {
-                                this.selectValue({ value, index });
-                            }}
+              onValueChange={(value, index) => { this.selectValue({ value, index }); }}
               selectedValue={this.state.selectedItem.value}
               testId="RNPickerSelectIOS"
             >
@@ -155,10 +155,8 @@ export default class RNPickerSelect extends Component {
       <View style={{ borderWidth: 0 }}>
         { this.props.children }
         <Picker
-          style={{ position: absolute, top: 0, width: 1000, height: 1000 }}
-          onValueChange={(value, index) => {
-                        this.selectValue({ value, index });
-                    }}
+          style={{ position: 'absolute', top: 0, width: 1000, height: 1000 }}
+          onValueChange={(value, index) => { this.selectValue({ value, index }); }}
           selectedValue={this.state.selectedItem.value}
           testId="RNPickerSelectAndroid"
           mode={this.props.mode}
@@ -167,21 +165,19 @@ export default class RNPickerSelect extends Component {
           { this.renderPickerItems() }
         </Picker>
       </View>
-    )
+    );
   }
 
   renderAndroid() {
     if (this.props.children) {
-      return this.renderAndroidHeadless()
+      return this.renderAndroidHeadless();
     }
 
     return (
       <View style={[styles.viewContainer, this.props.style.viewContainer]}>
         <Picker
           style={[this.props.style.inputAndroid, this.renderPlaceholderStyle()]}
-          onValueChange={(value, index) => {
-                        this.selectValue({ value, index });
-                    }}
+          onValueChange={(value, index) => { this.selectValue({ value, index }); }}
           selectedValue={this.state.selectedItem.value}
           testId="RNPickerSelectAndroid"
           mode={this.props.mode}
@@ -195,7 +191,7 @@ export default class RNPickerSelect extends Component {
   }
 
   render() {
-    return Platform.OS === 'ios' ? this.renderIOS() : this.renderAndroid()
+    return Platform.OS === 'ios' ? this.renderIOS() : this.renderAndroid();
   }
 }
 
@@ -206,23 +202,31 @@ RNPickerSelect.propTypes = {
     value: PropTypes.any.isRequired,
     key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })).isRequired,
-  placeholder: PropTypes.string,
+  placeholder: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.any,
+  }),
   hideDoneBar: PropTypes.bool,
   hideIcon: PropTypes.bool,
   disabled: PropTypes.bool,
   value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
   style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
   mode: PropTypes.string,
 };
 
 RNPickerSelect.defaultProps = {
-  placeholder: 'Select an item...',
+  placeholder: {
+    label: 'Select an item...',
+    value: null,
+  },
   hideDoneBar: false,
   hideIcon: false,
   disabled: false,
   value: undefined,
   style: {},
-  mode: 'dialog'
+  children: null,
+  mode: 'dialog',
 };
 
 const styles = StyleSheet.create({
