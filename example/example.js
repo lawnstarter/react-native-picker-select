@@ -15,12 +15,25 @@ export default class App extends React.Component {
     };
   }
 
+  // if the component is using the optional `value` prop, the parent
+  // has the abililty to both set the initial value and also update it
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        favColor: 'red',
+      });
+    }, 1000);
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text>What's your favorite color?</Text>
+        <Text>What&rsquo;s your favorite color?</Text>
         <RNPickerSelect
-          placeholder="Select a color..."
+          placeholder={{
+            label: 'Select a color...',
+            value: null,
+          }}
           items={[
           {
             label: 'Red',
@@ -43,6 +56,7 @@ export default class App extends React.Component {
            }
         }
           style={{ ...pickerSelectStyles }}
+          value={this.state.favColor}
         />
       </View>
     );
