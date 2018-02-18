@@ -25,14 +25,16 @@ const selectItems = [
   },
 ];
 
+const placeholder = {
+  label: 'Select a color...',
+  value: null,
+};
+
 describe('RNPickerSelect', () => {
   it('should set the picked value to state', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
-      placeholder={{
-        label: 'Select a color...',
-        value: null,
-      }}
+      placeholder={placeholder}
       onSelect={() => {}}
     />);
 
@@ -40,13 +42,22 @@ describe('RNPickerSelect', () => {
     expect(wrapper.state().selectedItem.value).toEqual('orange');
   });
 
+  it('should return the expected option to a callback passed into onSelect', () => {
+    const onSelectSpy = jest.fn();
+    const wrapper = shallow(<RNPickerSelect
+      items={selectItems}
+      placeholder={placeholder}
+      onSelect={onSelectSpy}
+    />);
+
+    wrapper.find('[testId="RNPickerSelectIOS"]').props().onValueChange('orange', 1);
+    expect(onSelectSpy).toHaveBeenCalledWith({ index: 1, value: 'orange' });
+  });
+
   it('should show the picker when pressed', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
-      placeholder={{
-        label: 'Select a color...',
-        value: null,
-      }}
+      placeholder={placeholder}
       onSelect={() => {}}
     />);
 
@@ -58,10 +69,7 @@ describe('RNPickerSelect', () => {
   it('should not show the picker when pressed if disabled', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
-      placeholder={{
-        label: 'Select a color...',
-        value: null,
-      }}
+      placeholder={placeholder}
       onSelect={() => {}}
       disabled
     />);
@@ -74,10 +82,7 @@ describe('RNPickerSelect', () => {
   it('should update the picked value when the parent updates', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
-      placeholder={{
-        label: 'Select a color...',
-        value: null,
-      }}
+      placeholder={placeholder}
       onSelect={() => {}}
       value="red"
     />);
@@ -91,10 +96,7 @@ describe('RNPickerSelect', () => {
     Platform.OS = 'android';
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
-      placeholder={{
-        label: 'Select a color...',
-        value: null,
-      }}
+      placeholder={placeholder}
       onSelect={() => {}}
     />);
 
