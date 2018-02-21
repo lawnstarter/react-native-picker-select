@@ -6,23 +6,45 @@ import {
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
+const items = [
+  {
+    label: 'Red',
+    value: 'red',
+  },
+  {
+    label: 'Orange',
+    value: 'orange',
+  },
+  {
+    label: 'Blue',
+    value: 'blue',
+  },
+];
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       favColor: '',
+      items,
     };
   }
 
-  // if the component is using the optional `value` prop, the parent
-  // has the abililty to both set the initial value and also update it
   componentDidMount() {
+    // if the component is using the optional `value` prop, the parent
+    // has the abililty to both set the initial value and also update it
     setTimeout(() => {
       this.setState({
         favColor: 'red',
       });
     }, 1000);
+
+    setTimeout(() => {
+      this.setState({
+        items: items.concat([{ value: 'purple', label: 'Purple' }]),
+      });
+    }, 2000);
   }
 
   render() {
@@ -34,20 +56,7 @@ export default class App extends React.Component {
             label: 'Select a color...',
             value: null,
           }}
-          items={[
-          {
-            label: 'Red',
-            value: 'red',
-          },
-          {
-            label: 'Orange',
-            value: 'orange',
-          },
-          {
-            label: 'Blue',
-            value: 'blue',
-          },
-        ]}
+          items={this.state.items}
           onSelect={
           (item) => {
             this.setState({

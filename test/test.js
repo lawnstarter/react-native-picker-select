@@ -4,24 +4,28 @@ import RNPickerSelect from '../src/';
 
 const selectItems = [
   {
+    label: 'Red',
+    value: 'red',
+  },
+  {
     label: 'Orange',
     value: 'orange',
   },
   {
-    label: 'Red',
-    value: 'red',
+    label: 'Yellow',
+    value: 'yellow',
   },
   {
     label: 'Green',
     value: 'green',
   },
   {
-    label: 'Purple',
-    value: 'purple',
+    label: 'Blue',
+    value: 'blue',
   },
   {
-    label: 'Yellow',
-    value: 'yellow',
+    label: 'Indigo',
+    value: 'indigo',
   },
 ];
 
@@ -38,7 +42,7 @@ describe('RNPickerSelect', () => {
       onSelect={() => {}}
     />);
 
-    wrapper.find('[testId="RNPickerSelectIOS"]').props().onValueChange('orange', 1);
+    wrapper.find('[testId="RNPickerSelectIOS"]').props().onValueChange('orange', 2);
     expect(wrapper.state().selectedItem.value).toEqual('orange');
   });
 
@@ -50,8 +54,8 @@ describe('RNPickerSelect', () => {
       onSelect={onSelectSpy}
     />);
 
-    wrapper.find('[testId="RNPickerSelectIOS"]').props().onValueChange('orange', 1);
-    expect(onSelectSpy).toHaveBeenCalledWith({ index: 1, value: 'orange' });
+    wrapper.find('[testId="RNPickerSelectIOS"]').props().onValueChange('orange', 2);
+    expect(onSelectSpy).toHaveBeenCalledWith({ index: 2, value: 'orange' });
   });
 
   it('should show the picker when pressed', () => {
@@ -101,10 +105,33 @@ describe('RNPickerSelect', () => {
 
     expect(wrapper.state().items).toEqual([placeholder].concat(selectItems));
 
-    const selectItemsPlusPurple = selectItems.concat([{ label: 'Purple', value: 'purple' }]);
+    const selectItemsPlusViolet = selectItems.concat([{ label: 'Violet', value: 'violet' }]);
 
-    wrapper.setProps({ items: selectItemsPlusPurple });
-    expect(wrapper.state().items).toEqual([placeholder].concat(selectItemsPlusPurple));
+    wrapper.setProps({ items: selectItemsPlusViolet });
+    expect(wrapper.state().items).toEqual([placeholder].concat(selectItemsPlusViolet));
+  });
+
+  it('should should handle having no placeholder', () => {
+    const wrapper = shallow(<RNPickerSelect
+      items={selectItems}
+      placeholder={{}}
+      onSelect={() => {}}
+    />);
+
+    expect(wrapper.state().items).toEqual(selectItems);
+  });
+
+  it('should should reset to the first item (typically the placeholder) if a value is passed in that doesn\'t exist in the `items` array', () => {
+    const wrapper = shallow(<RNPickerSelect
+      items={selectItems}
+      placeholder={placeholder}
+      onSelect={() => {}}
+    />);
+
+    wrapper.find('[testId="RNPickerSelectIOS"]').props().onValueChange('orange', 2);
+    expect(wrapper.state().selectedItem.value).toEqual('orange');
+    wrapper.setProps({ value: 'violet' });
+    expect(wrapper.state().selectedItem).toEqual(placeholder);
   });
 
   it('should set the selected value to state (Android)', () => {
@@ -115,7 +142,7 @@ describe('RNPickerSelect', () => {
       onSelect={() => {}}
     />);
 
-    wrapper.find('[testId="RNPickerSelectAndroid"]').props().onValueChange('orange', 1);
+    wrapper.find('[testId="RNPickerSelectAndroid"]').props().onValueChange('orange', 2);
     expect(wrapper.state().selectedItem.value).toEqual('orange');
   });
 });
