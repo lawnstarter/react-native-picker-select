@@ -35,7 +35,15 @@ export default class RNPickerSelect extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.value) { return; }
+    // update items if items prop changes
+    if (!isEqual(this.state.items, nextProps.items)) {
+      this.setState({
+        items: [this.placeholder].concat(nextProps.items),
+      });
+    }
+
+    // update selectedItem if value prop is defined and differs from currently selected item
+    if (this.props.value === 'undefined') { return; }
     const newSelectedItem = this.state.items.find(item => isEqual(item.value, nextProps.value)) || this.placeholder;
     if (this.state.selectedItem !== newSelectedItem) {
       this.setState({

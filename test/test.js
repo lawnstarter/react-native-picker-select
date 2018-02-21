@@ -31,7 +31,7 @@ const placeholder = {
 };
 
 describe('RNPickerSelect', () => {
-  it('should set the picked value to state', () => {
+  it('should set the selected value to state', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
       placeholder={placeholder}
@@ -79,7 +79,7 @@ describe('RNPickerSelect', () => {
     expect(wrapper.state().showPicker).toEqual(false);
   });
 
-  it('should update the picked value when the parent updates', () => {
+  it('should update the selected value when the `value` prop updates', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
       placeholder={placeholder}
@@ -92,7 +92,22 @@ describe('RNPickerSelect', () => {
     expect(wrapper.state().selectedItem.value).toEqual('orange');
   });
 
-  it('should set the picked value to state (Android)', () => {
+  it('should update the items when the `item` prop updates', () => {
+    const wrapper = shallow(<RNPickerSelect
+      items={selectItems}
+      placeholder={placeholder}
+      onSelect={() => {}}
+    />);
+
+    expect(wrapper.state().items).toEqual([placeholder].concat(selectItems));
+
+    const selectItemsPlusPurple = selectItems.concat([{ label: 'Purple', value: 'purple' }]);
+
+    wrapper.setProps({ items: selectItemsPlusPurple });
+    expect(wrapper.state().items).toEqual([placeholder].concat(selectItemsPlusPurple));
+  });
+
+  it('should set the selected value to state (Android)', () => {
     Platform.OS = 'android';
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
