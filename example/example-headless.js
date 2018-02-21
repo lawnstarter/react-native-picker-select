@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
-import CustomButton from '.components/CustomButton'
+import CustomButton from '.components/CustomButton';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -14,6 +14,20 @@ export default class App extends React.Component {
 
     this.state = {
       favColor: '',
+      items: [
+        {
+          label: 'Red',
+          value: 'red',
+        },
+        {
+          label: 'Orange',
+          value: 'orange',
+        },
+        {
+          label: 'Blue',
+          value: 'blue',
+        },
+      ],
     };
   }
 
@@ -21,20 +35,8 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <RNPickerSelect
-          items={[
-          {
-            label: 'Red',
-            value: 'red',
-          },
-          {
-            label: 'Orange',
-            value: 'orange',
-          },
-          {
-            label: 'Blue',
-            value: 'blue',
-          },
-        ]}
+          items={this.state.items}
+          placeholder={{}}
           onSelect={
           (item) => {
             this.setState({
@@ -43,7 +45,7 @@ export default class App extends React.Component {
            }
         }
         >
-            <CustomButton text="Select your favorite color"/>
+          <CustomButton text="Select your favorite color" />
         </RNPickerSelect>
       </View>
     );

@@ -17,8 +17,6 @@ For either platform, you can alternatively pass down a child element that will b
 ### Installing
 
 `npm install react-native-picker-select`
-or
-`yarn add react-native-picker-select`
 
 ### Usage
 
@@ -40,6 +38,7 @@ or
 **Optional Props**
 * `placeholder` - object
   * An override for the default placeholder object with a label of `Select an item...` and a value of `null`
+  * An empty object can be used if you'd like to disable the placeholder entirely
 * `hideDoneBar` - boolean
   * For the iOS component, hides the bar with tabbing arrows and Done link to exit the modal. While this is typical on `<select>` elements on the web, the [interface guidelines](https://developer.apple.com/ios/human-interface-guidelines/controls/pickers/) does not include it.
 * `hideIcon` - boolean
@@ -47,7 +46,7 @@ or
 * `disabled` - boolean
   * Disables interaction with the component
 * `value` - any
-  * Will attempt to locate a matching value from the `items` array by checking each item's `value` key. If found, it will update the component to show that item as selected. If the value is not found, it will default to the placeholder.
+  * Will attempt to locate a matching value from the `items` array by checking each item's `value` property. If found, it will update the component to show that item as selected. If the value is not found, it will default to the first item.
 * `style` - object
   * Style overrides for most parts of the component. More details below.
 

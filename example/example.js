@@ -6,28 +6,26 @@ import {
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
-const items = [
-  {
-    label: 'Red',
-    value: 'red',
-  },
-  {
-    label: 'Orange',
-    value: 'orange',
-  },
-  {
-    label: 'Blue',
-    value: 'blue',
-  },
-];
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       favColor: '',
-      items,
+      items: [
+        {
+          label: 'Red',
+          value: 'red',
+        },
+        {
+          label: 'Orange',
+          value: 'orange',
+        },
+        {
+          label: 'Blue',
+          value: 'blue',
+        },
+      ],
     };
   }
 
