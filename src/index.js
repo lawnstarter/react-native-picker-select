@@ -22,11 +22,12 @@ export default class RNPickerSelect extends PureComponent {
       this.placeholder = { label: props.placeholder, value: null };
     }
 
-    this.itemsWithPlaceholder = [this.placeholder].concat(props.items);
+    this.noPlaceholder = isEqual(this.placeholder, {});
+    this.items = this.noPlaceholder ? props.items : [this.placeholder].concat(props.items);
 
     this.state = {
-      items: this.itemsWithPlaceholder,
-      selectedItem: this.itemsWithPlaceholder.find(item => isEqual(item.value, props.value)) || this.placeholder,
+      items: this.items,
+      selectedItem: this.items.find(item => isEqual(item.value, props.value)) || this.items[0],
       showPicker: false,
     };
 
@@ -35,8 +36,16 @@ export default class RNPickerSelect extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.value) { return; }
-    const newSelectedItem = this.state.items.find(item => isEqual(item.value, nextProps.value)) || this.placeholder;
+    // update items if items prop changes
+    if (!isEqual(this.state.items, nextProps.items)) {
+      this.setState({
+        items: this.noPlaceholder ? nextProps.items : [this.placeholder].concat(nextProps.items),
+      });
+    }
+
+    // update selectedItem if value prop is defined and differs from currently selected item
+    if (this.props.value === 'undefined') { return; }
+    const newSelectedItem = this.state.items.find(item => isEqual(item.value, nextProps.value)) || this.items[0];
     if (this.state.selectedItem !== newSelectedItem) {
       this.setState({
         selectedItem: newSelectedItem,
@@ -65,7 +74,7 @@ export default class RNPickerSelect extends PureComponent {
 
   renderPlaceholderStyle() {
     const styleModifiers = {};
-    if (this.state.selectedItem.label === this.placeholder.label) {
+    if (!this.noPlaceholder && this.state.selectedItem.label === this.placeholder.label) {
       styleModifiers.color = this.props.style.placeholderColor || '#C7C7CD';
     }
     return styleModifiers;
