@@ -21,8 +21,8 @@ For either platform, you can alternatively pass down a child element that will b
 ### Usage
 
 **Required Props**
-* `onSelect` - function
-  * Callback which returns an object in the structure of `{value, index}`
+* `onValueChange` - function
+  * Callback which returns `value, index`
 * `items` - array
   * The items for the component to render. Each item should be in the following format:
   ```js
@@ -39,16 +39,23 @@ For either platform, you can alternatively pass down a child element that will b
 * `placeholder` - object
   * An override for the default placeholder object with a label of `Select an item...` and a value of `null`
   * An empty object can be used if you'd like to disable the placeholder entirely
-* `hideDoneBar` - boolean
-  * For the iOS component, hides the bar with tabbing arrows and Done link to exit the modal. While this is typical on `<select>` elements on the web, the [interface guidelines](https://developer.apple.com/ios/human-interface-guidelines/controls/pickers/) does not include it.
-* `hideIcon` - boolean
-  * For the iOS component, hides the floating downward arrow on the right side of the input box
 * `disabled` - boolean
   * Disables interaction with the component
 * `value` - any
   * Will attempt to locate a matching value from the `items` array by checking each item's `value` property. If found, it will update the component to show that item as selected. If the value is not found, it will default to the first item.
 * `style` - object
   * Style overrides for most parts of the component. More details below.
+* `hideDoneBar` - boolean - *iOS ONLY*
+  * For the iOS component, hides the bar with tabbing arrows and Done link to exit the modal. While this is typical on `<select>` elements on the web, the [interface guidelines](https://developer.apple.com/ios/human-interface-guidelines/controls/pickers/) does not include it.
+* `hideIcon` - boolean - *iOS ONLY*
+  * For the iOS component, hides the floating downward arrow on the right side of the input box
+* `onUpArrow` and/or `onDownArrow` - function - *iOS ONLY*
+  * Presence enables the corresponding arrow for iOS
+  * Closes the picker
+  * Calls the callback provided
+* `pickerRef` - function - *iOS ONLY*
+  * Takes one argument and returns a reference to the `TouchableOpacity` element that triggers the Picker on iOS.
+  * Parent can, for instance, call `touchableHandlePress()` on the returned ref to trigger the Picker.
 
 ### Styling
 
@@ -72,7 +79,6 @@ This component has been tested on React Native v0.51
 ## Future Plans
 
 - [ ] Update Android picker to look closer to platform's `<select>`
-- [ ] Expose input ref and enable chevron toggling between inputs
 
 ## License
 

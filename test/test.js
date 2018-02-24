@@ -39,30 +39,31 @@ describe('RNPickerSelect', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
       placeholder={placeholder}
-      onSelect={() => {}}
+      onValueChange={() => {}}
     />);
 
     wrapper.find('[testId="RNPickerSelectIOS"]').props().onValueChange('orange', 2);
-    expect(wrapper.state().selectedItem.value).toEqual('orange');
+    wrapper.find('[testId="RNPickerSelectIOS"]').props().onValueChange('yellow', 3);
+    expect(wrapper.state().selectedItem.value).toEqual('yellow');
   });
 
   it('should return the expected option to a callback passed into onSelect', () => {
-    const onSelectSpy = jest.fn();
+    const onValueChangeSpy = jest.fn();
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
       placeholder={placeholder}
-      onSelect={onSelectSpy}
+      onValueChange={onValueChangeSpy}
     />);
 
     wrapper.find('[testId="RNPickerSelectIOS"]').props().onValueChange('orange', 2);
-    expect(onSelectSpy).toHaveBeenCalledWith({ index: 2, value: 'orange' });
+    expect(onValueChangeSpy).toHaveBeenCalledWith('orange', 2);
   });
 
   it('should show the picker when pressed', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
       placeholder={placeholder}
-      onSelect={() => {}}
+      onValueChange={() => {}}
     />);
 
     const touchable = wrapper.find('TouchableWithoutFeedback').at(1);
@@ -74,7 +75,7 @@ describe('RNPickerSelect', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
       placeholder={placeholder}
-      onSelect={() => {}}
+      onValueChange={() => {}}
       disabled
     />);
 
@@ -87,7 +88,7 @@ describe('RNPickerSelect', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
       placeholder={placeholder}
-      onSelect={() => {}}
+      onValueChange={() => {}}
       value="red"
     />);
 
@@ -100,7 +101,7 @@ describe('RNPickerSelect', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
       placeholder={placeholder}
-      onSelect={() => {}}
+      onValueChange={() => {}}
     />);
 
     expect(wrapper.state().items).toEqual([placeholder].concat(selectItems));
@@ -115,7 +116,7 @@ describe('RNPickerSelect', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
       placeholder={{}}
-      onSelect={() => {}}
+      onValueChange={() => {}}
     />);
 
     expect(wrapper.state().items).toEqual(selectItems);
@@ -125,7 +126,8 @@ describe('RNPickerSelect', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
       placeholder={placeholder}
-      onSelect={() => {}}
+      onValueChange={() => {}}
+      value={undefined}
     />);
 
     wrapper.find('[testId="RNPickerSelectIOS"]').props().onValueChange('orange', 2);
@@ -139,9 +141,9 @@ describe('RNPickerSelect', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
       placeholder={placeholder}
-      onSelect={() => {}}
+      onValueChange={() => {}}
     />);
-
+    //
     wrapper.find('[testId="RNPickerSelectAndroid"]').props().onValueChange('orange', 2);
     expect(wrapper.state().selectedItem.value).toEqual('orange');
   });

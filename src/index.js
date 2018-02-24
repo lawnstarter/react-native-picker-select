@@ -17,13 +17,8 @@ export default class RNPickerSelect extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.placeholder = props.placeholder;
-    if (typeof props.placeholder === 'string') {
-      this.placeholder = { label: props.placeholder, value: null };
-    }
-
-    this.noPlaceholder = isEqual(this.placeholder, {});
-    this.items = this.noPlaceholder ? props.items : [this.placeholder].concat(props.items);
+    this.noPlaceholder = isEqual(props.placeholder, {});
+    this.items = this.noPlaceholder ? props.items : [props.placeholder].concat(props.items);
 
     this.state = {
       items: this.items,
@@ -31,20 +26,22 @@ export default class RNPickerSelect extends PureComponent {
       showPicker: false,
     };
 
+    this.onUpArrow = this.onUpArrow.bind(this);
+    this.onDownArrow = this.onDownArrow.bind(this);
+    this.onValueChange = this.onValueChange.bind(this);
     this.togglePicker = this.togglePicker.bind(this);
-    this.selectValue = this.selectValue.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     // update items if items prop changes
     if (!isEqual(this.state.items, nextProps.items)) {
       this.setState({
-        items: this.noPlaceholder ? nextProps.items : [this.placeholder].concat(nextProps.items),
+        items: this.noPlaceholder ? nextProps.items : [this.props.placeholder].concat(nextProps.items),
       });
     }
 
     // update selectedItem if value prop is defined and differs from currently selected item
-    if (this.props.value === 'undefined') { return; }
+    if (nextProps.value === undefined) { return; }
     const newSelectedItem = this.state.items.find(item => isEqual(item.value, nextProps.value)) || this.items[0];
     if (this.state.selectedItem !== newSelectedItem) {
       this.setState({
@@ -53,18 +50,36 @@ export default class RNPickerSelect extends PureComponent {
     }
   }
 
-  togglePicker() {
-    if (this.props.disabled) { return; }
-    this.setState({
-      showPicker: !this.state.showPicker,
+  onUpArrow() {
+    this.togglePicker();
+    setTimeout(() => {
+      this.props.onUpArrow();
     });
   }
 
-  selectValue({ value, index }) {
-    this.props.onSelect({ value, index });
+  onDownArrow() {
+    this.togglePicker();
+    setTimeout(() => {
+      this.props.onDownArrow();
+    });
+  }
+
+  onValueChange(value, index) {
+    this.props.onValueChange(value, index);
 
     this.setState({
       selectedItem: this.state.items[index],
+    });
+  }
+
+  togglePicker() {
+    if (this.props.disabled) { return; }
+    if (!this.state.showPicker && this.inputRef) {
+      this.inputRef.focus();
+      this.inputRef.blur();
+    }
+    this.setState({
+      showPicker: !this.state.showPicker,
     });
   }
 
@@ -74,7 +89,7 @@ export default class RNPickerSelect extends PureComponent {
 
   renderPlaceholderStyle() {
     const styleModifiers = {};
-    if (!this.noPlaceholder && this.state.selectedItem.label === this.placeholder.label) {
+    if (!this.noPlaceholder && this.state.selectedItem.label === this.props.placeholder.label) {
       styleModifiers.color = this.props.style.placeholderColor || '#C7C7CD';
     }
     return styleModifiers;
@@ -86,9 +101,19 @@ export default class RNPickerSelect extends PureComponent {
     return (
       <View style={[styles.modalViewMiddle, this.props.style.modalViewMiddle]}>
         <View style={{ flex: 1, flexDirection: 'row', marginLeft: 15 }}>
-          <View style={[styles.chevron, styles.chevronUp]} />
+          <TouchableOpacity
+            activeOpacity={this.props.onUpArrow ? 0.5 : 1}
+            onPress={this.props.onUpArrow ? this.onUpArrow : null}
+          >
+            <View style={[styles.chevron, styles.chevronUp, this.props.onUpArrow ? styles.chevronActive : {}]} />
+          </TouchableOpacity>
           <View style={{ marginHorizontal: 10 }} />
-          <View style={[styles.chevron, styles.chevronDown]} />
+          <TouchableOpacity
+            activeOpacity={this.props.onDownArrow ? 0.5 : 1}
+            onPress={this.props.onDownArrow ? this.onDownArrow : null}
+          >
+            <View style={[styles.chevron, styles.chevronDown, this.props.onDownArrow ? styles.chevronActive : {}]} />
+          </TouchableOpacity>
         </View>
         <TouchableWithoutFeedback
           onPress={this.togglePicker}
@@ -123,6 +148,7 @@ export default class RNPickerSelect extends PureComponent {
         <TextInput
           style={[this.props.style.inputIOS, this.renderPlaceholderStyle()]}
           value={this.state.selectedItem.label}
+          ref={(ref) => { this.inputRef = ref; }}
         />
         { this.renderIcon() }
       </View>
@@ -132,7 +158,10 @@ export default class RNPickerSelect extends PureComponent {
   renderIOS() {
     return (
       <View style={[styles.viewContainer, this.props.style.viewContainer]}>
-        <TouchableWithoutFeedback onPress={this.togglePicker}>
+        <TouchableWithoutFeedback
+          onPress={this.togglePicker}
+          ref={this.props.pickerRef}
+        >
           { this.renderTextInputOrChildren() }
         </TouchableWithoutFeedback>
         <Modal
@@ -147,7 +176,7 @@ export default class RNPickerSelect extends PureComponent {
           { this.renderDoneBar() }
           <View style={[styles.modalViewBottom, this.props.style.modalViewBottom]}>
             <Picker
-              onValueChange={(value, index) => { this.selectValue({ value, index }); }}
+              onValueChange={this.onValueChange}
               selectedValue={this.state.selectedItem.value}
               testId="RNPickerSelectIOS"
             >
@@ -165,7 +194,7 @@ export default class RNPickerSelect extends PureComponent {
         { this.props.children }
         <Picker
           style={{ position: 'absolute', top: 0, width: 1000, height: 1000 }}
-          onValueChange={(value, index) => { this.selectValue({ value, index }); }}
+          onValueChange={this.onValueChange}
           selectedValue={this.state.selectedItem.value}
           testId="RNPickerSelectAndroid"
           mode={this.props.mode}
@@ -186,7 +215,7 @@ export default class RNPickerSelect extends PureComponent {
       <View style={[styles.viewContainer, this.props.style.viewContainer]}>
         <Picker
           style={[this.props.style.inputAndroid, this.renderPlaceholderStyle()]}
-          onValueChange={(value, index) => { this.selectValue({ value, index }); }}
+          onValueChange={this.onValueChange}
           selectedValue={this.state.selectedItem.value}
           testId="RNPickerSelectAndroid"
           mode={this.props.mode}
@@ -205,7 +234,7 @@ export default class RNPickerSelect extends PureComponent {
 }
 
 RNPickerSelect.propTypes = {
-  onSelect: PropTypes.func.isRequired,
+  onValueChange: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.any.isRequired,
@@ -222,6 +251,9 @@ RNPickerSelect.propTypes = {
   style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
   mode: PropTypes.string,
+  onUpArrow: PropTypes.func,
+  onDownArrow: PropTypes.func,
+  pickerRef: PropTypes.func,
 };
 
 RNPickerSelect.defaultProps = {
@@ -236,6 +268,9 @@ RNPickerSelect.defaultProps = {
   style: {},
   children: null,
   mode: 'dialog',
+  onUpArrow: null,
+  onDownArrow: null,
+  pickerRef: null,
 };
 
 const styles = StyleSheet.create({
@@ -246,9 +281,9 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     backgroundColor: 'transparent',
-    borderTopWidth: 2,
+    borderTopWidth: 1.5,
     borderTopColor: '#D0D4DB',
-    borderRightWidth: 2,
+    borderRightWidth: 1.5,
     borderRightColor: '#D0D4DB',
   },
   chevronUp: {
@@ -262,6 +297,10 @@ const styles = StyleSheet.create({
       { translateY: 8 },
       { rotate: '135deg' },
     ],
+  },
+  chevronActive: {
+    borderTopColor: '#007AFE',
+    borderRightColor: '#007AFE',
   },
   icon: {
     position: 'absolute',
@@ -286,9 +325,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#EFF1F2',
+    borderTopWidth: 0.5,
+    borderTopColor: '#919498',
   },
   modalViewBottom: {
-    height: 180,
+    height: 215,
     justifyContent: 'center',
     backgroundColor: '#D0D4DB',
   },
