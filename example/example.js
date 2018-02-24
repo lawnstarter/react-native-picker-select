@@ -74,8 +74,9 @@ export default class App extends React.Component {
           ref={(el) => { this.inputRefs.name = el; }}
           returnKeyType="next"
           enablesReturnKeyAutomatically
-          onSubmitEditing={() => { this.inputRefs.picker.touchableHandlePress(); }}
+          onSubmitEditing={() => { this.inputRefs.picker.togglePicker(); }}
           style={pickerSelectStyles.inputIOS}
+          blurOnSubmit={false}
         />
 
         <View style={{ paddingVertical: 5 }} />
@@ -95,10 +96,12 @@ export default class App extends React.Component {
            }
         }
           onUpArrow={() => { this.inputRefs.name.focus(); }}
-          onDownArrow={() => { this.inputRefs.picker2.touchableHandlePress(); }}
+          onDownArrow={() => { this.inputRefs.picker2.togglePicker(); }}
           style={{ ...pickerSelectStyles }}
           value={this.state.favColor}
-          pickerRef={(el) => { this.inputRefs.picker = el; }}
+          ref={(el) => {
+             this.inputRefs.picker = el;
+           }}
         />
 
         <View style={{ paddingVertical: 5 }} />
@@ -117,11 +120,13 @@ export default class App extends React.Component {
             });
            }
         }
-          onUpArrow={() => { this.inputRefs.picker.touchableHandlePress(); }}
+          onUpArrow={() => { this.inputRefs.picker.togglePicker(); }}
           onDownArrow={() => { this.inputRefs.company.focus(); }}
           style={{ ...pickerSelectStyles }}
           value={this.state.favSport}
-          pickerRef={(el) => { this.inputRefs.picker2 = el; }}
+          ref={(el) => {
+            this.inputRefs.picker2 = el;
+          }}
         />
 
         <View style={{ paddingVertical: 5 }} />
