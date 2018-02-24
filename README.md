@@ -53,9 +53,6 @@ For either platform, you can alternatively pass down a child element that will b
   * Presence enables the corresponding arrow for iOS
   * Closes the picker
   * Calls the callback provided
-* `pickerRef` - function - *iOS ONLY*
-  * Takes one argument and returns a reference to the `TouchableOpacity` element that triggers the Picker on iOS.
-  * Parent can, for instance, call `touchableHandlePress()` on the returned ref to trigger the Picker.
 
 ### Styling
 

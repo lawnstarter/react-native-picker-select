@@ -24,6 +24,7 @@ export default class RNPickerSelect extends PureComponent {
       items: this.items,
       selectedItem: this.items.find(item => isEqual(item.value, props.value)) || this.items[0],
       showPicker: false,
+      animationType: undefined,
     };
 
     this.onUpArrow = this.onUpArrow.bind(this);
@@ -72,15 +73,16 @@ export default class RNPickerSelect extends PureComponent {
     });
   }
 
-  togglePicker() {
+  togglePicker(animate = false) {
     if (this.props.disabled) { return; }
+    this.setState({
+      animationType: animate ? 'slide' : undefined,
+      showPicker: !this.state.showPicker,
+    });
     if (!this.state.showPicker && this.inputRef) {
       this.inputRef.focus();
       this.inputRef.blur();
     }
-    this.setState({
-      showPicker: !this.state.showPicker,
-    });
   }
 
   renderPickerItems() {
@@ -116,7 +118,7 @@ export default class RNPickerSelect extends PureComponent {
           </TouchableOpacity>
         </View>
         <TouchableWithoutFeedback
-          onPress={this.togglePicker}
+          onPress={() => { this.togglePicker(true); }}
           hitSlop={{ top: 2, right: 2, bottom: 2, left: 2 }}
         >
           <View>
@@ -159,19 +161,18 @@ export default class RNPickerSelect extends PureComponent {
     return (
       <View style={[styles.viewContainer, this.props.style.viewContainer]}>
         <TouchableWithoutFeedback
-          onPress={this.togglePicker}
-          ref={this.props.pickerRef}
+          onPress={() => { this.togglePicker(true); }}
         >
           { this.renderTextInputOrChildren() }
         </TouchableWithoutFeedback>
         <Modal
           visible={this.state.showPicker}
           transparent
-          animationType="slide"
+          animationType={this.state.animationType}
         >
           <TouchableOpacity
             style={[styles.modalViewTop, this.props.style.modalViewTop]}
-            onPress={this.togglePicker}
+            onPress={() => { this.togglePicker(true); }}
           />
           { this.renderDoneBar() }
           <View style={[styles.modalViewBottom, this.props.style.modalViewBottom]}>
@@ -253,7 +254,6 @@ RNPickerSelect.propTypes = {
   mode: PropTypes.string,
   onUpArrow: PropTypes.func,
   onDownArrow: PropTypes.func,
-  pickerRef: PropTypes.func,
 };
 
 RNPickerSelect.defaultProps = {
@@ -270,7 +270,6 @@ RNPickerSelect.defaultProps = {
   mode: 'dialog',
   onUpArrow: null,
   onDownArrow: null,
-  pickerRef: null,
 };
 
 const styles = StyleSheet.create({
