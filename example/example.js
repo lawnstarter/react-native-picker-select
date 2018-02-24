@@ -1,6 +1,8 @@
 import React from 'react';
 import {
+  Alert,
   Text,
+  TextInput,
   StyleSheet,
   View,
 } from 'react-native';
@@ -10,8 +12,10 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.inputRefs = {};
+
     this.state = {
-      favColor: '',
+      favColor: undefined,
       items: [
         {
           label: 'Red',
@@ -24,6 +28,21 @@ export default class App extends React.Component {
         {
           label: 'Blue',
           value: 'blue',
+        },
+      ],
+      favSport: undefined,
+      items2: [
+        {
+          label: 'Football',
+          value: 'football',
+        },
+        {
+          label: 'Baseball',
+          value: 'baseball',
+        },
+        {
+          label: 'Hockey',
+          value: 'hockey',
         },
       ],
     };
@@ -40,7 +59,7 @@ export default class App extends React.Component {
 
     setTimeout(() => {
       this.setState({
-        items: items.concat([{ value: 'purple', label: 'Purple' }]),
+        items: this.state.items.concat([{ value: 'purple', label: 'Purple' }]),
       });
     }, 2000);
   }
@@ -48,6 +67,18 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+
+        <Text>Name?</Text>
+        <TextInput
+          ref={(el) => { this.inputRefs.name = el; }}
+          returnKeyType="next"
+          enablesReturnKeyAutomatically
+          onSubmitEditing={() => { this.inputRefs.picker.touchableHandlePress(); }}
+          style={pickerSelectStyles.inputIOS}
+        />
+
+        <View style={{ paddingVertical: 5 }} />
+
         <Text>What&rsquo;s your favorite color?</Text>
         <RNPickerSelect
           placeholder={{
@@ -62,8 +93,53 @@ export default class App extends React.Component {
             });
            }
         }
+          onUpArrow={() => { this.inputRefs.name.focus(); }}
+          onDownArrow={() => { this.inputRefs.picker2.touchableHandlePress(); }}
           style={{ ...pickerSelectStyles }}
           value={this.state.favColor}
+          pickerRef={(el) => { this.inputRefs.picker = el; }}
+        />
+
+        <View style={{ paddingVertical: 5 }} />
+
+        <Text>What&rsquo;s your favorite sport?</Text>
+        <RNPickerSelect
+          placeholder={{
+            label: 'Select a sport...',
+            value: null,
+          }}
+          items={this.state.items2}
+          onSelect={
+          (item) => {
+            this.setState({
+              favSport: item.value,
+            });
+           }
+        }
+          onUpArrow={() => { this.inputRefs.picker.touchableHandlePress(); }}
+          onDownArrow={() => { this.inputRefs.company.focus(); }}
+          style={{ ...pickerSelectStyles }}
+          value={this.state.favSport}
+          pickerRef={(el) => { this.inputRefs.picker2 = el; }}
+        />
+
+        <View style={{ paddingVertical: 5 }} />
+
+        <Text>Company?</Text>
+        <TextInput
+          ref={(el) => { this.inputRefs.company = el; }}
+          returnKeyType="go"
+          enablesReturnKeyAutomatically
+          style={pickerSelectStyles.inputIOS}
+          onSubmitEditing={() => {
+            Alert.alert(
+              'Success',
+              'Form submitted',
+              [
+                  { text: 'Okay', onPress: null },
+              ],
+          );
+           }}
         />
       </View>
     );
@@ -72,7 +148,7 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    paddingTop: 30,
     backgroundColor: '#fff',
     justifyContent: 'center',
     paddingHorizontal: 10,
