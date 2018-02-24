@@ -28,8 +28,8 @@ export default class RNPickerSelect extends PureComponent {
 
     this.onUpArrow = this.onUpArrow.bind(this);
     this.onDownArrow = this.onDownArrow.bind(this);
+    this.onValueChange = this.onValueChange.bind(this);
     this.togglePicker = this.togglePicker.bind(this);
-    this.selectValue = this.selectValue.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,6 +64,14 @@ export default class RNPickerSelect extends PureComponent {
     });
   }
 
+  onValueChange(value, index) {
+    this.props.onValueChange(value, index);
+
+    this.setState({
+      selectedItem: this.state.items[index],
+    });
+  }
+
   togglePicker() {
     if (this.props.disabled) { return; }
     if (!this.state.showPicker && this.inputRef) {
@@ -72,14 +80,6 @@ export default class RNPickerSelect extends PureComponent {
     }
     this.setState({
       showPicker: !this.state.showPicker,
-    });
-  }
-
-  selectValue({ value, index }) {
-    this.props.onSelect({ value, index });
-
-    this.setState({
-      selectedItem: this.state.items[index],
     });
   }
 
@@ -176,7 +176,7 @@ export default class RNPickerSelect extends PureComponent {
           { this.renderDoneBar() }
           <View style={[styles.modalViewBottom, this.props.style.modalViewBottom]}>
             <Picker
-              onValueChange={(value, index) => { this.selectValue({ value, index }); }}
+              onValueChange={this.onValueChange}
               selectedValue={this.state.selectedItem.value}
               testId="RNPickerSelectIOS"
             >
@@ -194,7 +194,7 @@ export default class RNPickerSelect extends PureComponent {
         { this.props.children }
         <Picker
           style={{ position: 'absolute', top: 0, width: 1000, height: 1000 }}
-          onValueChange={(value, index) => { this.selectValue({ value, index }); }}
+          onValueChange={this.onValueChange}
           selectedValue={this.state.selectedItem.value}
           testId="RNPickerSelectAndroid"
           mode={this.props.mode}
@@ -215,7 +215,7 @@ export default class RNPickerSelect extends PureComponent {
       <View style={[styles.viewContainer, this.props.style.viewContainer]}>
         <Picker
           style={[this.props.style.inputAndroid, this.renderPlaceholderStyle()]}
-          onValueChange={(value, index) => { this.selectValue({ value, index }); }}
+          onValueChange={this.onValueChange}
           selectedValue={this.state.selectedItem.value}
           testId="RNPickerSelectAndroid"
           mode={this.props.mode}
@@ -234,7 +234,7 @@ export default class RNPickerSelect extends PureComponent {
 }
 
 RNPickerSelect.propTypes = {
-  onSelect: PropTypes.func.isRequired,
+  onValueChange: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.any.isRequired,

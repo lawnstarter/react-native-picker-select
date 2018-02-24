@@ -22,7 +22,7 @@ For either platform, you can alternatively pass down a child element that will b
 
 **Required Props**
 * `onValueChange` - function
-  * Callback which returns an object in the structure of `{value, index}`
+  * Callback which returns `value, index`
 * `items` - array
   * The items for the component to render. Each item should be in the following format:
   ```js

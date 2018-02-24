@@ -57,6 +57,7 @@ export default class App extends React.Component {
       });
     }, 1000);
 
+    // parent can also update the `items` prop
     setTimeout(() => {
       this.setState({
         items: this.state.items.concat([{ value: 'purple', label: 'Purple' }]),
@@ -86,7 +87,7 @@ export default class App extends React.Component {
             value: null,
           }}
           items={this.state.items}
-          onSelect={
+          onValueChange={
           (item) => {
             this.setState({
               favColor: item.value,
@@ -109,7 +110,7 @@ export default class App extends React.Component {
             value: null,
           }}
           items={this.state.items2}
-          onSelect={
+          onValueChange={
           (item) => {
             this.setState({
               favSport: item.value,
