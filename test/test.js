@@ -143,7 +143,7 @@ describe('RNPickerSelect', () => {
       placeholder={placeholder}
       onValueChange={() => {}}
     />);
-    //
+
     wrapper.find('[testId="RNPickerSelectAndroid"]').props().onValueChange('orange', 2);
     expect(wrapper.state().selectedItem.value).toEqual('orange');
   });
