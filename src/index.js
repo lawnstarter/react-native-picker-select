@@ -122,7 +122,7 @@ export default class RNPickerSelect extends PureComponent {
           hitSlop={{ top: 2, right: 2, bottom: 2, left: 2 }}
         >
           <View>
-            <Text style={styles.done}>Done</Text>
+            <Text style={[styles.done, this.props.style.done]}>Done</Text>
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -344,4 +344,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
 });
-
