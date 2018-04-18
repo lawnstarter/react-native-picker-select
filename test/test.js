@@ -97,7 +97,7 @@ describe('RNPickerSelect', () => {
     expect(wrapper.state().selectedItem.value).toEqual('orange');
   });
 
-  it('should update the items when the `item` prop updates', () => {
+  it('should update the items when the `items` prop updates', () => {
     const wrapper = shallow(<RNPickerSelect
       items={selectItems}
       placeholder={placeholder}
