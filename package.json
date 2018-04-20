@@ -1,6 +1,6 @@
 {
   "name": "react-native-picker-select",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "A Picker component for React Native which emulates the native <select> interfaces for each platform",
   "license": "MIT",
   "author": "Michael Lefkowitz <lefkowitz.michael@gmail.com>",
@@ -20,22 +20,22 @@
     "lodash.isequal": "^4.5.0"
   },
   "devDependencies": {
-    "babel-jest": "^22.2.2",
+    "babel-jest": "^22.4.3",
     "babel-preset-react-native": "^4.0.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "enzyme-to-json": "^3.3.1",
+    "enzyme-to-json": "^3.3.3",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
-    "jest": "^22.3.0",
-    "prop-types": "^15.6.0",
-    "react": "16.0.0",
-    "react-dom": "^16.2.0",
-    "react-native": "0.51.0",
-    "react-test-renderer": "^16.2.0"
+    "jest": "^22.4.3",
+    "prop-types": "^15.6.1",
+    "react": "16.3.2",
+    "react-dom": "^16.3.2",
+    "react-native": "0.55.3",
+    "react-test-renderer": "^16.3.2"
   },
   "scripts": {
     "test": "jest",

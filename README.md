@@ -18,6 +18,13 @@ For either platform, you can alternatively pass down a child element that will b
 
 `npm install react-native-picker-select`
 
+### Versioning
+
+| Component | RN         |
+| --------- |------------|
+| >= 3.0.0  | >= 0.55.3  |
+| < 3.0.0   | < 0.55.3   |
+
 ### Usage
 
 **Required Props**
@@ -71,7 +78,7 @@ For either platform, you can alternatively pass down a child element that will b
 
 ## Testing
 
-This component has been tested on React Native v0.51
+This component has been tested on React Native v0.51 - v0.55
 
 ## Future Plans
 
@@ -79,4 +86,4 @@ This component has been tested on React Native v0.51
 
 ## License
 
-This project is licensed under the MIT License
+react-native-picker-select is [MIT licensed](https://github.com/lawnstarter/react-native-picker-select/tree/master/LICENSE).
