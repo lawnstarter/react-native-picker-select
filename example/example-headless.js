@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-  Text,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
@@ -37,10 +37,10 @@ export default class App extends React.Component {
         <RNPickerSelect
           items={this.state.items}
           placeholder={{}}
-          onSelect={
-          (item) => {
+          onValueChange={
+          (value) => {
             this.setState({
-              favColor: item.value,
+              favColor: value,
             });
            }
         }

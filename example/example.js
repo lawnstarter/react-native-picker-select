@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Alert,
-  Text,
-  TextInput,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { Alert, Text, TextInput, StyleSheet, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
 export default class App extends React.Component {
@@ -68,13 +62,16 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-
         <Text>Name?</Text>
         <TextInput
-          ref={(el) => { this.inputRefs.name = el; }}
+          ref={(el) => {
+            this.inputRefs.name = el;
+          }}
           returnKeyType="next"
           enablesReturnKeyAutomatically
-          onSubmitEditing={() => { this.inputRefs.picker.togglePicker(); }}
+          onSubmitEditing={() => {
+            this.inputRefs.picker.togglePicker();
+          }}
           style={pickerSelectStyles.inputIOS}
           blurOnSubmit={false}
         />
@@ -88,20 +85,23 @@ export default class App extends React.Component {
             value: null,
           }}
           items={this.state.items}
-          onValueChange={
-          (item) => {
+          iOSActiveOpacity={0.5}
+          onValueChange={(value) => {
             this.setState({
-              favColor: item.value,
+              favColor: value,
             });
-           }
-        }
-          onUpArrow={() => { this.inputRefs.name.focus(); }}
-          onDownArrow={() => { this.inputRefs.picker2.togglePicker(); }}
+          }}
+          onUpArrow={() => {
+            this.inputRefs.name.focus();
+          }}
+          onDownArrow={() => {
+            this.inputRefs.picker2.togglePicker();
+          }}
           style={{ ...pickerSelectStyles }}
           value={this.state.favColor}
           ref={(el) => {
-             this.inputRefs.picker = el;
-           }}
+            this.inputRefs.picker = el;
+          }}
         />
 
         <View style={{ paddingVertical: 5 }} />
@@ -113,15 +113,17 @@ export default class App extends React.Component {
             value: null,
           }}
           items={this.state.items2}
-          onValueChange={
-          (item) => {
+          onValueChange={(value) => {
             this.setState({
-              favSport: item.value,
+              favSport: value,
             });
-           }
-        }
-          onUpArrow={() => { this.inputRefs.picker.togglePicker(); }}
-          onDownArrow={() => { this.inputRefs.company.focus(); }}
+          }}
+          onUpArrow={() => {
+            this.inputRefs.picker.togglePicker();
+          }}
+          onDownArrow={() => {
+            this.inputRefs.company.focus();
+          }}
           style={{ ...pickerSelectStyles }}
           value={this.state.favSport}
           ref={(el) => {
@@ -133,19 +135,17 @@ export default class App extends React.Component {
 
         <Text>Company?</Text>
         <TextInput
-          ref={(el) => { this.inputRefs.company = el; }}
+          ref={(el) => {
+            this.inputRefs.company = el;
+          }}
           returnKeyType="go"
           enablesReturnKeyAutomatically
           style={pickerSelectStyles.inputIOS}
           onSubmitEditing={() => {
-            Alert.alert(
-              'Success',
-              'Form submitted',
-              [
-                  { text: 'Okay', onPress: null },
-              ],
-          );
-           }}
+            Alert.alert('Success', 'Form submitted', [
+              { text: 'Okay', onPress: null },
+            ]);
+          }}
         />
       </View>
     );
@@ -171,5 +171,6 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 4,
     backgroundColor: 'white',
+    color: 'black',
   },
 });
