@@ -85,7 +85,6 @@ export default class App extends React.Component {
             value: null,
           }}
           items={this.state.items}
-          iOSActiveOpacity={0.5}
           onValueChange={(value) => {
             this.setState({
               favColor: value,
