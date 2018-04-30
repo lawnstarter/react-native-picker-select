@@ -190,13 +190,13 @@ export default class RNPickerSelect extends PureComponent {
   renderIOS() {
     return (
       <View style={[styles.viewContainer, this.props.style.viewContainer]}>
-        <TouchableWithoutFeedback
+        <TouchableOpacity
           onPress={() => {
             this.togglePicker(true);
           }}
         >
           { this.renderTextInputOrChildren() }
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
         <Modal
           visible={this.state.showPicker}
           transparent
