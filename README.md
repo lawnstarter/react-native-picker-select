@@ -1,6 +1,8 @@
 
 # React Native Picker Select
 
+[![CircleCI](https://circleci.com/gh/lawnstarter/react-native-picker-select.svg?style=svg)](https://circleci.com/gh/lawnstarter/react-native-picker-select)
+
 A Picker component for React Native which emulates the native `<select>` interfaces for iOS and Android
 
 For iOS, we are wrapping a TextInput component. You can pass down your custom styling to match your other inputs.
