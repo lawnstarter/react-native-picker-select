@@ -1,8 +1,6 @@
 
 # React Native Picker Select
 
-[![CircleCI](https://circleci.com/gh/lawnstarter/react-native-picker-select.svg?style=svg)](https://circleci.com/gh/lawnstarter/react-native-picker-select)
-
 A Picker component for React Native which emulates the native `<select>` interfaces for iOS and Android
 
 For iOS, we are wrapping a TextInput component. You can pass down your custom styling to match your other inputs.
@@ -13,6 +11,7 @@ For either platform, you can alternatively pass down a child element that will b
 
 ![iOS Example](./example/ios-example.gif) ![Android Example](./example/android-example.png)
 
+Unit Tests - [![CircleCI](https://circleci.com/gh/lawnstarter/react-native-picker-select.svg?style=svg)](https://circleci.com/gh/lawnstarter/react-native-picker-select)
 
 ## Getting Started
 
@@ -27,41 +26,19 @@ For either platform, you can alternatively pass down a child element that will b
 | >= 3.0.0  | >= 0.55.3  |
 | < 3.0.0   | < 0.55.3   |
 
-### Usage
+### Props
 
-**Required Props**
-* `onValueChange` - function
-  * Callback which returns `value, index`
-* `items` - array
-  * The items for the component to render. Each item should be in the following format:
-  ```js
-  {
-    label: 'Orange',
-    value: 'orange',
-    key: 'orange',
-  }
-  ```
-  * The label and the value are required, but the key will be based upon the label if it isn't included
-  * The value can be any data type
-
-**Optional Props**
-* `placeholder` - object
-  * An override for the default placeholder object with a label of `Select an item...` and a value of `null`
-  * An empty object can be used if you'd like to disable the placeholder entirely
-* `disabled` - boolean
-  * Disables interaction with the component
-* `value` - any
-  * Will attempt to locate a matching value from the `items` array by checking each item's `value` property. If found, it will update the component to show that item as selected. If the value is not found, it will default to the first item.
-* `style` - object
-  * Style overrides for most parts of the component. More details below.
-* `hideDoneBar` - boolean - *iOS ONLY*
-  * For the iOS component, hides the bar with tabbing arrows and Done link to exit the modal. While this is typical on `<select>` elements on the web, the [interface guidelines](https://developer.apple.com/ios/human-interface-guidelines/controls/pickers/) does not include it.
-* `hideIcon` - boolean - *iOS ONLY*
-  * For the iOS component, hides the floating downward arrow on the right side of the input box
-* `onUpArrow` and/or `onDownArrow` - function - *iOS ONLY*
-  * Presence enables the corresponding arrow for iOS
-  * Closes the picker
-  * Calls the callback provided
+| Name                    | Type     | Description                                                                                                                                                                                                                                                                                 | Required? | iOS / Android |
+|-------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|---------------|
+| onValueChange           | function | Callback which returns `value, index`                                                                                                                                                                                                                                                       | Y         | Both          |
+| items                   | array    | * The items for the component to render. Each item should be in the following format:<br>```{label: 'Orange',value: 'orange',key: 'orange'}```<br>* The label and the value are required, but the key will be based upon the label if it isn't included<br>* The value can be any data type | Y         | Both          |
+| placeholder             | object   | * An override for the default placeholder object with a label of `Select an item...` and a value of `null`<br>* An empty object can be used if you'd like to disable the placeholder entirely                                                                                                  | N         | Both          |
+| disabled                | boolean  | Disables interaction with the component                                                                                                                                                                                                                                                     | N         | Both          |
+| value                   | any      | Will attempt to locate a matching value from the `items` array by checking each item's `value` property. If found, it will update the component to show that item as selected. If the value is not found, it will default to the first item.                                                | N         | Both          |
+| style                   | object   | Style overrides for most parts of the component. More details below.                                                                                                                                                                                                                        | N         | Both          |
+| hideDoneBar             | boolean  | Hides the bar with tabbing arrows and Done link to exit the modal. While this is typical on `select` elements on the web, the [interface guidelines](https://developer.apple.com/ios/human-interface-guidelines/controls/pickers/) does not include it.                                           | N         | iOS           |
+| hideIcon                | boolean  | Hides the floating downward arrow on the right side of the input box                                                                                                                                                                                                                        | N         | iOS           |
+| onUpArrow / onDownArrow | function | * Presence enables the corresponding arrow<br>* Closes the picker<br>* Calls the callback provided                                                                                                                                                                                                | N         | iOS           |
 
 ### Styling
 
@@ -88,4 +65,4 @@ This component has been tested on React Native v0.51 - v0.55
 
 ## License
 
-react-native-picker-select is [MIT licensed](https://github.com/lawnstarter/react-native-picker-select/tree/master/LICENSE).
+react-native-picker-select is [MIT licensed](https://github.com/lawnstarter/react-native-picker-select/tree/master/LICENSE)
