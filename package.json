@@ -16,6 +16,11 @@
     "react",
     "react-native"
   ],
+  "files": [
+    "LICENSE",
+    "README.md",
+    "src/index.js"
+  ],
   "dependencies": {
     "lodash.isequal": "^4.5.0"
   },
