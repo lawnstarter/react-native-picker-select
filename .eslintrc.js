@@ -1,11 +1,15 @@
 module.exports = {
-    "extends": "airbnb",
-    "env": {
-        "jest": true,
+    extends: 'ls-react',
+    env: {
+        jest: true,
     },
-    "rules": {
-        'no-use-before-define': 0,
-        'react/jsx-filename-extension': 0,
-        'object-curly-newline': [2, { 'consistent': true }]
-    }
+    globals: {
+        shallow: true,
+    },
+    rules: {
+        'import/no-extraneous-dependencies': 0,
+        'lodash/import-scope': 0,
+        'lodash/prefer-lodash-method': 0,
+        'lodash/prefer-noop': 0,
+    },
 };
