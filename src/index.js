@@ -96,7 +96,7 @@ export default class RNPickerSelect extends PureComponent {
             return;
         }
         this.setState({
-            animationType: animate ? 'slide' : undefined,
+            animationType: animate ? this.props.animationType : undefined,
             showPicker: !this.state.showPicker,
         });
         if (!this.state.showPicker && this.inputRef) {
@@ -139,8 +139,12 @@ export default class RNPickerSelect extends PureComponent {
                         <View
                             style={[
                                 styles.chevron,
+                                this.props.style.chevron,
                                 styles.chevronUp,
-                                this.props.onUpArrow ? styles.chevronActive : {},
+                                this.props.style.chevronUp,
+                                this.props.onUpArrow
+                                    ? [styles.chevronActive, this.props.style.chevronActive]
+                                    : {},
                             ]}
                         />
                     </TouchableOpacity>
@@ -152,8 +156,12 @@ export default class RNPickerSelect extends PureComponent {
                         <View
                             style={[
                                 styles.chevron,
+                                this.props.style.chevron,
                                 styles.chevronDown,
-                                this.props.onDownArrow ? styles.chevronActive : {},
+                                this.props.style.chevronDown,
+                                this.props.onDownArrow
+                                    ? [styles.chevronActive, this.props.style.chevronActive]
+                                    : {},
                             ]}
                         />
                     </TouchableOpacity>
@@ -299,6 +307,7 @@ RNPickerSelect.propTypes = {
     style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
     children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
     mode: PropTypes.string,
+    animationType: PropTypes.string,
     onUpArrow: PropTypes.func,
     onDownArrow: PropTypes.func,
 };
@@ -315,6 +324,7 @@ RNPickerSelect.defaultProps = {
     style: {},
     children: null,
     mode: 'dialog',
+    animationType: 'slide',
     onUpArrow: null,
     onDownArrow: null,
 };
