@@ -173,7 +173,9 @@ export default class RNPickerSelect extends PureComponent {
                     hitSlop={{ top: 2, right: 2, bottom: 2, left: 2 }}
                 >
                     <View>
-                        <Text style={[styles.done, this.props.style.done]}>Done</Text>
+                        <Text style={[styles.done, this.props.style.done]}>
+                            {this.props.doneText}
+                        </Text>
                     </View>
                 </TouchableWithoutFeedback>
             </View>
@@ -195,7 +197,11 @@ export default class RNPickerSelect extends PureComponent {
         return (
             <View pointerEvents="box-only">
                 <TextInput
-                    style={[this.props.style.inputIOS, this.renderPlaceholderStyle()]}
+                    style={[
+                        !this.props.hideIcon ? { paddingRight: 30 } : {},
+                        this.props.style.inputIOS,
+                        this.renderPlaceholderStyle(),
+                    ]}
                     value={this.state.selectedItem.label}
                     ref={(ref) => {
                         this.inputRef = ref;
@@ -310,6 +316,7 @@ RNPickerSelect.propTypes = {
     animationType: PropTypes.string,
     onUpArrow: PropTypes.func,
     onDownArrow: PropTypes.func,
+    doneText: PropTypes.string,
 };
 
 RNPickerSelect.defaultProps = {
@@ -327,6 +334,7 @@ RNPickerSelect.defaultProps = {
     animationType: 'slide',
     onUpArrow: null,
     onDownArrow: null,
+    doneText: 'Done',
 };
 
 const styles = StyleSheet.create({
