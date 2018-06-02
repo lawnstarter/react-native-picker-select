@@ -4,6 +4,7 @@ import {
     Picker,
     Platform,
     StyleSheet,
+    ColorPropType,
     Text,
     TextInput,
     TouchableOpacity,
@@ -108,7 +109,7 @@ export default class RNPickerSelect extends PureComponent {
     renderPickerItems() {
         return this.state.items.map((item) => {
             return (
-                <Picker.Item label={item.label} value={item.value} key={item.key || item.label} />
+                <Picker.Item label={item.label} value={item.value} key={item.key || item.label} color={item.color} />
             );
         });
     }
@@ -300,6 +301,7 @@ RNPickerSelect.propTypes = {
             label: PropTypes.string.isRequired,
             value: PropTypes.any.isRequired,
             key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+            color: ColorPropType
         })
     ).isRequired,
     placeholder: PropTypes.shape({
