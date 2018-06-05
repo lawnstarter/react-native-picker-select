@@ -1,6 +1,6 @@
 {
     "name": "react-native-picker-select",
-    "version": "3.1.0",
+    "version": "3.1.1",
     "description":
         "A Picker component for React Native which emulates the native <select> interfaces for each platform",
     "license": "MIT",
@@ -10,7 +10,16 @@
         "url": "https://github.com/lawnstarter/react-native-picker-select.git"
     },
     "main": "src/index.js",
-    "keywords": ["dropdown", "picker", "select", "react", "react-native"],
+    "keywords": [
+        "dropdown",
+        "picker",
+        "select",
+        "react",
+        "react-native",
+        "react native",
+        "expo",
+        "items"
+    ],
     "files": ["LICENSE", "README.md", "src/index.js"],
     "dependencies": {
         "lodash.isequal": "^4.5.0"

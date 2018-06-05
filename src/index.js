@@ -109,7 +109,12 @@ export default class RNPickerSelect extends PureComponent {
     renderPickerItems() {
         return this.state.items.map((item) => {
             return (
-                <Picker.Item label={item.label} value={item.value} key={item.key || item.label} color={item.color} />
+                <Picker.Item
+                    label={item.label}
+                    value={item.value}
+                    key={item.key || item.label}
+                    color={item.color}
+                />
             );
         });
     }
@@ -227,6 +232,7 @@ export default class RNPickerSelect extends PureComponent {
                     visible={this.state.showPicker}
                     transparent
                     animationType={this.state.animationType}
+                    supportedOrientations={['portrait', 'landscape']}
                 >
                     <TouchableOpacity
                         style={[styles.modalViewTop, this.props.style.modalViewTop]}
@@ -301,7 +307,7 @@ RNPickerSelect.propTypes = {
             label: PropTypes.string.isRequired,
             value: PropTypes.any.isRequired,
             key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-            color: ColorPropType
+            color: ColorPropType,
         })
     ).isRequired,
     placeholder: PropTypes.shape({
