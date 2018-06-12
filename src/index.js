@@ -198,10 +198,14 @@ export default class RNPickerSelect extends PureComponent {
 
     renderTextInputOrChildren() {
         if (this.props.children) {
-            return <View pointerEvents="box-only">{this.props.children}</View>;
+            return (
+                <View pointerEvents="box-only" style={this.props.style.inputIOSContainer}>
+                    {this.props.children}
+                </View>
+            );
         }
         return (
-            <View pointerEvents="box-only">
+            <View pointerEvents="box-only" style={this.props.style.inputIOSContainer}>
                 <TextInput
                     style={[
                         !this.props.hideIcon ? { paddingRight: 30 } : {},
