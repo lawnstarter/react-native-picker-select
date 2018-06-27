@@ -1,6 +1,3 @@
-// TODO: fix broken tests
-// 04.20.18 https://github.com/airbnb/enzyme/issues/1600
-
 import React from 'react';
 import { Platform } from 'react-native';
 import RNPickerSelect from '../src/';
@@ -104,7 +101,7 @@ describe('RNPickerSelect', () => {
         expect(wrapper.state().showPicker).toEqual(false);
     });
 
-    xit('should update the selected value when the `value` prop updates', () => {
+    it('should update the selected value when the `value` prop updates', () => {
         const wrapper = shallow(
             <RNPickerSelect
                 items={selectItems}
@@ -119,7 +116,7 @@ describe('RNPickerSelect', () => {
         expect(wrapper.state().selectedItem.value).toEqual('orange');
     });
 
-    xit('should update the items when the `items` prop updates', () => {
+    it('should update the items when the `items` prop updates', () => {
         const wrapper = shallow(
             <RNPickerSelect
                 items={selectItems}
@@ -144,7 +141,7 @@ describe('RNPickerSelect', () => {
         expect(wrapper.state().items).toEqual(selectItems);
     });
 
-    xit("should reset to the first item (typically the placeholder) if a value is passed in that doesn't exist in the `items` array", () => {
+    it("should reset to the first item (typically the placeholder) if a value is passed in that doesn't exist in the `items` array", () => {
         const wrapper = shallow(
             <RNPickerSelect
                 items={selectItems}
