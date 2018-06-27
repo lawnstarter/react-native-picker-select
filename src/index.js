@@ -34,7 +34,8 @@ export default class RNPickerSelect extends PureComponent {
         // update items if items prop changes
         const itemsChanged = !isEqual(prevState.items, nextProps.items);
         // update selectedItem if value prop is defined and differs from currently selected item
-        const newSelectedItem = getSelectedItem({ items: nextProps.items, value: nextProps.value });
+        const newItems = handlePlaceholder({ placeholder: nextProps.placeholder }).concat(nextProps.items);
+        const newSelectedItem = getSelectedItem({ items: newItems, value: nextProps.value });
         const selectedItemChanged =
             !isEqual(nextProps.value, undefined) &&
             !isEqual(prevState.selectedItem, newSelectedItem);
@@ -42,9 +43,7 @@ export default class RNPickerSelect extends PureComponent {
         if (itemsChanged || selectedItemChanged) {
             return {
                 items: itemsChanged
-                    ? handlePlaceholder({ placeholder: nextProps.placeholder }).concat(
-                          nextProps.items
-                      )
+                    ? newItems
                     : prevState.items,
                 selectedItem: selectedItemChanged ? newSelectedItem : prevState.selectedItem,
             };
