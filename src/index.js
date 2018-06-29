@@ -22,11 +22,16 @@ function handlePlaceholder({ placeholder }) {
 }
 
 function getSelectedItem({ items, value }) {
-    return (
-        items.find((item) => {
-            return isEqual(item.value, value);
-        }) || items[0]
-    );
+    let idx = items.findIndex((item) => {
+        return isEqual(item.value, value);
+    });
+    if (idx === -1) {
+        idx = 0;
+    }
+    return {
+        newSelectedItem: items[idx],
+        idx,
+    };
 }
 
 export default class RNPickerSelect extends PureComponent {
@@ -34,17 +39,23 @@ export default class RNPickerSelect extends PureComponent {
         // update items if items prop changes
         const itemsChanged = !isEqual(prevState.items, nextProps.items);
         // update selectedItem if value prop is defined and differs from currently selected item
-        const newItems = handlePlaceholder({ placeholder: nextProps.placeholder }).concat(nextProps.items);
-        const newSelectedItem = getSelectedItem({ items: newItems, value: nextProps.value });
+        const newItems = handlePlaceholder({ placeholder: nextProps.placeholder }).concat(
+            nextProps.items
+        );
+        const { newSelectedItem, idx } = getSelectedItem({
+            items: newItems,
+            value: nextProps.value,
+        });
         const selectedItemChanged =
             !isEqual(nextProps.value, undefined) &&
             !isEqual(prevState.selectedItem, newSelectedItem);
 
         if (itemsChanged || selectedItemChanged) {
+            if (selectedItemChanged) {
+                nextProps.onValueChange(newSelectedItem.value, idx);
+            }
             return {
-                items: itemsChanged
-                    ? newItems
-                    : prevState.items,
+                items: itemsChanged ? newItems : prevState.items,
                 selectedItem: selectedItemChanged ? newSelectedItem : prevState.selectedItem,
             };
         }
