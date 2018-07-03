@@ -1,8 +1,7 @@
 {
     "name": "react-native-picker-select",
-    "version": "3.1.3",
-    "description":
-        "A Picker component for React Native which emulates the native <select> interfaces for each platform",
+    "version": "3.2.0",
+    "description": "A Picker component for React Native which emulates the native <select> interfaces for each platform",
     "license": "MIT",
     "author": "Michael Lefkowitz <lefkowitz.michael@gmail.com>",
     "repository": {
@@ -20,26 +19,30 @@
         "expo",
         "items"
     ],
-    "files": ["LICENSE", "README.md", "src/index.js"],
+    "files": [
+        "LICENSE",
+        "README.md",
+        "src/index.js"
+    ],
     "dependencies": {
         "lodash.isequal": "^4.5.0"
     },
     "devDependencies": {
-        "babel-jest": "^22.4.3",
+        "babel-jest": "^23.2.0",
         "babel-preset-react-native": "^4.0.0",
         "enzyme": "^3.3.0",
         "enzyme-adapter-react-16": "^1.1.1",
-        "enzyme-to-json": "^3.3.3",
+        "enzyme-to-json": "^3.3.4",
         "eslint-config-ls-react": "https://github.com/lawnstarter/eslint-config-ls-react#2.0.1",
         "husky": "^0.14.3",
-        "jest": "^22.4.3",
-        "prettier": "^1.12.1",
-        "pretty-quick": "^1.4.1",
-        "prop-types": "^15.6.1",
-        "react": "16.3.2",
-        "react-dom": "^16.3.2",
-        "react-native": "0.55.3",
-        "react-test-renderer": "^16.3.2"
+        "jest": "^23.2.0",
+        "prettier": "^1.13.7",
+        "pretty-quick": "^1.6.0",
+        "prop-types": "^15.6.2",
+        "react": "16.4.1",
+        "react-dom": "^16.4.1",
+        "react-native": "0.55.4",
+        "react-test-renderer": "^16.4.1"
     },
     "scripts": {
         "test": "jest",
@@ -47,14 +50,17 @@
         "test:coverage": "jest --coverage",
         "open:coverage": "open ./coverage/lcov-report/index.html",
         "precommit": "pretty-quick --staged",
-        "prettier:debug-check":
-            "prettier --config ./.prettierrc.js --debug-check \"{src,test}/**/*.js\"",
+        "prettier:debug-check": "prettier --config ./.prettierrc.js --debug-check \"{src,test}/**/*.js\"",
         "preprettier:all": "yarn run prettier:debug-check",
         "prettier:all": "prettier --config ./.prettierrc.js --write \"{src,test}/**/*.js\""
     },
     "jest": {
         "preset": "react-native",
-        "setupFiles": ["./test/setup.js"],
-        "snapshotSerializers": ["enzyme-to-json/serializer"]
+        "setupFiles": [
+            "./test/setup.js"
+        ],
+        "snapshotSerializers": [
+            "enzyme-to-json/serializer"
+        ]
     }
 }
