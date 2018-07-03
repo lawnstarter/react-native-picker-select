@@ -271,7 +271,7 @@ export default class RNPickerSelect extends PureComponent {
 
     renderAndroidHeadless() {
         return (
-            <View style={[{ borderWidth: 0 }, this.props.style.inputAndroidContainer]}>
+            <View style={[{ borderWidth: 0 }, this.props.style.headlessAndroidContainer]}>
                 {this.props.children}
                 <Picker
                     style={{ position: 'absolute', top: 0, width: 1000, height: 1000 }}
