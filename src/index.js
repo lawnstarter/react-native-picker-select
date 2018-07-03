@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import {
+    ColorPropType,
     Modal,
     Picker,
     Platform,
     StyleSheet,
-    ColorPropType,
     Text,
     TextInput,
     TouchableOpacity,
@@ -29,7 +29,7 @@ function getSelectedItem({ items, value }) {
         idx = 0;
     }
     return {
-        newSelectedItem: items[idx],
+        selectedItem: items[idx],
         idx,
     };
 }
@@ -42,21 +42,20 @@ export default class RNPickerSelect extends PureComponent {
         const newItems = handlePlaceholder({ placeholder: nextProps.placeholder }).concat(
             nextProps.items
         );
-        const { newSelectedItem, idx } = getSelectedItem({
+        const { selectedItem, idx } = getSelectedItem({
             items: newItems,
             value: nextProps.value,
         });
         const selectedItemChanged =
-            !isEqual(nextProps.value, undefined) &&
-            !isEqual(prevState.selectedItem, newSelectedItem);
+            !isEqual(nextProps.value, undefined) && !isEqual(prevState.selectedItem, selectedItem);
 
         if (itemsChanged || selectedItemChanged) {
             if (selectedItemChanged) {
-                nextProps.onValueChange(newSelectedItem.value, idx);
+                nextProps.onValueChange(selectedItem.value, idx);
             }
             return {
                 items: itemsChanged ? newItems : prevState.items,
-                selectedItem: selectedItemChanged ? newSelectedItem : prevState.selectedItem,
+                selectedItem: selectedItemChanged ? selectedItem : prevState.selectedItem,
             };
         }
 
@@ -67,9 +66,10 @@ export default class RNPickerSelect extends PureComponent {
         super(props);
 
         const items = handlePlaceholder({ placeholder: props.placeholder }).concat(props.items);
+        const { selectedItem } = getSelectedItem({ items, value: props.value });
         this.state = {
             items,
-            selectedItem: getSelectedItem({ items, value: props.value }),
+            selectedItem,
             showPicker: false,
             animationType: undefined,
         };

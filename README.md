@@ -26,10 +26,10 @@ For either platform, you can alternatively pass down a child element that will b
 
 ### Versioning
 
-| Component | RN        |
-| --------- | --------- |
-| >= 3.0.0  | >= 0.55.3 |
-| < 3.0.0   | < 0.55.3  |
+| Component | React   |
+| --------- | ------- |
+| >= 3.0.0  | >= 16.3 |
+| < 3.0.0   | < 16.3  |
 
 ### Props
 

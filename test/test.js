@@ -101,19 +101,26 @@ describe('RNPickerSelect', () => {
         expect(wrapper.state().showPicker).toEqual(false);
     });
 
-    it('should update the selected value when the `value` prop updates', () => {
+    it('should update the selected value when the `value` prop updates and call the onValueChange cb', () => {
+        const onValueChangeSpy = jest.fn();
         const wrapper = shallow(
             <RNPickerSelect
                 items={selectItems}
-                placeholder={placeholder}
-                onValueChange={() => {}}
+                placeholder={{}}
+                onValueChange={onValueChangeSpy}
                 value="red"
             />
         );
 
         expect(wrapper.state().selectedItem.value).toEqual('red');
+
         wrapper.setProps({ value: 'orange' });
+        expect(onValueChangeSpy).toBeCalledWith('orange', 1);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
+
+        wrapper.setProps({ value: 'yellow' });
+        expect(onValueChangeSpy).toBeCalledWith('yellow', 2);
+        expect(wrapper.state().selectedItem.value).toEqual('yellow');
     });
 
     it('should update the items when the `items` prop updates', () => {
