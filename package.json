@@ -1,8 +1,7 @@
 {
     "name": "react-native-picker-select",
     "version": "3.2.0",
-    "description":
-        "A Picker component for React Native which emulates the native <select> interfaces for each platform",
+    "description": "A Picker component for React Native which emulates the native <select> interfaces for each platform",
     "license": "MIT",
     "author": "Michael Lefkowitz <lefkowitz.michael@gmail.com>",
     "repository": {
@@ -20,7 +19,11 @@
         "expo",
         "items"
     ],
-    "files": ["LICENSE", "README.md", "src/index.js"],
+    "files": [
+        "LICENSE",
+        "README.md",
+        "src/index.js"
+    ],
     "dependencies": {
         "lodash.isequal": "^4.5.0"
     },
@@ -47,14 +50,17 @@
         "test:coverage": "jest --coverage",
         "open:coverage": "open ./coverage/lcov-report/index.html",
         "precommit": "pretty-quick --staged",
-        "prettier:debug-check":
-            "prettier --config ./.prettierrc.js --debug-check \"{src,test}/**/*.js\"",
+        "prettier:debug-check": "prettier --config ./.prettierrc.js --debug-check \"{src,test}/**/*.js\"",
         "preprettier:all": "yarn run prettier:debug-check",
         "prettier:all": "prettier --config ./.prettierrc.js --write \"{src,test}/**/*.js\""
     },
     "jest": {
         "preset": "react-native",
-        "setupFiles": ["./test/setup.js"],
-        "snapshotSerializers": ["enzyme-to-json/serializer"]
+        "setupFiles": [
+            "./test/setup.js"
+        ],
+        "snapshotSerializers": [
+            "enzyme-to-json/serializer"
+        ]
     }
 }
