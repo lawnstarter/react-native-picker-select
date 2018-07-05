@@ -48,16 +48,16 @@ For either platform, you can alternatively pass down a child element that will b
 
 ### Styling
 
-*   iOS
-    *   The component wraps a TextInput without styling. In the style prop, pass a style object named `inputIOS` to style the input
-    *   Alternatively, you can pass children (such as a custom button or input) for the component to wrap
-    *   Other styles that can be modified for iOS are named `viewContainer`, `icon`, `done`, `modalViewTop`, `modalViewMiddle`, `modalViewBottom`, and `placeholderColor`
-*   Android
-    *   The default Picker component acts similiarly to a TextInput until it is tapped, although it does not include an underline
-    *   We emulate a typical underline, which can be modified with a style object named `underline`
-    *   The main input can be modified with the style object named `inputAndroid`
-    *   Alternatively, you can pass children (such as a custom button or input) for the component to wrap
-    *   Other styles that can be modified for Android are named `viewContainer` and `placeholderColor`
+-   iOS
+    -   The component wraps a TextInput without styling. In the style prop, pass a style object named `inputIOS` to style the input
+    -   Alternatively, you can pass children (such as a custom button or input) for the component to wrap
+    -   Other styles that can be modified for iOS are named `viewContainer`, `icon`, `done`, `modalViewTop`, `modalViewMiddle`, `modalViewBottom`, and `placeholderColor`
+-   Android
+    -   The default Picker component acts similiarly to a TextInput until it is tapped, although it does not include an underline
+    -   We emulate a typical underline, which can be modified with a style object named `underline`
+    -   The main input can be modified with the style object named `inputAndroid`
+    -   Alternatively, you can pass children (such as a custom button or input) for the component to wrap
+    -   Other styles that can be modified for Android are named `viewContainer` and `placeholderColor`
 
 ## Testing
 
@@ -65,7 +65,7 @@ This component has been tested on React Native v0.51 - v0.55
 
 ## Future Plans
 
-*   [ ] Update Android picker to look closer to platform's `<select>`
+-   [ ] Update Android picker to look closer to platform's `<select>`
 
 ## License
 
