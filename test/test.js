@@ -35,6 +35,35 @@ const placeholder = {
 };
 
 describe('RNPickerSelect', () => {
+    describe('when provided an itemKey prop', () => {
+        it('sets the selected item via key rather than value', () => {
+            const items = [
+                {
+                    label: '+1 Canada',
+                    value: 1,
+                    key: 'canada',
+                },
+                {
+                    label: '+1 USA',
+                    value: 1,
+                    key: 'usa',
+                },
+            ];
+
+            const wrapper = shallow(
+                <RNPickerSelect
+                    items={items}
+                    placeholder={placeholder}
+                    itemKey={'usa'}
+                    value={1}
+                    onValueChange={() => {}}
+                />
+            );
+
+            expect(wrapper.state().selectedItem.key).toEqual('usa');
+        });
+    });
+
     it('should set the selected value to state', () => {
         const wrapper = shallow(
             <RNPickerSelect
