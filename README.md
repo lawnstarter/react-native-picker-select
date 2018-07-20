@@ -63,10 +63,6 @@ For either platform, you can alternatively pass down a child element that will b
 
 This component has been tested on React Native v0.51 - v0.55
 
-## Future Plans
-
--   [ ] Update Android picker to look closer to platform's `<select>`
-
 ## License
 
 react-native-picker-select is [MIT licensed](https://github.com/lawnstarter/react-native-picker-select/tree/master/LICENSE)
