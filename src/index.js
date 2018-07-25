@@ -21,8 +21,11 @@ function handlePlaceholder({ placeholder }) {
     return [placeholder];
 }
 
-function getSelectedItem({ items, value }) {
+function getSelectedItem({ items, key, value }) {
     let idx = items.findIndex((item) => {
+        if (item.key && key) {
+            return isEqual(item.key, key);
+        }
         return isEqual(item.value, value);
     });
     if (idx === -1) {
@@ -44,6 +47,7 @@ export default class RNPickerSelect extends PureComponent {
         );
         const { selectedItem, idx } = getSelectedItem({
             items: newItems,
+            key: nextProps.itemKey,
             value: nextProps.value,
         });
         const selectedItemChanged =
@@ -66,7 +70,11 @@ export default class RNPickerSelect extends PureComponent {
         super(props);
 
         const items = handlePlaceholder({ placeholder: props.placeholder }).concat(props.items);
-        const { selectedItem } = getSelectedItem({ items, value: props.value });
+        const { selectedItem } = getSelectedItem({
+            items,
+            key: props.itemKey,
+            value: props.value,
+        });
         this.state = {
             items,
             selectedItem,
@@ -332,6 +340,7 @@ RNPickerSelect.propTypes = {
     hideIcon: PropTypes.bool,
     disabled: PropTypes.bool,
     value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
+    itemKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
     children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
     mode: PropTypes.string,
@@ -350,6 +359,7 @@ RNPickerSelect.defaultProps = {
     hideIcon: false,
     disabled: false,
     value: undefined,
+    itemKey: null,
     style: {},
     children: null,
     mode: 'dialog',
