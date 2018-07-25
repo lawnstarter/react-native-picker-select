@@ -267,7 +267,7 @@ export default class RNPickerSelect extends PureComponent {
                         <Picker
                             onValueChange={this.onValueChange}
                             selectedValue={this.state.selectedItem.value}
-                            testId="RNPickerSelectIOS"
+                            testID="RNPickerSelectIOS"
                         >
                             {this.renderPickerItems()}
                         </Picker>
@@ -285,7 +285,7 @@ export default class RNPickerSelect extends PureComponent {
                     style={{ position: 'absolute', top: 0, width: 1000, height: 1000 }}
                     onValueChange={this.onValueChange}
                     selectedValue={this.state.selectedItem.value}
-                    testId="RNPickerSelectAndroid"
+                    testID="RNPickerSelectAndroid"
                     mode={this.props.mode}
                     enabled={!this.props.disabled}
                 >
@@ -306,7 +306,7 @@ export default class RNPickerSelect extends PureComponent {
                     style={[this.props.style.inputAndroid, this.renderPlaceholderStyle()]}
                     onValueChange={this.onValueChange}
                     selectedValue={this.state.selectedItem.value}
-                    testId="RNPickerSelectAndroid"
+                    testID="RNPickerSelectAndroid"
                     mode={this.props.mode}
                     enabled={!this.props.disabled}
                 >
