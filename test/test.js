@@ -74,11 +74,11 @@ describe('RNPickerSelect', () => {
         );
 
         wrapper
-            .find('[testId="RNPickerSelectIOS"]')
+            .find('[testID="RNPickerSelectIOS"]')
             .props()
             .onValueChange('orange', 2);
         wrapper
-            .find('[testId="RNPickerSelectIOS"]')
+            .find('[testID="RNPickerSelectIOS"]')
             .props()
             .onValueChange('yellow', 3);
         expect(wrapper.state().selectedItem.value).toEqual('yellow');
@@ -95,7 +95,7 @@ describe('RNPickerSelect', () => {
         );
 
         wrapper
-            .find('[testId="RNPickerSelectIOS"]')
+            .find('[testID="RNPickerSelectIOS"]')
             .props()
             .onValueChange('orange', 2);
         expect(onValueChangeSpy).toHaveBeenCalledWith('orange', 2);
@@ -188,7 +188,7 @@ describe('RNPickerSelect', () => {
         );
 
         wrapper
-            .find('[testId="RNPickerSelectIOS"]')
+            .find('[testID="RNPickerSelectIOS"]')
             .props()
             .onValueChange('orange', 2);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
@@ -207,7 +207,7 @@ describe('RNPickerSelect', () => {
         );
 
         wrapper
-            .find('[testId="RNPickerSelectAndroid"]')
+            .find('[testID="RNPickerSelectAndroid"]')
             .props()
             .onValueChange('orange', 2);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
