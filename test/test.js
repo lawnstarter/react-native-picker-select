@@ -54,7 +54,7 @@ describe('RNPickerSelect', () => {
                 <RNPickerSelect
                     items={items}
                     placeholder={placeholder}
-                    itemKey={'usa'}
+                    itemKey="usa"
                     value={1}
                     onValueChange={() => {}}
                 />
