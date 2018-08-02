@@ -257,7 +257,7 @@ export default class RNPickerSelect extends PureComponent {
             return null;
         }
 
-        return <View style={[styles.icon, this.props.style.icon]} />;
+        return <View testID="icon_ios" style={[styles.icon, this.props.style.icon]} />;
     }
 
     renderTextInputOrChildren() {

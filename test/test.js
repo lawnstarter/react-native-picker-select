@@ -177,6 +177,14 @@ describe('RNPickerSelect', () => {
         expect(wrapper.state().items).toEqual(selectItems);
     });
 
+    it('should should suppress the icon when the hideIcon flag is used', () => {
+        const wrapper = shallow(
+            <RNPickerSelect items={selectItems} onValueChange={() => {}} hideIcon />
+        );
+
+        expect(wrapper.find('[testID="icon_ios"]')).toHaveLength(0);
+    });
+
     it("should reset to the first item (typically the placeholder) if a value is passed in that doesn't exist in the `items` array", () => {
         const wrapper = shallow(
             <RNPickerSelect
