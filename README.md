@@ -16,7 +16,7 @@ For either platform, you can alternatively pass down a child element that will b
 
 [Examples](https://github.com/lawnstarter/react-native-picker-select/tree/master/example)
 
-[Run example.js](https://snack.expo.io/SJJaVK31X)
+[Run example.js](https://snack.expo.io/BJc3G0gHX)
 
 ## Getting Started
 
@@ -42,8 +42,8 @@ For either platform, you can alternatively pass down a child element that will b
 | value                   | any            | Will attempt to locate a matching item from the `items` array by checking each item's `value` property. If found, it will update the component to show that item as selected. If the value is not found, it will default to the first item.                                                                                       | N         | Both          |
 | itemKey                 | string, number | Will attempt to locate a matching item from the `items` array by checking each item's `key` property. If found, it will update the component to show that item as selected. If the key is not found, it will attempt to find a matching item by `value` as above.                                                                 | N         | Both          |
 | style                   | object         | Style overrides for most parts of the component. More details below.                                                                                                                                                                                                                                                              | N         | Both          |
+| hideIcon                | boolean        | Hides the floating downward arrow on the right side of the input box                                                                                                                                                                                                                                                              | N         | Both          |
 | hideDoneBar             | boolean        | Hides the bar with tabbing arrows and Done link to exit the modal. While this is typical on `select` elements on the web, the [interface guidelines](https://developer.apple.com/ios/human-interface-guidelines/controls/pickers/) does not include it.                                                                           | N         | iOS           |
-| hideIcon                | boolean        | Hides the floating downward arrow on the right side of the input box                                                                                                                                                                                                                                                              | N         | iOS           |
 | onUpArrow / onDownArrow | function       | _ Presence enables the corresponding arrow<br>_ Closes the picker<br>\* Calls the callback provided                                                                                                                                                                                                                               | N         | iOS           |
 | mode                    | string         | Specifies how to display the selection items when the user taps on the picker. 'dialog': Show a modal dialog. This is the default. 'dropdown': Shows a dropdown anchored to the picker view.                                                                                                                                      | N         | Android       |
 
@@ -52,7 +52,7 @@ For either platform, you can alternatively pass down a child element that will b
 -   iOS
     -   The component wraps a TextInput without styling. In the style prop, pass a style object named `inputIOS` to style the input
     -   Alternatively, you can pass children (such as a custom button or input) for the component to wrap
-    -   Other styles that can be modified for iOS are named `viewContainer`, `icon`, `done`, `modalViewTop`, `modalViewMiddle`, `modalViewBottom`, and `placeholderColor`
+    -   Other styles that can be modified for iOS are named `viewContainer`, `icon`, `chevron`, `chevronUp`, `chevronDown`, `chevronActive`, `done`, `modalViewTop`, `modalViewMiddle`, `modalViewBottom`, and `placeholderColor`
 -   Android
     -   The default Picker component acts similiarly to a TextInput until it is tapped, although it does not include an underline
     -   We emulate a typical underline, which can be modified with a style object named `underline`
