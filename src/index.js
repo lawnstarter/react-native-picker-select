@@ -38,6 +38,53 @@ function getSelectedItem({ items, key, value }) {
 }
 
 export default class RNPickerSelect extends PureComponent {
+    static propTypes = {
+        onValueChange: PropTypes.func.isRequired,
+        items: PropTypes.arrayOf(
+            PropTypes.shape({
+                label: PropTypes.string.isRequired,
+                value: PropTypes.any.isRequired,
+                key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+                color: ColorPropType,
+            })
+        ).isRequired,
+        placeholder: PropTypes.shape({
+            label: PropTypes.string,
+            value: PropTypes.any,
+        }),
+        hideDoneBar: PropTypes.bool,
+        hideIcon: PropTypes.bool,
+        disabled: PropTypes.bool,
+        value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
+        itemKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+        children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
+        mode: PropTypes.string,
+        animationType: PropTypes.string,
+        onUpArrow: PropTypes.func,
+        onDownArrow: PropTypes.func,
+        doneText: PropTypes.string,
+    };
+
+    static defaultProps = {
+        placeholder: {
+            label: 'Select an item...',
+            value: null,
+        },
+        hideDoneBar: false,
+        hideIcon: false,
+        disabled: false,
+        value: undefined,
+        itemKey: null,
+        style: {},
+        children: null,
+        mode: 'dialog',
+        animationType: 'slide',
+        onUpArrow: null,
+        onDownArrow: null,
+        doneText: 'Done',
+    };
+
     static getDerivedStateFromProps(nextProps, prevState) {
         // update items if items prop changes
         const itemsChanged = !isEqual(prevState.items, nextProps.items);
@@ -110,6 +157,16 @@ export default class RNPickerSelect extends PureComponent {
         });
     }
 
+    getPlaceholderStyle() {
+        if (
+            !isEqual(this.props.placeholder, {}) &&
+            this.state.selectedItem.label === this.props.placeholder.label
+        ) {
+            return { color: this.props.style.placeholderColor || '#C7C7CD' };
+        }
+        return {};
+    }
+
     togglePicker(animate = false) {
         if (this.props.disabled) {
             return;
@@ -135,17 +192,6 @@ export default class RNPickerSelect extends PureComponent {
                 />
             );
         });
-    }
-
-    renderPlaceholderStyle() {
-        const styleModifiers = {};
-        if (
-            !isEqual(this.props.placeholder, {}) &&
-            this.state.selectedItem.label === this.props.placeholder.label
-        ) {
-            styleModifiers.color = this.props.style.placeholderColor || '#C7C7CD';
-        }
-        return styleModifiers;
     }
 
     renderDoneBar() {
@@ -211,7 +257,7 @@ export default class RNPickerSelect extends PureComponent {
             return null;
         }
 
-        return <View style={[styles.icon, this.props.style.icon]} />;
+        return <View testID="icon_ios" style={[styles.icon, this.props.style.icon]} />;
     }
 
     renderTextInputOrChildren() {
@@ -228,7 +274,7 @@ export default class RNPickerSelect extends PureComponent {
                     style={[
                         !this.props.hideIcon ? { paddingRight: 30 } : {},
                         this.props.style.inputIOS,
-                        this.renderPlaceholderStyle(),
+                        this.getPlaceholderStyle(),
                     ]}
                     value={this.state.selectedItem.label}
                     ref={(ref) => {
@@ -303,7 +349,11 @@ export default class RNPickerSelect extends PureComponent {
         return (
             <View style={[styles.viewContainer, this.props.style.viewContainer]}>
                 <Picker
-                    style={[this.props.style.inputAndroid, this.renderPlaceholderStyle()]}
+                    style={[
+                        this.props.hideIcon ? { backgroundColor: 'transparent' } : {},
+                        this.props.style.inputAndroid,
+                        this.getPlaceholderStyle(),
+                    ]}
                     onValueChange={this.onValueChange}
                     selectedValue={this.state.selectedItem.value}
                     testID="RNPickerSelectAndroid"
@@ -321,53 +371,6 @@ export default class RNPickerSelect extends PureComponent {
         return Platform.OS === 'ios' ? this.renderIOS() : this.renderAndroid();
     }
 }
-
-RNPickerSelect.propTypes = {
-    onValueChange: PropTypes.func.isRequired,
-    items: PropTypes.arrayOf(
-        PropTypes.shape({
-            label: PropTypes.string.isRequired,
-            value: PropTypes.any.isRequired,
-            key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-            color: ColorPropType,
-        })
-    ).isRequired,
-    placeholder: PropTypes.shape({
-        label: PropTypes.string,
-        value: PropTypes.any,
-    }),
-    hideDoneBar: PropTypes.bool,
-    hideIcon: PropTypes.bool,
-    disabled: PropTypes.bool,
-    value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
-    itemKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-    children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
-    mode: PropTypes.string,
-    animationType: PropTypes.string,
-    onUpArrow: PropTypes.func,
-    onDownArrow: PropTypes.func,
-    doneText: PropTypes.string,
-};
-
-RNPickerSelect.defaultProps = {
-    placeholder: {
-        label: 'Select an item...',
-        value: null,
-    },
-    hideDoneBar: false,
-    hideIcon: false,
-    disabled: false,
-    value: undefined,
-    itemKey: null,
-    style: {},
-    children: null,
-    mode: 'dialog',
-    animationType: 'slide',
-    onUpArrow: null,
-    onDownArrow: null,
-    doneText: 'Done',
-};
 
 const styles = StyleSheet.create({
     viewContainer: {
