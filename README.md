@@ -65,6 +65,8 @@ For either platform, you can alternatively pass down a child element that will b
 
 This component has been tested on React Native v0.51 - v0.55
 
+[![BrowserStack](https://i.imgur.com/cOdhMed.png)](https://www.browserstack.com/)
+
 ## License
 
 react-native-picker-select is [MIT licensed](https://github.com/lawnstarter/react-native-picker-select/tree/master/LICENSE)
