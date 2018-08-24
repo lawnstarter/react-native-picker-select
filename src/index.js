@@ -271,6 +271,7 @@ export default class RNPickerSelect extends PureComponent {
         return (
             <View pointerEvents="box-only" style={this.props.style.inputIOSContainer}>
                 <TextInput
+                    { ...this.props.androidTextInputProperties }
                     style={[
                         !this.props.hideIcon ? { paddingRight: 30 } : {},
                         this.props.style.inputIOS,
