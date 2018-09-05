@@ -3,17 +3,17 @@
 declare module 'react-native-picker-select' {
     export interface Item {
         label: string;
-        value: string | number;
+        value: any;
         key?: string;
         color?: string;
     }
     type ModeOptions = 'dialog' | 'dropdown';
     export interface PickerProps {
-        onValueChange: (value: string | number, index: number) => void;
+        onValueChange: (value: any, index: number) => void;
         items: Item[];
         placeholder?: Item | {};
         disabled?: boolean;
-        value?: string | number;
+        value?: any;
         itemKey?: string | number;
         style?: object;
         hideIcon?: boolean;
