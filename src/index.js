@@ -64,6 +64,7 @@ export default class RNPickerSelect extends PureComponent {
         onUpArrow: PropTypes.func,
         onDownArrow: PropTypes.func,
         doneText: PropTypes.string,
+        onDonePress: PropTypes.func,
     };
 
     static defaultProps = {
@@ -83,6 +84,7 @@ export default class RNPickerSelect extends PureComponent {
         onUpArrow: null,
         onDownArrow: null,
         doneText: 'Done',
+        onDonePress: null,
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -239,6 +241,7 @@ export default class RNPickerSelect extends PureComponent {
                 <TouchableWithoutFeedback
                     onPress={() => {
                         this.togglePicker(true);
+                        this.props.onDonePress && this.props.onDonePress();
                     }}
                     hitSlop={{ top: 2, right: 2, bottom: 2, left: 2 }}
                 >

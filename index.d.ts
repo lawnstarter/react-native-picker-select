@@ -21,6 +21,7 @@ declare module 'react-native-picker-select' {
         onUpArrow?: () => void;
         onDownArrow?: () => void;
         mode?: ModeOptions;
+        onDonePress?: () => void;
     }
     class Picker extends React.Component<PickerProps> {}
     export default Picker;
