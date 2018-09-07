@@ -246,6 +246,7 @@ export default class RNPickerSelect extends PureComponent {
                         }
                     }}
                     hitSlop={{ top: 2, right: 2, bottom: 2, left: 2 }}
+                    testID="done_button"
                 >
                     <View>
                         <Text style={[styles.done, this.props.style.done]}>
