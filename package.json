@@ -1,6 +1,6 @@
 {
     "name": "react-native-picker-select",
-    "version": "4.2.1",
+    "version": "4.2.2",
     "description": "A Picker component for React Native which emulates the native <select> interfaces for each platform",
     "license": "MIT",
     "author": "Michael Lefkowitz <lefkowitz.michael@gmail.com>",
