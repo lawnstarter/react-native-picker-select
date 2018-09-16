@@ -65,6 +65,7 @@ export default class RNPickerSelect extends PureComponent {
         onDownArrow: PropTypes.func,
         doneText: PropTypes.string,
         onDonePress: PropTypes.func,
+        promptAndroid: PropTypes.string,
     };
 
     static defaultProps = {
@@ -334,6 +335,7 @@ export default class RNPickerSelect extends PureComponent {
             <View style={[{ borderWidth: 0 }, this.props.style.headlessAndroidContainer]}>
                 {this.props.children}
                 <Picker
+                    prompt={this.props.promptAndroid}
                     style={{ position: 'absolute', top: 0, width: 1000, height: 1000 }}
                     onValueChange={this.onValueChange}
                     selectedValue={this.state.selectedItem.value}
@@ -355,6 +357,7 @@ export default class RNPickerSelect extends PureComponent {
         return (
             <View style={[styles.viewContainer, this.props.style.viewContainer]}>
                 <Picker
+                    prompt={this.props.promptAndroid}
                     style={[
                         this.props.hideIcon ? { backgroundColor: 'transparent' } : {},
                         this.props.style.inputAndroid,
