@@ -165,6 +165,10 @@ export default class RNPickerSelect extends PureComponent {
         });
     }
 
+    setInputRef(ref) {
+        this.inputRef = ref;
+    }
+
     getPlaceholderStyle() {
         if (
             !isEqual(this.props.placeholder, {}) &&
