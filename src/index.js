@@ -41,6 +41,7 @@ export default class RNPickerSelect extends PureComponent {
         onUpArrow: PropTypes.func,
         onDownArrow: PropTypes.func,
         doneText: PropTypes.string,
+        onDonePress: PropTypes.func,
         placeholderTextColor: ColorPropType,
     };
 
@@ -61,6 +62,7 @@ export default class RNPickerSelect extends PureComponent {
         onUpArrow: null,
         onDownArrow: null,
         doneText: 'Done',
+        onDonePress: null,
         placeholderTextColor: '#C7C7CD',
     };
 
@@ -248,8 +250,12 @@ export default class RNPickerSelect extends PureComponent {
                 <TouchableWithoutFeedback
                     onPress={() => {
                         this.togglePicker(true);
+                        if (this.props.onDonePress) {
+                            this.props.onDonePress();
+                        }
                     }}
                     hitSlop={{ top: 2, right: 2, bottom: 2, left: 2 }}
+                    testID="done_button"
                 >
                     <View>
                         <Text style={[styles.done, this.props.style.done]}>

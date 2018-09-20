@@ -2,6 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/react-native-picker-select.svg)](https://badge.fury.io/js/react-native-picker-select)
 [![npm downloads](https://img.shields.io/npm/dm/react-native-picker-select.svg?style=flat-square)](https://www.npmjs.com/package/react-native-picker-select)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/095f5b1ee137705ed382/test_coverage)](https://codeclimate.com/github/lawnstarter/react-native-picker-select/test_coverage)
 [![CircleCI](https://circleci.com/gh/lawnstarter/react-native-picker-select.svg?style=svg)](https://circleci.com/gh/lawnstarter/react-native-picker-select)
 
 A Picker component for React Native which emulates the native `<select>` interfaces for iOS and Android
@@ -46,6 +47,7 @@ For either platform, you can alternatively pass down a child element that will b
 | placeholderTextColor    | color          | Overrides the default placeholder color shown                                                                                                                                                                                                                                                                                     | N         | Both          |
 | hideDoneBar             | boolean        | Hides the bar with tabbing arrows and Done link to exit the modal. While this is typical on `select` elements on the web, the [interface guidelines](https://developer.apple.com/ios/human-interface-guidelines/controls/pickers/) does not include it.                                                                           | N         | iOS           |
 | onUpArrow / onDownArrow | function       | _ Presence enables the corresponding arrow<br>_ Closes the picker<br>\* Calls the callback provided                                                                                                                                                                                                                               | N         | iOS           |
+| onDonePress             | function       | Callback when the 'done' button is pressed                                                                                                                                                                                                                                                                                        | N         | iOS           |
 | mode                    | string         | Specifies how to display the selection items when the user taps on the picker. 'dialog': Show a modal dialog. This is the default. 'dropdown': Shows a dropdown anchored to the picker view.                                                                                                                                      | N         | Android       |
 
 ### Styling
@@ -64,6 +66,8 @@ For either platform, you can alternatively pass down a child element that will b
 ## Testing
 
 This component has been tested on React Native v0.51 - v0.55
+
+[![BrowserStack](https://i.imgur.com/cOdhMed.png)](https://www.browserstack.com/)
 
 ## License
 

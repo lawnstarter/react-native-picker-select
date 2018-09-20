@@ -220,4 +220,25 @@ describe('RNPickerSelect', () => {
             .onValueChange('orange', 2);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
     });
+
+    it('should call the onDonePress callback when set (iOS)', () => {
+        Platform.OS = 'ios';
+        const onDonePressSpy = jest.fn();
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                placeholder={placeholder}
+                onValueChange={() => {}}
+                onDonePress={onDonePressSpy}
+            />
+        );
+
+        wrapper
+            .find('[testID="RNPickerSelectIOS"]')
+            .props()
+            .onValueChange('orange', 2);
+        const touchable = wrapper.find('[testID="done_button"]');
+        touchable.simulate('press');
+        expect(onDonePressSpy).toHaveBeenCalledWith();
+    });
 });
