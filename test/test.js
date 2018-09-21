@@ -84,6 +84,21 @@ describe('RNPickerSelect', () => {
         expect(wrapper.state().selectedItem.value).toEqual('yellow');
     });
 
+    it('should hide the "Done" bar if hideDoneBar prop is true', () => {
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                placeholder={placeholder}
+                onValueChange={() => {}}
+                hideDoneBar
+            />
+        );
+
+        const done_bar = wrapper.find('[testID="done_bar"]');
+
+        expect(done_bar).toHaveLength(0);
+    });
+
     it('should return the expected option to a callback passed into onSelect', () => {
         const onValueChangeSpy = jest.fn();
         const wrapper = shallow(

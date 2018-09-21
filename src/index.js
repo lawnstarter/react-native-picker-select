@@ -215,7 +215,10 @@ export default class RNPickerSelect extends PureComponent {
         }
 
         return (
-            <View style={[styles.modalViewMiddle, this.props.style.modalViewMiddle]}>
+            <View
+                style={[styles.modalViewMiddle, this.props.style.modalViewMiddle]}
+                testID="done_bar"
+            >
                 <View style={{ flex: 1, flexDirection: 'row', marginLeft: 15 }}>
                     <TouchableOpacity
                         activeOpacity={this.props.onUpArrow ? 0.5 : 1}
