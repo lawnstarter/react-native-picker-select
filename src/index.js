@@ -14,29 +14,6 @@ import {
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 
-function handlePlaceholder({ placeholder }) {
-    if (isEqual(placeholder, {})) {
-        return [];
-    }
-    return [placeholder];
-}
-
-function getSelectedItem({ items, key, value }) {
-    let idx = items.findIndex((item) => {
-        if (item.key && key) {
-            return isEqual(item.key, key);
-        }
-        return isEqual(item.value, value);
-    });
-    if (idx === -1) {
-        idx = 0;
-    }
-    return {
-        selectedItem: items[idx],
-        idx,
-    };
-}
-
 export default class RNPickerSelect extends PureComponent {
     static propTypes = {
         onValueChange: PropTypes.func.isRequired,
@@ -65,6 +42,7 @@ export default class RNPickerSelect extends PureComponent {
         onDownArrow: PropTypes.func,
         doneText: PropTypes.string,
         onDonePress: PropTypes.func,
+        placeholderTextColor: ColorPropType,
     };
 
     static defaultProps = {
@@ -85,16 +63,40 @@ export default class RNPickerSelect extends PureComponent {
         onDownArrow: null,
         doneText: 'Done',
         onDonePress: null,
+        placeholderTextColor: '#C7C7CD',
     };
+
+    static handlePlaceholder({ placeholder }) {
+        if (isEqual(placeholder, {})) {
+            return [];
+        }
+        return [placeholder];
+    }
+
+    static getSelectedItem({ items, key, value }) {
+        let idx = items.findIndex((item) => {
+            if (item.key && key) {
+                return isEqual(item.key, key);
+            }
+            return isEqual(item.value, value);
+        });
+        if (idx === -1) {
+            idx = 0;
+        }
+        return {
+            selectedItem: items[idx],
+            idx,
+        };
+    }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         // update items if items prop changes
         const itemsChanged = !isEqual(prevState.items, nextProps.items);
         // update selectedItem if value prop is defined and differs from currently selected item
-        const newItems = handlePlaceholder({ placeholder: nextProps.placeholder }).concat(
-            nextProps.items
-        );
-        const { selectedItem, idx } = getSelectedItem({
+        const newItems = RNPickerSelect.handlePlaceholder({
+            placeholder: nextProps.placeholder,
+        }).concat(nextProps.items);
+        const { selectedItem, idx } = RNPickerSelect.getSelectedItem({
             items: newItems,
             key: nextProps.itemKey,
             value: nextProps.value,
@@ -118,12 +120,15 @@ export default class RNPickerSelect extends PureComponent {
     constructor(props) {
         super(props);
 
-        const items = handlePlaceholder({ placeholder: props.placeholder }).concat(props.items);
-        const { selectedItem } = getSelectedItem({
+        const items = RNPickerSelect.handlePlaceholder({ placeholder: props.placeholder }).concat(
+            props.items
+        );
+        const { selectedItem } = RNPickerSelect.getSelectedItem({
             items,
             key: props.itemKey,
             value: props.value,
         });
+
         this.state = {
             items,
             selectedItem,
@@ -134,6 +139,7 @@ export default class RNPickerSelect extends PureComponent {
         this.onUpArrow = this.onUpArrow.bind(this);
         this.onDownArrow = this.onDownArrow.bind(this);
         this.onValueChange = this.onValueChange.bind(this);
+        this.setInputRef = this.setInputRef.bind(this);
         this.togglePicker = this.togglePicker.bind(this);
     }
 
@@ -159,12 +165,19 @@ export default class RNPickerSelect extends PureComponent {
         });
     }
 
+    setInputRef(ref) {
+        this.inputRef = ref;
+    }
+
     getPlaceholderStyle() {
         if (
             !isEqual(this.props.placeholder, {}) &&
             this.state.selectedItem.label === this.props.placeholder.label
         ) {
-            return { color: this.props.style.placeholderColor || '#C7C7CD' };
+            return {
+                // TODO: remove style.placeholderColor option in v5 release
+                color: this.props.style.placeholderColor || this.props.placeholderTextColor,
+            };
         }
         return {};
     }
@@ -202,7 +215,10 @@ export default class RNPickerSelect extends PureComponent {
         }
 
         return (
-            <View style={[styles.modalViewMiddle, this.props.style.modalViewMiddle]}>
+            <View
+                style={[styles.modalViewMiddle, this.props.style.modalViewMiddle]}
+                testID="done_bar"
+            >
                 <View style={{ flex: 1, flexDirection: 'row', marginLeft: 15 }}>
                     <TouchableOpacity
                         activeOpacity={this.props.onUpArrow ? 0.5 : 1}
@@ -283,9 +299,7 @@ export default class RNPickerSelect extends PureComponent {
                         this.getPlaceholderStyle(),
                     ]}
                     value={this.state.selectedItem.label}
-                    ref={(ref) => {
-                        this.inputRef = ref;
-                    }}
+                    ref={this.setInputRef}
                 />
                 {this.renderIcon()}
             </View>
