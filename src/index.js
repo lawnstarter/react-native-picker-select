@@ -49,6 +49,7 @@ export default class RNPickerSelect extends PureComponent {
         placeholder: {
             label: 'Select an item...',
             value: null,
+            color: '#9EA0A4',
         },
         hideDoneBar: false,
         hideIcon: false,
@@ -219,7 +220,7 @@ export default class RNPickerSelect extends PureComponent {
                 style={[styles.modalViewMiddle, this.props.style.modalViewMiddle]}
                 testID="done_bar"
             >
-                <View style={{ flex: 1, flexDirection: 'row', marginLeft: 15 }}>
+                <View style={styles.chevronContainer}>
                     <TouchableOpacity
                         activeOpacity={this.props.onUpArrow ? 0.5 : 1}
                         onPress={this.props.onUpArrow ? this.onUpArrow : null}
@@ -348,7 +349,7 @@ export default class RNPickerSelect extends PureComponent {
             <View style={[{ borderWidth: 0 }, this.props.style.headlessAndroidContainer]}>
                 {this.props.children}
                 <Picker
-                    style={{ position: 'absolute', top: 0, width: 1000, height: 1000 }}
+                    style={styles.headlessAndroidPicker}
                     onValueChange={this.onValueChange}
                     selectedValue={this.state.selectedItem.value}
                     testID="RNPickerSelectAndroid"
@@ -395,6 +396,11 @@ export default class RNPickerSelect extends PureComponent {
 const styles = StyleSheet.create({
     viewContainer: {
         alignSelf: 'stretch',
+    },
+    chevronContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        marginLeft: 15,
     },
     chevron: {
         width: 15,
@@ -456,5 +462,11 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderTopColor: '#888988',
         marginHorizontal: 4,
+    },
+    headlessAndroidPicker: {
+        position: 'absolute',
+        top: 0,
+        width: 1000,
+        height: 1000,
     },
 });
