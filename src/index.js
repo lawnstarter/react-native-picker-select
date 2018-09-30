@@ -348,7 +348,13 @@ export default class RNPickerSelect extends PureComponent {
             <View style={[{ borderWidth: 0 }, this.props.style.headlessAndroidContainer]}>
                 {this.props.children}
                 <Picker
-                    style={{ position: 'absolute', top: 0, width: 1000, height: 1000 }}
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        width: 1000,
+                        height: 1000,
+                        color: 'transparent',
+                    }}
                     onValueChange={this.onValueChange}
                     selectedValue={this.state.selectedItem.value}
                     testID="RNPickerSelectAndroid"
