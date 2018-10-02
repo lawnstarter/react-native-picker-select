@@ -17,7 +17,7 @@ For either platform, you can alternatively pass down a child element that will b
 
 [Examples](https://github.com/lawnstarter/react-native-picker-select/tree/master/example)
 
-[Run example.js](https://snack.expo.io/BJc3G0gHX)
+[Run example](https://snack.expo.io/@lfkwtz/react-native-picker-select)
 
 ## Getting Started
 
