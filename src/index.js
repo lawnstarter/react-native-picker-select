@@ -43,6 +43,7 @@ export default class RNPickerSelect extends PureComponent {
         doneText: PropTypes.string,
         onDonePress: PropTypes.func,
         placeholderTextColor: ColorPropType,
+        validate: PropTypes.func
     };
 
     static defaultProps = {
@@ -162,7 +163,7 @@ export default class RNPickerSelect extends PureComponent {
 
         this.setState({
             selectedItem: this.state.items[index],
-        });
+        }, () => {Platform.OS == 'ios' ? {} : this.props.validate()});
     }
 
     setInputRef(ref) {
@@ -189,7 +190,7 @@ export default class RNPickerSelect extends PureComponent {
         this.setState({
             animationType: animate ? this.props.animationType : undefined,
             showPicker: !this.state.showPicker,
-        });
+        }, () => {this.state.showPicker ? {} : this.props.validate()});
         if (!this.state.showPicker && this.inputRef) {
             this.inputRef.focus();
             this.inputRef.blur();
@@ -345,7 +346,7 @@ export default class RNPickerSelect extends PureComponent {
 
     renderAndroidHeadless() {
         return (
-            <View style={[{ borderWidth: 0 }, this.props.style.headlessAndroidContainer]}>
+            <View style={[styles.viewContainer, this.props.style.headlessAndroidContainer]}>
                 {this.props.children}
                 <Picker
                     style={{ position: 'absolute', top: 0, width: 1000, height: 1000 }}
