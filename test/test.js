@@ -256,4 +256,44 @@ describe('RNPickerSelect', () => {
         touchable.simulate('press');
         expect(onDonePressSpy).toHaveBeenCalledWith();
     });
+
+    it('should call the onShow callback when set (iOS)', () => {
+        Platform.OS = 'ios';
+        const onShowSpy = jest.fn();
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                placeholder={placeholder}
+                onValueChange={() => {}}
+                onShow={onShowSpy}
+            />
+        );
+
+        wrapper
+            .find('[testID="RNPickerModalIOS"]')
+            .props()
+            .onShow();
+
+        expect(onShowSpy).toHaveBeenCalledWith();
+    });
+
+    it('should call the onDismiss callback when set (iOS)', () => {
+        Platform.OS = 'ios';
+        const onDismissSpy = jest.fn();
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                placeholder={placeholder}
+                onValueChange={() => {}}
+                onDismiss={onDismissSpy}
+            />
+        );
+
+        wrapper
+            .find('[testID="RNPickerModalIOS"]')
+            .props()
+            .onDismiss();
+
+        expect(onDismissSpy).toHaveBeenCalledWith();
+    });
 });

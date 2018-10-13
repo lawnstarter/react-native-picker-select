@@ -321,6 +321,7 @@ export default class RNPickerSelect extends PureComponent {
                     {this.renderTextInputOrChildren()}
                 </TouchableWithoutFeedback>
                 <Modal
+                    testID="RNPickerModalIOS"
                     visible={this.state.showPicker}
                     transparent
                     animationType={this.state.animationType}
