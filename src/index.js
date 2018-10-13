@@ -42,6 +42,8 @@ export default class RNPickerSelect extends PureComponent {
         onDownArrow: PropTypes.func,
         doneText: PropTypes.string,
         onDonePress: PropTypes.func,
+        onShow: PropTypes.func,
+        onDismiss: PropTypes.func,
         placeholderTextColor: ColorPropType,
     };
 
@@ -63,6 +65,8 @@ export default class RNPickerSelect extends PureComponent {
         onDownArrow: null,
         doneText: 'Done',
         onDonePress: null,
+        onShow: null,
+        onDismiss: null,
         placeholderTextColor: '#C7C7CD',
     };
 
@@ -321,6 +325,16 @@ export default class RNPickerSelect extends PureComponent {
                     transparent
                     animationType={this.state.animationType}
                     supportedOrientations={['portrait', 'landscape']}
+                    onShow={() => {
+                        if (this.props.onShow) {
+                            this.props.onShow();
+                        }
+                    }}
+                    onDismiss={() => {
+                        if (this.props.onDismiss) {
+                            this.props.onDismiss();
+                        }
+                    }}
                 >
                     <TouchableOpacity
                         style={[styles.modalViewTop, this.props.style.modalViewTop]}
