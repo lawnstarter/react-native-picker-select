@@ -37,13 +37,19 @@ export default class RNPickerSelect extends PureComponent {
         hideIcon: PropTypes.bool,
         placeholderTextColor: ColorPropType,
 
-        // iOS Modal props
+        // Custom Modal props (iOS only)
         hideDoneBar: PropTypes.bool,
         doneText: PropTypes.string,
         onDonePress: PropTypes.func,
         onUpArrow: PropTypes.func,
         onDownArrow: PropTypes.func,
         animationType: PropTypes.string,
+
+        // Modal props (iOS only)
+        modalProps: PropTypes.shape({
+            onShow: PropTypes.func,
+            onDismiss: PropTypes.func,
+        }),
 
         // Additional Picker props (facebook.github.io/react-native/docs/picker)
         pickerProps: PropTypes.shape({
@@ -74,6 +80,7 @@ export default class RNPickerSelect extends PureComponent {
         onUpArrow: null,
         onDownArrow: null,
         animationType: 'slide',
+        modalProps: {},
         pickerProps: {},
     };
 
@@ -319,7 +326,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderIOS() {
-        const { style, pickerProps } = this.props;
+        const { style, modalProps, pickerProps } = this.props;
 
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
@@ -331,10 +338,13 @@ export default class RNPickerSelect extends PureComponent {
                     {this.renderTextInputOrChildren()}
                 </TouchableWithoutFeedback>
                 <Modal
+                    testID="RNPickerSelectModal"
+                    {...modalProps}
                     visible={this.state.showPicker}
                     transparent
                     animationType={this.state.animationType}
                     supportedOrientations={['portrait', 'landscape']}
+                    // onOrientationChange={TODO: use this to resize window}
                 >
                     <TouchableOpacity
                         style={[defaultStyles.modalViewTop, style.modalViewTop]}
