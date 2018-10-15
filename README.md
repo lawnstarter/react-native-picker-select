@@ -58,7 +58,7 @@ For either platform, you can alternatively pass down a child element that will b
     -   Other styles that can be modified for iOS are named `viewContainer`, `icon`, `chevron`, `chevronUp`, `chevronDown`, `chevronActive`, `done`, `modalViewTop`, `modalViewMiddle`, and `modalViewBottom`
 -   Android
     -   The default Picker component acts similiarly to a TextInput until it is tapped, although it does not include an underline
-    -   We emulate a typical underline, which can be modified with a style object named `underline`
+    -   We emulate a typical underline, which can be modified with a style object named `underline`, note that default style uses `borderTopWidth` and `borderTopColor`.
     -   The main input can be modified with the style object named `inputAndroid`
     -   Alternatively, you can pass children (such as a custom button or input) for the component to wrap
     -   Other styles that can be modified for Android are named `viewContainer`
