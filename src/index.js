@@ -29,10 +29,12 @@ export default class RNPickerSelect extends PureComponent {
         placeholder: PropTypes.shape({
             label: PropTypes.string,
             value: PropTypes.any,
+            key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+            color: ColorPropType,
         }),
         disabled: PropTypes.bool,
         itemKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+        style: PropTypes.shape({}),
         children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
         hideIcon: PropTypes.bool,
         placeholderTextColor: ColorPropType,
@@ -43,22 +45,15 @@ export default class RNPickerSelect extends PureComponent {
         onDonePress: PropTypes.func,
         onUpArrow: PropTypes.func,
         onDownArrow: PropTypes.func,
-        animationType: PropTypes.string,
 
         // Modal props (iOS only)
-        modalProps: PropTypes.shape({
-            onShow: PropTypes.func,
-            onDismiss: PropTypes.func,
-        }),
+        modalProps: PropTypes.shape({}),
 
-        // Additional Picker props (facebook.github.io/react-native/docs/picker)
-        pickerProps: PropTypes.shape({
-            style: PropTypes.object,
-            testID: PropTypes.string,
-            mode: PropTypes.oneOf(['dialog', 'dropdown']),
-            prompt: PropTypes.string,
-            itemStyle: PropTypes.object,
-        }),
+        // TextInput props (iOS only)
+        textInputProps: PropTypes.shape({}),
+
+        // Picker props
+        pickerProps: PropTypes.shape({}),
     };
 
     static defaultProps = {
@@ -79,8 +74,8 @@ export default class RNPickerSelect extends PureComponent {
         onDonePress: null,
         onUpArrow: null,
         onDownArrow: null,
-        animationType: 'slide',
         modalProps: {},
+        textInputProps: {},
         pickerProps: {},
     };
 
@@ -162,6 +157,8 @@ export default class RNPickerSelect extends PureComponent {
         this.togglePicker = this.togglePicker.bind(this);
     }
 
+    // these timeouts were a hacky first pass at ensuring the callback triggered after the modal animation
+    // TODO: find a better approach
     onUpArrow() {
         const { onUpArrow } = this.props;
 
@@ -202,16 +199,20 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     togglePicker(animate = false) {
-        const { animationType, disabled } = this.props;
+        const { modalProps, disabled } = this.props;
 
         if (disabled) {
             return;
         }
 
+        const animationType =
+            modalProps && modalProps.animationType ? modalProps.animationType : 'slide';
+
         this.setState({
             animationType: animate ? animationType : undefined,
             showPicker: !this.state.showPicker,
         });
+
         if (!this.state.showPicker && this.inputRef) {
             this.inputRef.focus();
             this.inputRef.blur();
@@ -300,7 +301,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderTextInputOrChildren() {
-        const { children, hideIcon, style } = this.props;
+        const { children, hideIcon, style, textInputProps } = this.props;
 
         if (children) {
             return (
@@ -319,6 +320,8 @@ export default class RNPickerSelect extends PureComponent {
                     ]}
                     value={this.state.selectedItem.label}
                     ref={this.setInputRef}
+                    editable={false}
+                    {...textInputProps}
                 />
                 {this.renderIcon()}
             </View>
@@ -339,12 +342,12 @@ export default class RNPickerSelect extends PureComponent {
                 </TouchableWithoutFeedback>
                 <Modal
                     testID="RNPickerSelectModal"
-                    {...modalProps}
                     visible={this.state.showPicker}
                     transparent
                     animationType={this.state.animationType}
                     supportedOrientations={['portrait', 'landscape']}
                     // onOrientationChange={TODO: use this to resize window}
+                    {...modalProps}
                 >
                     <TouchableOpacity
                         style={[defaultStyles.modalViewTop, style.modalViewTop]}
@@ -356,9 +359,9 @@ export default class RNPickerSelect extends PureComponent {
                     <View style={[defaultStyles.modalViewBottom, style.modalViewBottom]}>
                         <Picker
                             testID="RNPickerSelectIOS"
-                            {...pickerProps}
                             onValueChange={this.onValueChange}
                             selectedValue={this.state.selectedItem.value}
+                            {...pickerProps}
                         >
                             {this.renderPickerItems()}
                         </Picker>
@@ -376,10 +379,10 @@ export default class RNPickerSelect extends PureComponent {
                 <Picker
                     style={defaultStyles.headlessAndroidPicker}
                     testID="RNPickerSelectAndroid"
-                    {...pickerProps}
                     enabled={!disabled}
                     onValueChange={this.onValueChange}
                     selectedValue={this.state.selectedItem.value}
+                    {...pickerProps}
                 >
                     {this.renderPickerItems()}
                 </Picker>
@@ -402,10 +405,10 @@ export default class RNPickerSelect extends PureComponent {
                         this.getPlaceholderStyle(),
                     ]}
                     testID="RNPickerSelectAndroid"
-                    {...pickerProps}
                     enabled={!disabled}
                     onValueChange={this.onValueChange}
                     selectedValue={this.state.selectedItem.value}
+                    {...pickerProps}
                 >
                     {this.renderPickerItems()}
                 </Picker>
