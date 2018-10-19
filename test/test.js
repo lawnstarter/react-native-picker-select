@@ -221,13 +221,7 @@ describe('RNPickerSelect', () => {
 
     it('should set the selected value to state (Android)', () => {
         Platform.OS = 'android';
-        const wrapper = shallow(
-            <RNPickerSelect
-                items={selectItems}
-                placeholder={placeholder}
-                onValueChange={() => {}}
-            />
-        );
+        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={() => {}} />);
 
         wrapper
             .find('[testID="RNPickerSelectAndroid"]')
@@ -242,7 +236,6 @@ describe('RNPickerSelect', () => {
         const wrapper = shallow(
             <RNPickerSelect
                 items={selectItems}
-                placeholder={placeholder}
                 onValueChange={() => {}}
                 onDonePress={onDonePressSpy}
             />
@@ -255,5 +248,43 @@ describe('RNPickerSelect', () => {
         const touchable = wrapper.find('[testID="done_button"]');
         touchable.simulate('press');
         expect(onDonePressSpy).toHaveBeenCalledWith();
+    });
+
+    it('should call the onShow callback when set (iOS)', () => {
+        Platform.OS = 'ios';
+        const onShowSpy = jest.fn();
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                onValueChange={() => {}}
+                modalProps={{
+                    onShow: onShowSpy,
+                }}
+            />
+        );
+        wrapper
+            .find('[testID="RNPickerSelectModal"]')
+            .props()
+            .onShow();
+        expect(onShowSpy).toHaveBeenCalledWith();
+    });
+
+    it('should call the onDismiss callback when set (iOS)', () => {
+        Platform.OS = 'ios';
+        const onDismissSpy = jest.fn();
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                onValueChange={() => {}}
+                modalProps={{
+                    onDismiss: onDismissSpy,
+                }}
+            />
+        );
+        wrapper
+            .find('[testID="RNPickerSelectModal"]')
+            .props()
+            .onDismiss();
+        expect(onDismissSpy).toHaveBeenCalledWith();
     });
 });
