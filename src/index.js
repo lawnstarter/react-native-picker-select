@@ -190,7 +190,7 @@ export default class RNPickerSelect extends PureComponent {
     getPlaceholderStyle() {
         const { placeholder, placeholderTextColor } = this.props;
 
-        if (!isEqual(placeholder, {}) && this.state.selectedItem.label === placeholder.label) {
+        if (!isEqual(placeholder, {})) {
             return {
                 color: placeholderTextColor,
             };
@@ -313,6 +313,7 @@ export default class RNPickerSelect extends PureComponent {
         return (
             <View pointerEvents="box-only" style={style.inputIOSContainer}>
                 <TextInput
+                    testID="TextInputIOS"
                     style={[
                         !hideIcon ? { paddingRight: 30 } : {},
                         style.inputIOS,

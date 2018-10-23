@@ -64,6 +64,46 @@ describe('RNPickerSelect', () => {
         });
     });
 
+    describe('when placeholder is different than items', () => {
+        afterAll(() => (Platform.OS = 'ios'));
+
+        it("should set placeholderTextColor to text's color property iOS", () => {
+            const wrapper = shallow(
+                <RNPickerSelect
+                    items={selectItems}
+                    placeholder={placeholder}
+                    placeholderTextColor="red"
+                    value={null}
+                    onValueChange={() => {}}
+                />
+            );
+
+            const [_icon, _ios, placeholderStyle] = wrapper
+                .find('[testID="TextInputIOS"]')
+                .props().style;
+            expect(placeholderStyle).toEqual({ color: 'red' });
+        });
+
+        it("should set placeholderTextColor to text's color property Android", () => {
+            Platform.OS = 'android';
+
+            const wrapper = shallow(
+                <RNPickerSelect
+                    items={selectItems}
+                    placeholder={placeholder}
+                    placeholderTextColor="red"
+                    value={null}
+                    onValueChange={() => {}}
+                />
+            );
+
+            const [_icon, _android, placeholderStyle] = wrapper
+                .find('[testID="RNPickerSelectAndroid"]')
+                .props().style;
+            expect(placeholderStyle).toEqual({ color: 'red' });
+        });
+    });
+
     it('should set the selected value to state', () => {
         const wrapper = shallow(
             <RNPickerSelect
