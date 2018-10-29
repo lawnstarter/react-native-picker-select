@@ -54,6 +54,8 @@ export default class RNPickerSelect extends PureComponent {
 
         // Picker props
         pickerProps: PropTypes.shape({}),
+
+        key: PropTypes.string,
     };
 
     static defaultProps = {
@@ -77,6 +79,7 @@ export default class RNPickerSelect extends PureComponent {
         modalProps: {},
         textInputProps: {},
         pickerProps: {},
+        key: null,
     };
 
     static handlePlaceholder({ placeholder }) {
@@ -333,10 +336,10 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderIOS() {
-        const { style, modalProps, pickerProps } = this.props;
+        const { style, modalProps, pickerProps, key } = this.props;
 
         return (
-            <View style={[defaultStyles.viewContainer, style.viewContainer]}>
+            <View key={key} style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <TouchableWithoutFeedback
                     onPress={() => {
                         this.togglePicker(true);
@@ -376,9 +379,9 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroidHeadless() {
-        const { children, disabled, style, pickerProps } = this.props;
+        const { children, disabled, style, pickerProps, key } = this.props;
         return (
-            <View style={[{ borderWidth: 0 }, style.headlessAndroidContainer]}>
+            <View key={key} style={[{ borderWidth: 0 }, style.headlessAndroidContainer]}>
                 {children}
                 <Picker
                     style={defaultStyles.headlessAndroidPicker}
@@ -395,13 +398,13 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroid() {
-        const { children, disabled, hideIcon, style, pickerProps } = this.props;
+        const { children, disabled, hideIcon, style, pickerProps, key } = this.props;
         if (children) {
             return this.renderAndroidHeadless();
         }
 
         return (
-            <View style={[defaultStyles.viewContainer, style.viewContainer]}>
+            <View key={key} style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <Picker
                     style={[
                         hideIcon ? { backgroundColor: 'transparent' } : {},
