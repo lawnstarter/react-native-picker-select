@@ -284,7 +284,9 @@ export default class RNPickerSelect extends PureComponent {
                     hitSlop={{ top: 2, right: 2, bottom: 2, left: 2 }}
                     testID="done_button"
                 >
-                    <View>
+                    <View
+                        testID="needed_for_touchable"
+                    >
                         <Text style={[defaultStyles.done, style.done]}>{doneText}</Text>
                     </View>
                 </TouchableWithoutFeedback>
