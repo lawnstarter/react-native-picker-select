@@ -204,6 +204,7 @@ describe('RNPickerSelect', () => {
         );
 
         expect(wrapper.find('[testID="icon_ios"]')).toHaveLength(0);
+        expect(wrapper.find('[testID="custom_icon_ios"]')).toHaveLength(0);
     });
 
     it('should call Keyboard.dismiss when opened', () => {
@@ -340,5 +341,107 @@ describe('RNPickerSelect', () => {
         touchable.simulate('press');
 
         expect(onCloseSpy).toHaveBeenCalledWith();
+    });
+
+    describe('Custom Icon', () => {
+        const defaultIconStyle = {
+            position: 'absolute',
+            backgroundColor: 'transparent',
+            borderTopWidth: 10,
+            borderTopColor: 'gray',
+            borderRightWidth: 10,
+            borderRightColor: 'transparent',
+            borderLeftWidth: 10,
+            borderLeftColor: 'transparent',
+            width: 0,
+            height: 0,
+            top: 20,
+            right: 10,
+        };
+
+        it('sets style props when icon present', () => {
+            const customIconStyle = { backgroundColor: 'black', top: 9 };
+            const CustomIcon = (props) => {
+                return <View {...props} />;
+            };
+            const wrapper = shallow(
+                <RNPickerSelect
+                    items={selectItems}
+                    placeholder={placeholder}
+                    style={{
+                        icon: customIconStyle,
+                    }}
+                    value={null}
+                    onValueChange={() => {}}
+                    Icon={CustomIcon}
+                />
+            );
+
+            const customStyle = wrapper.find('[testID="custom_icon"]').props().style;
+            expect(customStyle).toEqual(customIconStyle);
+        });
+
+        it('sets normal ios icon', () => {
+            const customIconStyle = { backgroundColor: 'red', top: 9 };
+            const wrapper = shallow(
+                <RNPickerSelect
+                    items={selectItems}
+                    placeholder={placeholder}
+                    style={{
+                        icon: customIconStyle,
+                    }}
+                    value={null}
+                    onValueChange={() => {}}
+                />
+            );
+
+            const [defaultStyle, customStyle] = wrapper.find('[testID="icon"]').props().style;
+            expect(defaultStyle).toEqual(defaultIconStyle);
+            expect(customStyle).toEqual(customIconStyle);
+        });
+
+        it('sets style prop when icon present', () => {
+            Platform.OS = 'android';
+            const customIconStyle = { backgroundColor: 'black', top: 9 };
+            const CustomIcon = (props) => {
+                return <View {...props} />;
+            };
+            const wrapper = shallow(
+                <RNPickerSelect
+                    items={selectItems}
+                    placeholder={placeholder}
+                    style={{
+                        icon: customIconStyle,
+                    }}
+                    value={null}
+                    onValueChange={() => {}}
+                    Icon={CustomIcon}
+                />
+            );
+
+            const customStyle = wrapper.find('[testID="custom_icon"]').props().style;
+            expect(customStyle).toEqual(customIconStyle);
+            Platform.OS = 'ios';
+        });
+
+        it('does not set normal icon when android', () => {
+            Platform.OS = 'android';
+            const customIconStyle = { backgroundColor: 'red', top: 9 };
+            const wrapper = shallow(
+                <RNPickerSelect
+                    items={selectItems}
+                    placeholder={placeholder}
+                    style={{
+                        icon: customIconStyle,
+                    }}
+                    value={null}
+                    onValueChange={() => {}}
+                />
+            );
+
+            expect(wrapper.find('[testID="icon"]')).toHaveLength(0);
+            expect(wrapper.find('[testID="custom_icon"]')).toHaveLength(0);
+            Platform.OS = 'ios';
+        });
     });
 });

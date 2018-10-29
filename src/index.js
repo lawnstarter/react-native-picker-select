@@ -58,6 +58,9 @@ export default class RNPickerSelect extends PureComponent {
 
         // Picker props
         pickerProps: PropTypes.shape({}),
+
+        // Custom Icon
+        Icon: PropTypes.func,
     };
 
     static defaultProps = {
@@ -84,6 +87,7 @@ export default class RNPickerSelect extends PureComponent {
         modalProps: {},
         textInputProps: {},
         pickerProps: {},
+        Icon: null,
     };
 
     static handlePlaceholder({ placeholder }) {
@@ -314,13 +318,19 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderIcon() {
-        const { hideIcon, style } = this.props;
+        const { hideIcon, style, Icon } = this.props;
 
         if (hideIcon) {
             return null;
         }
 
-        return <View testID="icon_ios" style={[defaultStyles.icon, style.icon]} />;
+        const iconStyle = [defaultStyles.icon, style.icon];
+
+        return Icon ? (
+            <Icon testID="custom_icon" pointerEvents="none" style={style.icon} />
+        ) : (
+            <View testID="icon" style={iconStyle} />
+        );
     }
 
     renderTextInputOrChildren() {
@@ -399,7 +409,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroidHeadless() {
-        const { disabled, style, pickerProps } = this.props;
+        const { disabled, style, pickerProps, Icon } = this.props;
         return (
             <View style={[{ borderWidth: 0 }, style.headlessAndroidContainer]}>
                 {this.renderTextInputOrChildren()}
@@ -413,44 +423,45 @@ export default class RNPickerSelect extends PureComponent {
                 >
                     {this.renderPickerItems()}
                 </Picker>
+                {Icon ? this.renderIcon() : null}
+            </View>
+        );
+    }
+
+    renderAndroidPicker() {
+        const { disabled, hideIcon, style, pickerProps, Icon } = this.props;
+
+        return (
+            <View style={[defaultStyles.viewContainer, style.viewContainer]}>
+                <Picker
+                    style={[
+                        hideIcon ? { backgroundColor: 'transparent' } : {},
+                        style.inputAndroid,
+                        this.getPlaceholderStyle(),
+                    ]}
+                    testID="RNPickerSelectAndroid"
+                    enabled={!disabled}
+                    onValueChange={this.onValueChange}
+                    selectedValue={this.state.selectedItem.value}
+                    {...pickerProps}
+                >
+                    {this.renderPickerItems()}
+                </Picker>
+                {Icon ? this.renderIcon() : null}
+                <View style={[defaultStyles.underline, style.underline]} />
             </View>
         );
     }
 
     renderAndroid() {
-        const {
-            children,
-            disabled,
-            hideIcon,
-            style,
-            pickerProps,
-            useNativeAndroidPickerStyle,
-        } = this.props;
+        const { children, style, useNativeAndroidPickerStyle } = this.props;
 
         if (children) {
             return this.renderAndroidHeadless();
         }
 
         if (useNativeAndroidPickerStyle) {
-            return (
-                <View style={[defaultStyles.viewContainer, style.viewContainer]}>
-                    <Picker
-                        style={[
-                            hideIcon ? { backgroundColor: 'transparent' } : {},
-                            style.inputAndroid,
-                            this.getPlaceholderStyle(),
-                        ]}
-                        testID="RNPickerSelectAndroid"
-                        enabled={!disabled}
-                        onValueChange={this.onValueChange}
-                        selectedValue={this.state.selectedItem.value}
-                        {...pickerProps}
-                    >
-                        {this.renderPickerItems()}
-                    </Picker>
-                    <View style={[defaultStyles.underline, style.underline]} />
-                </View>
-            );
+            return this.renderAndroidPicker();
         }
 
         return (
