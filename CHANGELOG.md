@@ -1,3 +1,9 @@
+### v5.0.1
+
+##### Bugfix
+
+-   Fixed `TouchableWithoutFeedback` warning
+
 ### v5.0.0
 
 ##### Breaking Changes
