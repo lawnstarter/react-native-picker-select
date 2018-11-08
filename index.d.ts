@@ -4,24 +4,28 @@ declare module 'react-native-picker-select' {
     export interface Item {
         label: string;
         value: any;
-        key?: string;
+        key?: string | number;
         color?: string;
     }
-    type ModeOptions = 'dialog' | 'dropdown';
     export interface PickerProps {
         onValueChange: (value: any, index: number) => void;
         items: Item[];
+        value?: any;
         placeholder?: Item | {};
         disabled?: boolean;
-        value?: any;
         itemKey?: string | number;
         style?: object;
+        children?: any;
         hideIcon?: boolean;
+        placeholderTextColor?: string;
         hideDoneBar?: boolean;
+        doneText?: string;
+        onDonePress?: () => void;
         onUpArrow?: () => void;
         onDownArrow?: () => void;
-        mode?: ModeOptions;
-        onDonePress?: () => void;
+        modalProps?: object;
+        textInputProps?: object;
+        pickerProps?: object;
     }
     class Picker extends React.Component<PickerProps> {}
     export default Picker;
