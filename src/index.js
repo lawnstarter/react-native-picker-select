@@ -501,5 +501,6 @@ const defaultStyles = StyleSheet.create({
         top: 0,
         width: 1000,
         height: 1000,
+        color: 'transparent',
     },
 });
