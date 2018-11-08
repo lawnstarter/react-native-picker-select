@@ -384,7 +384,7 @@ export default class RNPickerSelect extends PureComponent {
                 {this.renderTextInputOrChildren()}
                 <Picker
                     style={defaultStyles.headlessAndroidPicker}
-                    testID="RNPickerSelectAndroid"
+                    testID="RNPickerSelectAndroidHeadless"
                     enabled={!disabled}
                     onValueChange={this.onValueChange}
                     selectedValue={this.state.selectedItem.value}
