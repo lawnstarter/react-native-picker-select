@@ -14,8 +14,6 @@ import {
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 
-const isIOS = Platform.OS === 'ios';
-
 export default class RNPickerSelect extends PureComponent {
     static propTypes = {
         onValueChange: PropTypes.func.isRequired,
@@ -308,7 +306,8 @@ export default class RNPickerSelect extends PureComponent {
 
     renderTextInputOrChildren() {
         const { children, hideIcon, style, textInputProps } = this.props;
-        const containerStyle = isIOS ? style.inputIOSContainer : style.inputAndroidContainer;
+        const containerStyle =
+            Platform.OS === 'ios' ? style.inputIOSContainer : style.inputAndroidContainer;
 
         if (children) {
             return (
@@ -322,7 +321,7 @@ export default class RNPickerSelect extends PureComponent {
                 <TextInput
                     style={[
                         !hideIcon ? { paddingRight: 30 } : {},
-                        isIOS ? style.inputIOS : style.inputAndroid,
+                        Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
                         this.getPlaceholderStyle(),
                     ]}
                     value={this.state.selectedItem.label}
@@ -441,7 +440,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     render() {
-        return isIOS ? this.renderIOS() : this.renderAndroid();
+        return Platform.OS === 'ios' ? this.renderIOS() : this.renderAndroid();
     }
 }
 
