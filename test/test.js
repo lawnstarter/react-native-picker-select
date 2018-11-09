@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import RNPickerSelect from '../src/';
 
 const selectItems = [
@@ -228,6 +228,18 @@ describe('RNPickerSelect', () => {
             .props()
             .onValueChange('orange', 2);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
+    });
+
+    it('should render the headless component when children are passed in (Android)', () => {
+        Platform.OS = 'android';
+        const wrapper = shallow(
+            <RNPickerSelect items={selectItems} onValueChange={() => {}}>
+                <View />
+            </RNPickerSelect>
+        );
+
+        const component = wrapper.find('[testID="RNPickerSelectAndroidHeadless"]');
+        expect(component).toHaveLength(1);
     });
 
     it('should call the onDonePress callback when set (iOS)', () => {

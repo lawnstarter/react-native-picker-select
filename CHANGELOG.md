@@ -1,3 +1,13 @@
+### v5.1.0
+
+##### New
+
+-   Added `useNativeAndroidPickerStyle` prop. See README for more details.
+
+##### Bugfix
+
+-   Fixed Android headless mode showing selected value outside of View (#83)
+
 ### v5.0.1
 
 ##### Bugfix

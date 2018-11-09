@@ -18,6 +18,7 @@ declare module 'react-native-picker-select' {
         children?: any;
         hideIcon?: boolean;
         placeholderTextColor?: string;
+        useNativeAndroidPickerStyle?: boolean;
         hideDoneBar?: boolean;
         doneText?: string;
         onDonePress?: () => void;
