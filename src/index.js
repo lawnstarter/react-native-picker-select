@@ -162,7 +162,7 @@ export default class RNPickerSelect extends PureComponent {
             !isEqual(this.props.placeholder, {}) &&
             this.state.selectedItem.label === this.props.placeholder.label
         ) {
-            return { color: this.props.style.placeholderColor || '#C7C7CD' };
+            return { color: this.props.placeholderTextColor || '#C7C7CD' };
         }
         return {};
     }
