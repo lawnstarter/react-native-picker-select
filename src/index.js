@@ -207,12 +207,12 @@ export default class RNPickerSelect extends PureComponent {
     togglePicker(animate = false) {
         const { modalProps, disabled, onPress } = this.props;
 
-        if (onPress) {
-            onPress();
-        }
-
         if (disabled) {
             return;
+        }
+
+        if (onPress) {
+            onPress();
         }
 
         const animationType =
