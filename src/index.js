@@ -243,7 +243,7 @@ export default class RNPickerSelect extends PureComponent {
 
         return (
             <View style={[defaultStyles.modalViewMiddle, style.modalViewMiddle]} testID="done_bar">
-                <View style={defaultStyles.chevronContainer}>
+                <View style={[defaultStyles.chevronContainer, style.chevronContainer]}>
                     <TouchableOpacity
                         activeOpacity={onUpArrow ? 0.5 : 1}
                         onPress={onUpArrow ? this.onUpArrow : null}
