@@ -128,6 +128,8 @@ export default class App extends React.Component {
                     ref={(el) => {
                         this.inputRefs.picker2 = el;
                     }}
+                    setFirstItemAsDefault
+                    onListPopulated={() => console.log('list was populated for the first time.')}
                 />
 
                 <View style={{ paddingVertical: 5 }} />
