@@ -30,4 +30,4 @@ If applicable, add screenshots to help explain your problem.
 -   react version: [e.g. 16.3]
 
 **Reproduction and/or code sample**
-If possible, please provide a link to a reproduction of this issue on https://snack.expo.io and/or a code sample showing your implementation of the library
+Provide a link to a reproduction of this issue on https://snack.expo.io or a good explanation on why you can not. Not including a link will result in a significant delay in our ability to address this issue.
