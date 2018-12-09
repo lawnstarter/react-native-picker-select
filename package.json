@@ -1,6 +1,6 @@
 {
     "name": "react-native-picker-select",
-    "version": "5.1.0",
+    "version": "5.1.1",
     "description": "A Picker component for React Native which emulates the native <select> interfaces for each platform",
     "license": "MIT",
     "author": "Michael Lefkowitz <lefkowitz.michael@gmail.com>",
@@ -29,21 +29,21 @@
         "lodash.isequal": "^4.5.0"
     },
     "devDependencies": {
-        "babel-jest": "^23.4.0",
-        "babel-preset-react-native": "^4.0.0",
-        "enzyme": "^3.3.0",
-        "enzyme-adapter-react-16": "^1.1.1",
-        "enzyme-to-json": "^3.3.4",
-        "eslint-config-ls-react": "https://github.com/lawnstarter/eslint-config-ls-react#2.0.1",
+        "babel-jest": "^23.6.0",
+        "babel-preset-react-native": "^4.0.1",
+        "enzyme": "^3.7.0",
+        "enzyme-adapter-react-16": "^1.7.0",
+        "enzyme-to-json": "^3.3.5",
+        "eslint-config-ls-react": "https://github.com/lawnstarter/eslint-config-ls-react#2.0.3",
         "husky": "^0.14.3",
-        "jest": "^23.4.1",
-        "prettier": "^1.13.7",
-        "pretty-quick": "^1.6.0",
+        "jest": "^23.6.0",
+        "prettier": "^1.15.3",
+        "pretty-quick": "^1.8.0",
         "prop-types": "^15.6.2",
-        "react": "16.4.1",
-        "react-dom": "^16.4.1",
-        "react-native": "0.55.4",
-        "react-test-renderer": "^16.4.1"
+        "react": "16.6.1",
+        "react-dom": "^16.6.1",
+        "react-native": "0.57.7",
+        "react-test-renderer": "^16.6.1"
     },
     "scripts": {
         "test": "jest",

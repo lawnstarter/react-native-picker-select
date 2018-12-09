@@ -1,6 +1,7 @@
 import React from 'react';
 import { Alert, Text, TextInput, StyleSheet, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+// import RNPickerSelect from './debug'
 
 export default class App extends React.Component {
     constructor(props) {
@@ -56,7 +57,7 @@ export default class App extends React.Component {
             this.setState({
                 items: this.state.items.concat([{ value: 'purple', label: 'Purple' }]),
             });
-        }, 2000);
+        }, 2500);
     }
 
     render() {
@@ -83,6 +84,7 @@ export default class App extends React.Component {
                     placeholder={{
                         label: 'Select a color...',
                         value: null,
+                        color: '#9EA0A4',
                     }}
                     items={this.state.items}
                     onValueChange={(value) => {
@@ -110,6 +112,7 @@ export default class App extends React.Component {
                     placeholder={{
                         label: 'Select a sport...',
                         value: null,
+                        color: '#9EA0A4',
                     }}
                     items={this.state.items2}
                     onValueChange={(value) => {
@@ -128,6 +131,7 @@ export default class App extends React.Component {
                     ref={(el) => {
                         this.inputRefs.picker2 = el;
                     }}
+                    useNativeAndroidPickerStyle={false}
                 />
 
                 <View style={{ paddingVertical: 5 }} />
@@ -160,6 +164,17 @@ const styles = StyleSheet.create({
 
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
+        fontSize: 16,
+        paddingTop: 13,
+        paddingHorizontal: 10,
+        paddingBottom: 12,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 4,
+        backgroundColor: 'white',
+        color: 'black',
+    },
+    inputAndroid: {
         fontSize: 16,
         paddingTop: 13,
         paddingHorizontal: 10,

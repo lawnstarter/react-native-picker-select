@@ -13,7 +13,7 @@ For Android, we are using the native Picker component, but adding a pseudo-under
 
 For either platform, you can alternatively pass down a child element that will be wrapped in a touchable area, triggering the picker.
 
-![iOS Example](./example/ios-example.gif) ![Android Example](./example/android-example.png)
+![iOS Example](./example/ios-example.gif) ![Android Example](./example/android-example.gif)
 
 [Examples](https://github.com/lawnstarter/react-native-picker-select/tree/master/example)
 
