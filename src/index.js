@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     View,
+    Keyboard,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
@@ -341,6 +342,7 @@ export default class RNPickerSelect extends PureComponent {
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <TouchableWithoutFeedback
                     onPress={() => {
+                        Keyboard.dismiss();
                         this.togglePicker(true);
                     }}
                 >
