@@ -299,4 +299,35 @@ describe('RNPickerSelect', () => {
             .onDismiss();
         expect(onDismissSpy).toHaveBeenCalledWith();
     });
+
+    it('should call the onOpen callback when set', () => {
+        const onOpenSpy = jest.fn();
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                onValueChange={() => {}}
+                onOpen={onOpenSpy}
+            />
+        );
+        
+        expect(onOpenSpy).toHaveBeenCalledWith();
+    });
+
+    it('should call the onClose callback when set', () => {
+        const onCloseSpy = jest.fn();
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                onValueChange={() => {}}
+                onClose={onCloseSpy}
+            />
+        );
+        
+        wrapper
+            .find('[testID="RNPickerSelectModal"]')
+            .props()
+            .onDismiss();
+
+        expect(onCloseSpy).toHaveBeenCalledWith();
+    });
 });
