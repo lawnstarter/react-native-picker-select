@@ -229,7 +229,6 @@ export default class RNPickerSelect extends PureComponent {
         this.setState({
             animationType: animate ? animationType : undefined,
             showPicker: !this.state.showPicker,
-            active: !active,
         });
 
         if (!this.state.showPicker && this.inputRef) {
