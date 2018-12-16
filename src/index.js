@@ -208,23 +208,29 @@ export default class RNPickerSelect extends PureComponent {
         return {};
     }
 
+    triggerOpenCloseCallbacks() {
+        const { onOpen, onClose } = this.props;
+
+        if (!this.state.showPicker && onOpen) {
+            onOpen();
+        }
+
+        if (this.state.showPicker && onClose) {
+            onClose();
+        }
+    }
+
     togglePicker(animate = false) {
-        const { modalProps, disabled, onOpen, onClose } = this.props;
+        const { modalProps, disabled } = this.props;
 
         if (disabled) {
             return;
         }
-        
-        if (!this.state.showPicker && onOpen) {
-            onOpen()
-        }
-        
-        if (this.state.showPicker && onClose) {
-            onClose()
-        }
 
         const animationType =
             modalProps && modalProps.animationType ? modalProps.animationType : 'slide';
+
+        this.triggerOpenCloseCallbacks();
 
         this.setState({
             animationType: animate ? animationType : undefined,
