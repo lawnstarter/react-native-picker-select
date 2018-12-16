@@ -55,6 +55,12 @@ export default class RNPickerSelect extends PureComponent {
 
         // Picker props
         pickerProps: PropTypes.shape({}),
+
+        // onOpen picker function
+        onOpen: PropTypes.func,
+
+        // onClose picker function
+        onClose: PropTypes.func,
     };
 
     static defaultProps = {
@@ -79,6 +85,8 @@ export default class RNPickerSelect extends PureComponent {
         modalProps: {},
         textInputProps: {},
         pickerProps: {},
+        onOpen: null,
+        onClose: null,
     };
 
     static handlePlaceholder({ placeholder }) {
@@ -201,10 +209,18 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     togglePicker(animate = false) {
-        const { modalProps, disabled } = this.props;
+        const { modalProps, disabled, onOpen, onClose } = this.props;
 
         if (disabled) {
             return;
+        }
+        
+        if (!this.state.showPicker && onOpen) {
+            onOpen()
+        }
+        
+        if (this.state.showPicker && onClose) {
+            onClose()
         }
 
         const animationType =
@@ -213,6 +229,7 @@ export default class RNPickerSelect extends PureComponent {
         this.setState({
             animationType: animate ? animationType : undefined,
             showPicker: !this.state.showPicker,
+            active: !active,
         });
 
         if (!this.state.showPicker && this.inputRef) {
