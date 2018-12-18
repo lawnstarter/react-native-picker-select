@@ -46,6 +46,8 @@ export default class RNPickerSelect extends PureComponent {
         onDonePress: PropTypes.func,
         onUpArrow: PropTypes.func,
         onDownArrow: PropTypes.func,
+        onOpen: PropTypes.func,
+        onClose: PropTypes.func,
 
         // Modal props (iOS only)
         modalProps: PropTypes.shape({}),
@@ -55,12 +57,6 @@ export default class RNPickerSelect extends PureComponent {
 
         // Picker props
         pickerProps: PropTypes.shape({}),
-
-        // onOpen picker function
-        onOpen: PropTypes.func,
-
-        // onClose picker function
-        onClose: PropTypes.func,
     };
 
     static defaultProps = {
@@ -82,11 +78,11 @@ export default class RNPickerSelect extends PureComponent {
         onDonePress: null,
         onUpArrow: null,
         onDownArrow: null,
+        onOpen: null,
+        onClose: null,
         modalProps: {},
         textInputProps: {},
         pickerProps: {},
-        onOpen: null,
-        onClose: null,
     };
 
     static handlePlaceholder({ placeholder }) {
