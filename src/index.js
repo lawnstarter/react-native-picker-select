@@ -447,6 +447,7 @@ export default class RNPickerSelect extends PureComponent {
 const defaultStyles = StyleSheet.create({
     viewContainer: {
         alignSelf: 'stretch',
+        position: 'relative',
     },
     chevronContainer: {
         flex: 1,
@@ -517,8 +518,9 @@ const defaultStyles = StyleSheet.create({
     headlessAndroidPicker: {
         position: 'absolute',
         top: 0,
-        width: 1000,
-        height: 1000,
+        left: 0,
+        width: '100%',
+        height: '100%',
         color: 'transparent',
     },
 });
