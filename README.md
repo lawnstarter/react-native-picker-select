@@ -13,7 +13,7 @@ For Android, we are using the native Picker component, but adding a pseudo-under
 
 For either platform, you can alternatively pass down a child element that will be wrapped in a touchable area, triggering the picker.
 
-![iOS Example](./example/ios-example.gif) ![Android Example](./example/android-example.png)
+![iOS Example](./example/ios-example.gif) ![Android Example](./example/android-example.gif)
 
 [Examples](https://github.com/lawnstarter/react-native-picker-select/tree/master/example)
 
@@ -50,6 +50,7 @@ For either platform, you can alternatively pass down a child element that will b
 | hideDoneBar                 | boolean        | Hides the bar with tabbing arrows and Done link to exit the modal. While this is typical on `select` elements on the web, the [interface guidelines](https://developer.apple.com/ios/human-interface-guidelines/controls/pickers/) does not include it.                                                                                  | N         | iOS           |
 | onUpArrow / onDownArrow     | function       | Presence enables the corresponding arrow<br>- Closes the picker<br>- Calls the callback provided                                                                                                                                                                                                                                         | N         | iOS           |
 | onDonePress                 | function       | Callback when the 'Done' button is pressed                                                                                                                                                                                                                                                                                               | N         | iOS           |
+| onOpen / onClose            | function       | Callback triggered right before the opening or closing of the picker                                                                                                                                                                                                                                                                     | N         | iOS           |
 | modalProps                  | object         | Additional props to pass to the Modal (some props are used in core functionality so use this carefully)                                                                                                                                                                                                                                  | N         | iOS           |
 | textInputProps              | object         | Additional props to pass to the TextInput (some props are used in core functionality so use this carefully)                                                                                                                                                                                                                              | N         | iOS           |
 
