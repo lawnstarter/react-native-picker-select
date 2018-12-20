@@ -27,6 +27,8 @@ declare module 'react-native-picker-select' {
         modalProps?: object;
         textInputProps?: object;
         pickerProps?: object;
+        onOpen?: () => void;
+        onClose?: () => void;
     }
     class Picker extends React.Component<PickerProps> {}
     export default Picker;
