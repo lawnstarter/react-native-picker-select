@@ -1,3 +1,9 @@
+### v5.1.1
+
+##### New
+
+-   Opened up headlessAndroidPicker and chevronContainer on style object for modification
+
 ### v5.1.0
 
 ##### New
