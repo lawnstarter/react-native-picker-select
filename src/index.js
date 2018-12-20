@@ -46,6 +46,8 @@ export default class RNPickerSelect extends PureComponent {
         onDonePress: PropTypes.func,
         onUpArrow: PropTypes.func,
         onDownArrow: PropTypes.func,
+        onOpen: PropTypes.func,
+        onClose: PropTypes.func,
 
         // Modal props (iOS only)
         modalProps: PropTypes.shape({}),
@@ -76,6 +78,8 @@ export default class RNPickerSelect extends PureComponent {
         onDonePress: null,
         onUpArrow: null,
         onDownArrow: null,
+        onOpen: null,
+        onClose: null,
         modalProps: {},
         textInputProps: {},
         pickerProps: {},
@@ -200,6 +204,18 @@ export default class RNPickerSelect extends PureComponent {
         return {};
     }
 
+    triggerOpenCloseCallbacks() {
+        const { onOpen, onClose } = this.props;
+
+        if (!this.state.showPicker && onOpen) {
+            onOpen();
+        }
+
+        if (this.state.showPicker && onClose) {
+            onClose();
+        }
+    }
+
     togglePicker(animate = false) {
         const { modalProps, disabled } = this.props;
 
@@ -209,6 +225,8 @@ export default class RNPickerSelect extends PureComponent {
 
         const animationType =
             modalProps && modalProps.animationType ? modalProps.animationType : 'slide';
+
+        this.triggerOpenCloseCallbacks();
 
         this.setState({
             animationType: animate ? animationType : undefined,
