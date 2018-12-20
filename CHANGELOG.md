@@ -1,3 +1,9 @@
+### v5.2.0
+
+##### New
+
+-   Added `onOpen` and `onClose` callbacks (iOS only)
+
 ### v5.1.1
 
 ##### New
