@@ -299,4 +299,31 @@ describe('RNPickerSelect', () => {
             .onDismiss();
         expect(onDismissSpy).toHaveBeenCalledWith();
     });
+
+    it('should call the onOpen callback when set', () => {
+        const onOpenSpy = jest.fn();
+        const wrapper = shallow(
+            <RNPickerSelect items={selectItems} onValueChange={() => {}} onOpen={onOpenSpy} />
+        );
+
+        const touchable = wrapper.find('TouchableWithoutFeedback').at(1);
+        touchable.simulate('press');
+
+        expect(onOpenSpy).toHaveBeenCalledWith();
+    });
+
+    it('should call the onClose callback when set', () => {
+        const onCloseSpy = jest.fn();
+        const wrapper = shallow(
+            <RNPickerSelect items={selectItems} onValueChange={() => {}} onClose={onCloseSpy} />
+        );
+
+        const touchable = wrapper.find('TouchableWithoutFeedback').at(1);
+        // Open
+        touchable.simulate('press');
+        // Close
+        touchable.simulate('press');
+
+        expect(onCloseSpy).toHaveBeenCalledWith();
+    });
 });
