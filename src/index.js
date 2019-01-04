@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import {
     ColorPropType,
+    Keyboard,
     Modal,
     Picker,
     Platform,
@@ -10,7 +11,6 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     View,
-    Keyboard,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
@@ -363,6 +363,7 @@ export default class RNPickerSelect extends PureComponent {
                         Keyboard.dismiss();
                         this.togglePicker(true);
                     }}
+                    testID="ios_touchable_wrapper"
                 >
                     {this.renderTextInputOrChildren()}
                 </TouchableWithoutFeedback>
