@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import {
     ColorPropType,
+    Keyboard,
     Modal,
     Picker,
     Platform,
@@ -363,8 +364,10 @@ export default class RNPickerSelect extends PureComponent {
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <TouchableWithoutFeedback
                     onPress={() => {
+                        Keyboard.dismiss();
                         this.togglePicker(true);
                     }}
+                    testID="ios_touchable_wrapper"
                 >
                     {this.renderTextInputOrChildren()}
                 </TouchableWithoutFeedback>
