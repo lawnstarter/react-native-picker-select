@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, Keyboard, View } from 'react-native';
 import RNPickerSelect from '../src/';
 
 const selectItems = [
@@ -35,6 +35,12 @@ const placeholder = {
 };
 
 describe('RNPickerSelect', () => {
+    beforeEach(() => {
+        // jest.useFakeTimers();
+        jest.resetAllMocks();
+        jest.spyOn(Keyboard, 'dismiss');
+    });
+
     describe('when provided an itemKey prop', () => {
         it('sets the selected item via key rather than value', () => {
             const items = [
@@ -200,6 +206,15 @@ describe('RNPickerSelect', () => {
         expect(wrapper.find('[testID="icon_ios"]')).toHaveLength(0);
     });
 
+    it('should call Keyboard.dismiss when opened', () => {
+        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={() => {}} />);
+
+        const touchable = wrapper.find('[testID="ios_touchable_wrapper"]');
+        touchable.simulate('press');
+
+        expect(Keyboard.dismiss).toHaveBeenCalledTimes(1);
+    });
+
     it("should reset to the first item (typically the placeholder) if a value is passed in that doesn't exist in the `items` array", () => {
         const wrapper = shallow(
             <RNPickerSelect
@@ -306,7 +321,7 @@ describe('RNPickerSelect', () => {
             <RNPickerSelect items={selectItems} onValueChange={() => {}} onOpen={onOpenSpy} />
         );
 
-        const touchable = wrapper.find('TouchableWithoutFeedback').at(1);
+        const touchable = wrapper.find('[testID="done_button"]');
         touchable.simulate('press');
 
         expect(onOpenSpy).toHaveBeenCalledWith();
@@ -318,7 +333,7 @@ describe('RNPickerSelect', () => {
             <RNPickerSelect items={selectItems} onValueChange={() => {}} onClose={onCloseSpy} />
         );
 
-        const touchable = wrapper.find('TouchableWithoutFeedback').at(1);
+        const touchable = wrapper.find('[testID="done_button"]');
         // Open
         touchable.simulate('press');
         // Close
