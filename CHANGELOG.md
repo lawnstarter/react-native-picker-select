@@ -1,3 +1,9 @@
+### v5.2.1
+
+##### Bugfix
+
+-   Fixes keyboard not dismissing on iOS
+
 ### v5.2.0
 
 ##### New
