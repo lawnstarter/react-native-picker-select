@@ -116,16 +116,18 @@ export default class RNPickerSelect extends PureComponent {
         const newItems = RNPickerSelect.handlePlaceholder({
             placeholder: nextProps.placeholder,
         }).concat(nextProps.items);
+
         const { selectedItem, idx } = RNPickerSelect.getSelectedItem({
             items: newItems,
             key: nextProps.itemKey,
             value: nextProps.value,
         });
+
         const selectedItemChanged =
             !isEqual(nextProps.value, undefined) && !isEqual(prevState.selectedItem, selectedItem);
 
         if (itemsChanged || selectedItemChanged) {
-            if (selectedItemChanged) {
+            if (selectedItemChanged && nextProps.onValueChangeCBOnValueChange) {
                 nextProps.onValueChange(selectedItem.value, idx);
             }
             return {
@@ -180,14 +182,17 @@ export default class RNPickerSelect extends PureComponent {
         setTimeout(onDownArrow);
     }
 
-    onValueChange(value, index) {
-        const { onValueChange } = this.props;
+    onValueChange(val, idx) {
+        const { onValueChange, value } = this.props;
 
-        onValueChange(value, index);
+        onValueChange(val, idx);
 
-        this.setState({
-            selectedItem: this.state.items[index],
-        });
+        // if value prop is not used, maintain selectedItem internally
+        if (isEqual(value, undefined)) {
+            this.setState({
+                selectedItem: this.state.items[idx],
+            });
+        }
     }
 
     setInputRef(ref) {
