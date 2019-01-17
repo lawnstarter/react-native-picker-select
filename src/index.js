@@ -110,14 +110,15 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        // update items if items prop changes
-        const itemsChanged = !isEqual(prevState.items, nextProps.items);
-        // update selectedItem if value prop is defined and differs from currently selected item
-        const newItems = RNPickerSelect.handlePlaceholder({
+        // update items if items or placeholder prop changes
+        const items = RNPickerSelect.handlePlaceholder({
             placeholder: nextProps.placeholder,
         }).concat(nextProps.items);
+        const itemsChanged = !isEqual(prevState.items, items);
+
+        // update selectedItem if value prop is defined and differs from currently selected item
         const { selectedItem, idx } = RNPickerSelect.getSelectedItem({
-            items: newItems,
+            items,
             key: nextProps.itemKey,
             value: nextProps.value,
         });
@@ -128,9 +129,10 @@ export default class RNPickerSelect extends PureComponent {
             if (selectedItemChanged) {
                 nextProps.onValueChange(selectedItem.value, idx);
             }
+
             return {
-                items: itemsChanged ? newItems : prevState.items,
-                selectedItem: selectedItemChanged ? selectedItem : prevState.selectedItem,
+                ...(itemsChanged && { items }),
+                ...(selectedItemChanged && { selectedItem }),
             };
         }
 
