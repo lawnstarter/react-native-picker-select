@@ -2,7 +2,7 @@
 
 ##### Bugfix
 
--   Fixes unecessary renders (#129)
+-   Fixes unnecessary renders (#129)
 
 ### v5.2.1
 
