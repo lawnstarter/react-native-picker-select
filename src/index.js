@@ -114,7 +114,7 @@ export default class RNPickerSelect extends PureComponent {
         const newItems = RNPickerSelect.handlePlaceholder({
             placeholder: nextProps.placeholder,
         }).concat(nextProps.items);
-        const itemsChanged = !isEqual(newItems, prevState.items);
+        const itemsChanged = !isEqual(prevState.items, newItems);
 
         // update selectedItem if value prop is defined and differs from currently selected item
         const { selectedItem, idx } = RNPickerSelect.getSelectedItem({
