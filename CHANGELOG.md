@@ -1,3 +1,9 @@
+### v5.2.2
+
+##### Bugfix
+
+-   Fixes unnecessary renders (#129)
+
 ### v5.2.1
 
 ##### Bugfix
