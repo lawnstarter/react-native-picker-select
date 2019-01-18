@@ -29,6 +29,8 @@ const selectItems = [
     },
 ];
 
+const violet = { label: 'Violet', value: 'violet' };
+
 const placeholder = {
     label: 'Select a color...',
     value: null,
@@ -184,7 +186,7 @@ describe('RNPickerSelect', () => {
 
         expect(wrapper.state().items).toEqual([placeholder].concat(selectItems));
 
-        const selectItemsPlusViolet = selectItems.concat([{ label: 'Violet', value: 'violet' }]);
+        const selectItemsPlusViolet = selectItems.concat([violet]);
 
         wrapper.setProps({ items: selectItemsPlusViolet });
         expect(wrapper.state().items).toEqual([placeholder].concat(selectItemsPlusViolet));
@@ -204,7 +206,6 @@ describe('RNPickerSelect', () => {
         );
 
         expect(wrapper.find('[testID="icon_ios"]')).toHaveLength(0);
-        expect(wrapper.find('[testID="custom_icon_ios"]')).toHaveLength(0);
     });
 
     it('should call Keyboard.dismiss when opened', () => {
@@ -343,105 +344,75 @@ describe('RNPickerSelect', () => {
         expect(onCloseSpy).toHaveBeenCalledWith();
     });
 
-    describe('Custom Icon', () => {
-        const defaultIconStyle = {
-            position: 'absolute',
-            backgroundColor: 'transparent',
-            borderTopWidth: 10,
-            borderTopColor: 'gray',
-            borderRightWidth: 10,
-            borderRightColor: 'transparent',
-            borderLeftWidth: 10,
-            borderLeftColor: 'transparent',
-            width: 0,
-            height: 0,
-            top: 20,
-            right: 10,
-        };
-
-        it('sets style props when icon present', () => {
-            const customIconStyle = { backgroundColor: 'black', top: 9 };
-            const CustomIcon = (props) => {
-                return <View {...props} />;
+    describe('getDerivedStateFromProps', () => {
+        it('should return null when nothing changes', () => {
+            const nextProps = {
+                placeholder,
+                value: selectItems[0].value,
+                onValueChange() {},
+                items: selectItems,
             };
-            const wrapper = shallow(
-                <RNPickerSelect
-                    items={selectItems}
-                    placeholder={placeholder}
-                    style={{
-                        icon: customIconStyle,
-                    }}
-                    value={null}
-                    onValueChange={() => {}}
-                    Icon={CustomIcon}
-                />
-            );
-
-            const customStyle = wrapper.find('[testID="custom_icon"]').props().style;
-            expect(customStyle).toEqual(customIconStyle);
-        });
-
-        it('sets normal ios icon', () => {
-            const customIconStyle = { backgroundColor: 'red', top: 9 };
-            const wrapper = shallow(
-                <RNPickerSelect
-                    items={selectItems}
-                    placeholder={placeholder}
-                    style={{
-                        icon: customIconStyle,
-                    }}
-                    value={null}
-                    onValueChange={() => {}}
-                />
-            );
-
-            const [defaultStyle, customStyle] = wrapper.find('[testID="icon"]').props().style;
-            expect(defaultStyle).toEqual(defaultIconStyle);
-            expect(customStyle).toEqual(customIconStyle);
-        });
-
-        it('sets style prop when icon present', () => {
-            Platform.OS = 'android';
-            const customIconStyle = { backgroundColor: 'black', top: 9 };
-            const CustomIcon = (props) => {
-                return <View {...props} />;
+            const prevState = {
+                items: [placeholder].concat(selectItems),
+                selectedItem: selectItems[0],
             };
-            const wrapper = shallow(
-                <RNPickerSelect
-                    items={selectItems}
-                    placeholder={placeholder}
-                    style={{
-                        icon: customIconStyle,
-                    }}
-                    value={null}
-                    onValueChange={() => {}}
-                    Icon={CustomIcon}
-                />
-            );
 
-            const customStyle = wrapper.find('[testID="custom_icon"]').props().style;
-            expect(customStyle).toEqual(customIconStyle);
-            Platform.OS = 'ios';
+            expect(RNPickerSelect.getDerivedStateFromProps(nextProps, prevState)).toEqual(null);
         });
 
-        it('does not set normal icon when android', () => {
-            Platform.OS = 'android';
-            const customIconStyle = { backgroundColor: 'red', top: 9 };
-            const wrapper = shallow(
-                <RNPickerSelect
-                    items={selectItems}
-                    placeholder={placeholder}
-                    style={{
-                        icon: customIconStyle,
-                    }}
-                    value={null}
-                    onValueChange={() => {}}
-                />
-            );
+        it('should return a new items state when the items change', () => {
+            const nextProps = {
+                placeholder,
+                value: selectItems[0].value,
+                onValueChange() {},
+                items: selectItems.concat([violet]),
+            };
+            const prevState = {
+                items: [placeholder].concat(selectItems),
+                selectedItem: selectItems[0],
+            };
 
-            expect(wrapper.find('[testID="icon"]')).toHaveLength(0);
-            expect(wrapper.find('[testID="custom_icon"]')).toHaveLength(0);
-            Platform.OS = 'ios';
+            expect(RNPickerSelect.getDerivedStateFromProps(nextProps, prevState)).toEqual({
+                items: [placeholder].concat(selectItems).concat([violet]),
+            });
+        });
+
+        it('should return a new items state when the placeholder changes', () => {
+            const newPlaceholder = {
+                label: 'Select a thing...',
+                value: null,
+            };
+            const nextProps = {
+                placeholder: newPlaceholder,
+                value: selectItems[0].value,
+                onValueChange() {},
+                items: selectItems,
+            };
+            const prevState = {
+                items: [placeholder].concat(selectItems),
+                selectedItem: selectItems[0],
+            };
+
+            expect(RNPickerSelect.getDerivedStateFromProps(nextProps, prevState)).toEqual({
+                items: [newPlaceholder].concat(selectItems),
+            });
+        });
+
+        it('should return a new selectedItem state when the value changes', () => {
+            const nextProps = {
+                placeholder,
+                value: selectItems[1].value,
+                onValueChange() {},
+                items: selectItems,
+            };
+            const prevState = {
+                items: [placeholder].concat(selectItems),
+                selectedItem: selectItems[0],
+            };
+
+            expect(RNPickerSelect.getDerivedStateFromProps(nextProps, prevState)).toEqual({
+                selectedItem: selectItems[1],
+            });
         });
     });
 });
