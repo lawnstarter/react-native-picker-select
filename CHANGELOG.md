@@ -1,3 +1,9 @@
+### v5.2.3
+
+##### Bugfix
+
+-   Fixes Android headless mode trigger area (#122)
+
 ### v5.2.2
 
 ##### Bugfix
