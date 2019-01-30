@@ -1,3 +1,9 @@
+### v5.2.4
+
+##### Bugfix
+
+-   Fix TypeError (#139)
+
 ### v5.2.3
 
 ##### Bugfix
