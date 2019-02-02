@@ -346,6 +346,7 @@ export default class RNPickerSelect extends PureComponent {
                 </View>
             );
         }
+
         return (
             <View pointerEvents="box-only" style={containerStyle}>
                 <TextInput
@@ -499,6 +500,7 @@ const defaultStyles = StyleSheet.create({
     },
     iconContainer: {
         position: 'absolute',
+        right: 0,
     },
     modalViewTop: {
         flex: 1,
