@@ -1,3 +1,21 @@
+### v5.2.4
+
+##### Bugfix
+
+-   Fix TypeError (#139)
+
+### v5.2.3
+
+##### Bugfix
+
+-   Fixes Android headless mode trigger area (#122)
+
+### v5.2.2
+
+##### Bugfix
+
+-   Fixes unnecessary renders (#129)
+
 ### v5.2.1
 
 ##### Bugfix

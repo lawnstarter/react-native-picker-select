@@ -133,8 +133,8 @@ export default class RNPickerSelect extends PureComponent {
             }
 
             return {
-                ...(itemsChanged && { items }),
-                ...(selectedItemChanged && { selectedItem }),
+                ...(itemsChanged ? { items } : {}),
+                ...(selectedItemChanged ? { selectedItem } : {}),
             };
         }
 
@@ -453,7 +453,6 @@ export default class RNPickerSelect extends PureComponent {
                     >
                         {this.renderPickerItems()}
                     </Picker>
-                    <View style={[defaultStyles.underline, style.underline]} />
                 </View>
             );
         }
@@ -525,16 +524,13 @@ const defaultStyles = StyleSheet.create({
         padding: 10,
         fontSize: 18,
     },
-    underline: {
-        borderTopWidth: 1,
-        borderTopColor: '#888988',
-        marginHorizontal: 4,
-    },
     headlessAndroidPicker: {
         position: 'absolute',
         top: 0,
-        width: 1000,
-        height: 1000,
+        left: 0,
+        width: '100%',
+        height: '100%',
         color: 'transparent',
+        opacity: 0,
     },
 });
