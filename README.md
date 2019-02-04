@@ -15,7 +15,7 @@ For either platform, you can alternatively pass down a child element of your cho
 
 ![iOS Example](./example/ios-example.gif) ![Android Example](./example/android-example.gif)
 
-[View example on snack.expo.io](https://snack.expo.io/@lfkwtz/react-native-picker-select)
+## [View examples on snack.expo.io](https://snack.expo.io/@lfkwtz/react-native-picker-select)
 
 ## Getting Started
 
@@ -55,7 +55,7 @@ For either platform, you can alternatively pass down a child element of your cho
 
 ### Styling
 
-All properties mentioned below must be nested under the `style` prop
+All properties mentioned below must be nested under the `style` prop. Examples of different styling options can be found [on the example snack](https://snack.expo.io/@lfkwtz/react-native-picker-select).
 
 #### iOS-specific
 
@@ -71,7 +71,9 @@ All properties mentioned below must be nested under the `style` prop
 
 ### Icon
 
--   If a component is passed in via the `Icon` prop - it will be rendered with an absolute position on the right side of the component. You can modify these values and add additional spacing to position the icon as needed by modifying `iconContainer`. You'll probably also want to add some left padding to your input to avoid any text appearing behind the icon.
+-   If a component is passed in via the `Icon` prop - it will be rendered with `{ position: 'absolute', right: 0 }` applied to its wrapping container. You can modify these values and add additional spacing to position the icon as needed by modifying `iconContainer`. You'll probably also want to add some `paddingRight` to your input styling to avoid any longer text appearing behind the icon.
+-   You can pass a component of your choosing (css, image, svg, etc..) for use as the icon. For ease of use, consider a library such as [react-native-shapes](https://github.com/lfkwtz/react-native-shapes) or [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons).
+-   Examples of different icons and their usage can be found [on the example snack](https://snack.expo.io/@lfkwtz/react-native-picker-select).
 
 ## Testing
 
