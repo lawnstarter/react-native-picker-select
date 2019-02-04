@@ -16,7 +16,6 @@ declare module 'react-native-picker-select' {
         itemKey?: string | number;
         style?: object;
         children?: any;
-        hideIcon?: boolean;
         placeholderTextColor?: string;
         useNativeAndroidPickerStyle?: boolean;
         hideDoneBar?: boolean;
