@@ -247,7 +247,7 @@ describe('RNPickerSelect', () => {
         expect(wrapper.state().selectedItem.value).toEqual('orange');
     });
 
-    it('should render the headless component when children are passed in (Android)', () => {
+    it('should render the headless component when a child is passed in (Android)', () => {
         Platform.OS = 'android';
         const wrapper = shallow(
             <RNPickerSelect items={selectItems} onValueChange={() => {}}>

@@ -455,17 +455,17 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     render() {
-        const { useNativeAndroidPickerStyle } = this.props;
+        const { children, useNativeAndroidPickerStyle } = this.props;
 
         if (Platform.OS === 'ios') {
             return this.renderIOS();
         }
 
-        if (useNativeAndroidPickerStyle) {
-            return this.renderAndroidNativePickerStyle();
+        if (children || !useNativeAndroidPickerStyle) {
+            return this.renderAndroidHeadless();
         }
 
-        return this.renderAndroidHeadless();
+        return this.renderAndroidNativePickerStyle();
     }
 }
 
@@ -525,7 +525,7 @@ const defaultStyles = StyleSheet.create({
         fontSize: 18,
     },
     headlessAndroidContainer: {
-        // but don't remember why this was added - may not be needed?
+        // don't remember why this was added - may not be needed?
         borderWidth: 0,
     },
     headlessAndroidPicker: {
