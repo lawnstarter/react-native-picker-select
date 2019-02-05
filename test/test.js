@@ -82,11 +82,11 @@ describe('RNPickerSelect', () => {
         );
 
         wrapper
-            .find('[testID="RNPickerSelectIOS"]')
+            .find('[testID="ios_picker"]')
             .props()
             .onValueChange('orange', 2);
         wrapper
-            .find('[testID="RNPickerSelectIOS"]')
+            .find('[testID="ios_picker"]')
             .props()
             .onValueChange('yellow', 3);
         expect(wrapper.state().selectedItem.value).toEqual('yellow');
@@ -118,7 +118,7 @@ describe('RNPickerSelect', () => {
         );
 
         wrapper
-            .find('[testID="RNPickerSelectIOS"]')
+            .find('[testID="ios_picker"]')
             .props()
             .onValueChange('orange', 2);
         expect(onValueChangeSpy).toHaveBeenCalledWith('orange', 2);
@@ -228,7 +228,7 @@ describe('RNPickerSelect', () => {
         );
 
         wrapper
-            .find('[testID="RNPickerSelectIOS"]')
+            .find('[testID="ios_picker"]')
             .props()
             .onValueChange('orange', 2);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
@@ -241,7 +241,7 @@ describe('RNPickerSelect', () => {
         const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={() => {}} />);
 
         wrapper
-            .find('[testID="RNPickerSelectAndroid"]')
+            .find('[testID="android_picker"]')
             .props()
             .onValueChange('orange', 2);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
@@ -255,7 +255,7 @@ describe('RNPickerSelect', () => {
             </RNPickerSelect>
         );
 
-        const component = wrapper.find('[testID="RNPickerSelectAndroidHeadless"]');
+        const component = wrapper.find('[testID="android_picker_headless"]');
         expect(component).toHaveLength(1);
     });
 
@@ -271,7 +271,7 @@ describe('RNPickerSelect', () => {
         );
 
         wrapper
-            .find('[testID="RNPickerSelectIOS"]')
+            .find('[testID="ios_picker"]')
             .props()
             .onValueChange('orange', 2);
         const touchable = wrapper.find('[testID="done_button"]');
@@ -292,7 +292,7 @@ describe('RNPickerSelect', () => {
             />
         );
         wrapper
-            .find('[testID="RNPickerSelectModal"]')
+            .find('[testID="ios_modal"]')
             .props()
             .onShow();
         expect(onShowSpy).toHaveBeenCalledWith();
@@ -311,7 +311,7 @@ describe('RNPickerSelect', () => {
             />
         );
         wrapper
-            .find('[testID="RNPickerSelectModal"]')
+            .find('[testID="ios_modal"]')
             .props()
             .onDismiss();
         expect(onDismissSpy).toHaveBeenCalledWith();

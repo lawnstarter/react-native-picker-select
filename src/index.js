@@ -335,7 +335,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderTextInputOrChildren() {
-        const { children, style, textInputProps } = this.props;
+        const { children, Icon, style, textInputProps } = this.props;
         const containerStyle =
             Platform.OS === 'ios' ? style.inputIOSContainer : style.inputAndroidContainer;
 
@@ -351,7 +351,7 @@ export default class RNPickerSelect extends PureComponent {
             <View pointerEvents="box-only" style={containerStyle}>
                 <TextInput
                     style={[
-                        // !hideIcon ? { paddingRight: 30 } : {},
+                        Icon ? { paddingRight: 30 } : {}, // sane default to ensure text isn't hidden by the icon
                         Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
                         this.getPlaceholderStyle(),
                     ]}
@@ -380,7 +380,7 @@ export default class RNPickerSelect extends PureComponent {
                     {this.renderTextInputOrChildren()}
                 </TouchableWithoutFeedback>
                 <Modal
-                    testID="RNPickerSelectModal"
+                    testID="ios_modal"
                     visible={this.state.showPicker}
                     transparent
                     animationType={this.state.animationType}
@@ -397,7 +397,7 @@ export default class RNPickerSelect extends PureComponent {
                     {this.renderDoneBar()}
                     <View style={[defaultStyles.modalViewBottom, style.modalViewBottom]}>
                         <Picker
-                            testID="RNPickerSelectIOS"
+                            testID="ios_picker"
                             onValueChange={this.onValueChange}
                             selectedValue={this.state.selectedItem.value}
                             {...pickerProps}
@@ -412,12 +412,13 @@ export default class RNPickerSelect extends PureComponent {
 
     renderAndroidHeadless() {
         const { disabled, style, pickerProps } = this.props;
+
         return (
-            <View style={[{ borderWidth: 0 }, style.headlessAndroidContainer]}>
+            <View style={[defaultStyles.headlessAndroidContainer, style.headlessAndroidContainer]}>
                 {this.renderTextInputOrChildren()}
                 <Picker
                     style={[defaultStyles.headlessAndroidPicker, style.headlessAndroidPicker]}
-                    testID="RNPickerSelectAndroidHeadless"
+                    testID="android_picker_headless"
                     enabled={!disabled}
                     onValueChange={this.onValueChange}
                     selectedValue={this.state.selectedItem.value}
@@ -429,43 +430,42 @@ export default class RNPickerSelect extends PureComponent {
         );
     }
 
-    renderAndroid() {
-        const { children, disabled, style, pickerProps, useNativeAndroidPickerStyle } = this.props;
-
-        if (children) {
-            return this.renderAndroidHeadless();
-        }
-
-        if (useNativeAndroidPickerStyle) {
-            return (
-                <View style={[defaultStyles.viewContainer, style.viewContainer]}>
-                    <Picker
-                        style={[
-                            // { backgroundColor: 'transparent' } to hide native icon
-                            style.inputAndroid,
-                            this.getPlaceholderStyle(),
-                        ]}
-                        testID="RNPickerSelectAndroid"
-                        enabled={!disabled}
-                        onValueChange={this.onValueChange}
-                        selectedValue={this.state.selectedItem.value}
-                        {...pickerProps}
-                    >
-                        {this.renderPickerItems()}
-                    </Picker>
-                </View>
-            );
-        }
+    renderAndroidNativePickerStyle() {
+        const { disabled, Icon, style, pickerProps } = this.props;
 
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
-                {this.renderAndroidHeadless()}
+                <Picker
+                    style={[
+                        Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
+                        style.inputAndroid,
+                        this.getPlaceholderStyle(),
+                    ]}
+                    testID="android_picker"
+                    enabled={!disabled}
+                    onValueChange={this.onValueChange}
+                    selectedValue={this.state.selectedItem.value}
+                    {...pickerProps}
+                >
+                    {this.renderPickerItems()}
+                </Picker>
+                {this.renderIcon()}
             </View>
         );
     }
 
     render() {
-        return Platform.OS === 'ios' ? this.renderIOS() : this.renderAndroid();
+        const { useNativeAndroidPickerStyle } = this.props;
+
+        if (Platform.OS === 'ios') {
+            return this.renderIOS();
+        }
+
+        if (useNativeAndroidPickerStyle) {
+            return this.renderAndroidNativePickerStyle();
+        }
+
+        return this.renderAndroidHeadless();
     }
 }
 
@@ -523,6 +523,10 @@ const defaultStyles = StyleSheet.create({
         fontWeight: 'bold',
         padding: 10,
         fontSize: 18,
+    },
+    headlessAndroidContainer: {
+        // but don't remember why this was added - may not be needed?
+        borderWidth: 0,
     },
     headlessAndroidPicker: {
         position: 'absolute',
