@@ -281,7 +281,6 @@ export default class RNPickerSelect extends PureComponent {
                             ]}
                         />
                     </TouchableOpacity>
-                    <View style={{ marginHorizontal: 10 }} />
                     <TouchableOpacity
                         activeOpacity={onDownArrow ? 0.5 : 1}
                         onPress={onDownArrow ? this.onDownArrow : null}
@@ -306,7 +305,7 @@ export default class RNPickerSelect extends PureComponent {
                             onDonePress();
                         }
                     }}
-                    hitSlop={{ top: 2, right: 2, bottom: 2, left: 2 }}
+                    hitSlop={{ top: 4, right: 4, bottom: 4, left: 4 }}
                     testID="done_button"
                 >
                     <View testID="needed_for_touchable">
@@ -414,7 +413,7 @@ export default class RNPickerSelect extends PureComponent {
         const { disabled, style, pickerProps } = this.props;
 
         return (
-            <View style={[defaultStyles.headlessAndroidContainer, style.headlessAndroidContainer]}>
+            <View style={style.headlessAndroidContainer}>
                 {this.renderTextInputOrChildren()}
                 <Picker
                     style={[defaultStyles.headlessAndroidPicker, style.headlessAndroidPicker]}
@@ -473,65 +472,63 @@ const defaultStyles = StyleSheet.create({
     viewContainer: {
         alignSelf: 'stretch',
     },
-    chevronContainer: {
+    // empty space
+    modalViewTop: {
         flex: 1,
+    },
+    // done bar
+    modalViewMiddle: {
+        height: 44,
+        // zIndex: 2,
         flexDirection: 'row',
-        marginLeft: 15,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        backgroundColor: '#EFF1F2',
+        borderTopWidth: 0.5,
+        borderTopColor: '#919498',
+    },
+    chevronContainer: {
+        flexDirection: 'row',
     },
     chevron: {
         width: 15,
         height: 15,
         backgroundColor: 'transparent',
+        borderColor: '#D0D4DB',
         borderTopWidth: 1.5,
-        borderTopColor: '#D0D4DB',
         borderRightWidth: 1.5,
-        borderRightColor: '#D0D4DB',
     },
     chevronUp: {
-        transform: [{ translateY: 17 }, { rotate: '-45deg' }],
+        marginLeft: 11,
+        transform: [{ translateY: 4 }, { rotate: '-45deg' }],
     },
     chevronDown: {
-        transform: [{ translateY: 8 }, { rotate: '135deg' }],
+        marginLeft: 22,
+        transform: [{ translateY: -5 }, { rotate: '135deg' }],
     },
     chevronActive: {
-        borderTopColor: '#007AFE',
-        borderRightColor: '#007AFE',
+        borderColor: '#007AFE',
     },
-    iconContainer: {
-        position: 'absolute',
-        right: 0,
+    done: {
+        color: '#007AFE',
+        fontWeight: 'bold',
+        fontSize: 15,
+        paddingTop: 1,
+        paddingRight: 2,
     },
-    modalViewTop: {
-        flex: 1,
-    },
-    modalViewMiddle: {
-        height: 44,
-        zIndex: 2,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: '#EFF1F2',
-        borderTopWidth: 0.5,
-        borderTopColor: '#919498',
-    },
+    // Picker
     modalViewBottom: {
         height: 215,
         justifyContent: 'center',
         backgroundColor: '#D0D4DB',
     },
-    done: {
-        color: '#007AFE',
-        fontWeight: 'bold',
-        padding: 10,
-        fontSize: 18,
-    },
-    headlessAndroidContainer: {
-        // don't remember why this was added - may not be needed?
-        borderWidth: 0,
+    iconContainer: {
+        position: 'absolute',
+        right: 0,
     },
     headlessAndroidPicker: {
         position: 'absolute',
-        top: 0,
-        left: 0,
         width: '100%',
         height: '100%',
         color: 'transparent',
