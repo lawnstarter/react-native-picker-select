@@ -1,3 +1,9 @@
+### v5.2.5
+
+##### Bugfix
+
+-   Fix headless Android onValueChange trigger on render (#141)
+
 ### v5.2.4
 
 ##### Bugfix
