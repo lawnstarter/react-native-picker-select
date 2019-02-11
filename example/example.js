@@ -214,8 +214,8 @@ export default class App extends React.Component {
                     style={{
                         ...pickerSelectStyles,
                         iconContainer: {
-                            top: 15,
-                            right: 12,
+                            top: 20,
+                            right: 10,
                         },
                     }}
                     value={this.state.favNumber}
@@ -224,10 +224,15 @@ export default class App extends React.Component {
                         return (
                             <View
                                 style={{
-                                    width: 14,
-                                    height: 14,
-                                    backgroundColor: 'pink',
-                                    transform: [{ rotate: '45deg' }],
+                                    backgroundColor: 'transparent',
+                                    borderTopWidth: 10,
+                                    borderTopColor: 'gray',
+                                    borderRightWidth: 10,
+                                    borderRightColor: 'transparent',
+                                    borderLeftWidth: 10,
+                                    borderLeftColor: 'transparent',
+                                    width: 0,
+                                    height: 0,
                                 }}
                             />
                         );

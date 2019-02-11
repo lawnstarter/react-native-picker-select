@@ -200,12 +200,24 @@ describe('RNPickerSelect', () => {
         expect(wrapper.state().items).toEqual(selectItems);
     });
 
-    it('should should suppress the icon when the hideIcon flag is used', () => {
+    it('should should show the icon container the Icon prop receives a component', () => {
         const wrapper = shallow(
-            <RNPickerSelect items={selectItems} onValueChange={() => {}} hideIcon />
+            <RNPickerSelect
+                items={selectItems}
+                onValueChange={() => {}}
+                Icon={() => {
+                    return <View />;
+                }}
+            />
         );
 
-        expect(wrapper.find('[testID="icon_ios"]')).toHaveLength(0);
+        expect(wrapper.find('[testID="icon_container"]')).toHaveLength(1);
+    });
+
+    it('should should not show the icon container when the Icon prop is empty', () => {
+        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={() => {}} />);
+
+        expect(wrapper.find('[testID="icon_container"]')).toHaveLength(0);
     });
 
     it('should call Keyboard.dismiss when opened', () => {
