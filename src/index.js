@@ -328,13 +328,13 @@ export default class RNPickerSelect extends PureComponent {
                 testID="icon_container"
                 style={[defaultStyles.iconContainer, style.iconContainer]}
             >
-                <Icon testID="icon" pointerEvents="none" />
+                <Icon testID="icon" />
             </View>
         );
     }
 
     renderTextInputOrChildren() {
-        const { children, Icon, style, textInputProps } = this.props;
+        const { children, style, textInputProps } = this.props;
         const containerStyle =
             Platform.OS === 'ios' ? style.inputIOSContainer : style.inputAndroidContainer;
 
@@ -350,7 +350,6 @@ export default class RNPickerSelect extends PureComponent {
             <View pointerEvents="box-only" style={containerStyle}>
                 <TextInput
                     style={[
-                        Icon ? { paddingRight: 30 } : {}, // sane default to ensure text isn't hidden by the icon
                         Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
                         this.getPlaceholderStyle(),
                     ]}
@@ -410,13 +409,17 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroidHeadless() {
-        const { disabled, style, pickerProps } = this.props;
+        const { disabled, Icon, style, pickerProps } = this.props;
 
         return (
             <View style={style.headlessAndroidContainer}>
                 {this.renderTextInputOrChildren()}
                 <Picker
-                    style={[defaultStyles.headlessAndroidPicker, style.headlessAndroidPicker]}
+                    style={[
+                        Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
+                        defaultStyles.headlessAndroidPicker,
+                        style.headlessAndroidPicker,
+                    ]}
                     testID="android_picker_headless"
                     enabled={!disabled}
                     onValueChange={this.onValueChange}
@@ -472,14 +475,15 @@ const defaultStyles = StyleSheet.create({
     viewContainer: {
         alignSelf: 'stretch',
     },
-    // empty space
+    iconContainer: {
+        position: 'absolute',
+        right: 0,
+    },
     modalViewTop: {
         flex: 1,
     },
-    // done bar
     modalViewMiddle: {
         height: 44,
-        // zIndex: 2,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -517,15 +521,10 @@ const defaultStyles = StyleSheet.create({
         paddingTop: 1,
         paddingRight: 2,
     },
-    // Picker
     modalViewBottom: {
         height: 215,
         justifyContent: 'center',
         backgroundColor: '#D0D4DB',
-    },
-    iconContainer: {
-        position: 'absolute',
-        right: 0,
     },
     headlessAndroidPicker: {
         position: 'absolute',

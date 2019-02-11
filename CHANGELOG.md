@@ -5,6 +5,7 @@
 -   In order to make this component less opinionated, especially in terms of style, we have removed the default dropdown arrow icon in leiu of a more flexible `Icon` prop which will render a component - allowing you to insert your own css, image, svg, or icon from any library of your choosing. Due to this change, the `noIcon` prop has been removed. See the styling section in the README for more details.
 -   In Android, we no longer insert a psuedo-underline by default - as the default input style in React Native sets the underline color to transparent since [this PR](https://github.com/facebook/react-native/commit/a3a98eb1c7fa0054a236d45421393874ce8ce558) - which landed in 0.56. You can add this back in fairly easily, either by using the `textInputProps` prop or by adding a border on one of the wrapping container elements - all depending on your personal usage of the component.
 -   Some of the default styles of the iOS "Done bar" have been tweaked and streamlined
+-   if using useNativeAndroidPickerStyle={false}, the outer container is now only `headlessAndroidContainer` without `viewContainer` wrapping it
 
 ---
 
