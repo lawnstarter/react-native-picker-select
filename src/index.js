@@ -388,6 +388,7 @@ export default class RNPickerSelect extends PureComponent {
                 >
                     <TouchableOpacity
                         style={[defaultStyles.modalViewTop, style.modalViewTop]}
+                        testID="ios_modal_top"
                         onPress={() => {
                             this.togglePicker(true);
                         }}

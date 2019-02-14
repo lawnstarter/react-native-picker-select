@@ -356,6 +356,17 @@ describe('RNPickerSelect', () => {
         expect(onCloseSpy).toHaveBeenCalledWith();
     });
 
+    it('should close the modal when the empty area above the picker is tapped', () => {
+        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={() => {}} />);
+
+        jest.spyOn(wrapper.instance(), 'togglePicker');
+
+        const touchable = wrapper.find('[testID="ios_modal_top"]');
+        touchable.simulate('press');
+
+        expect(wrapper.instance().togglePicker).toHaveBeenCalledWith(true);
+    });
+
     describe('getDerivedStateFromProps', () => {
         it('should return null when nothing changes', () => {
             const nextProps = {
