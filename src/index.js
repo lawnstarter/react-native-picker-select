@@ -1,5 +1,6 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import {
+    Animated,
     ColorPropType,
     Keyboard,
     Modal,
@@ -8,6 +9,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableHighlight,
     TouchableOpacity,
     View,
 } from 'react-native';
@@ -47,6 +49,8 @@ export default class RNPickerSelect extends PureComponent {
         onDownArrow: PropTypes.func,
         onOpen: PropTypes.func,
         onClose: PropTypes.func,
+        height: PropTypes.number,
+        duration: PropTypes.number,
 
         // Modal props (iOS only)
         modalProps: PropTypes.shape({}),
@@ -85,16 +89,19 @@ export default class RNPickerSelect extends PureComponent {
         textInputProps: {},
         pickerProps: {},
         Icon: null,
+        // component height: 216(PickerIOS) + 40(done bar), IOS only
+        // slide animation duration time, default to 300ms, IOS only
+        duration: 300,
     };
 
-    static handlePlaceholder({ placeholder }) {
+    static handlePlaceholder({placeholder}) {
         if (isEqual(placeholder, {})) {
             return [];
         }
         return [placeholder];
     }
 
-    static getSelectedItem({ items, key, value }) {
+    static getSelectedItem({items, key, value}) {
         let idx = items.findIndex((item) => {
             if (item.key && key) {
                 return isEqual(item.key, key);
@@ -118,7 +125,7 @@ export default class RNPickerSelect extends PureComponent {
         const itemsChanged = !isEqual(prevState.items, items);
 
         // update selectedItem if value prop is defined and differs from currently selected item
-        const { selectedItem, idx } = RNPickerSelect.getSelectedItem({
+        const {selectedItem, idx} = RNPickerSelect.getSelectedItem({
             items,
             key: nextProps.itemKey,
             value: nextProps.value,
@@ -132,8 +139,8 @@ export default class RNPickerSelect extends PureComponent {
             }
 
             return {
-                ...(itemsChanged ? { items } : {}),
-                ...(selectedItemChanged ? { selectedItem } : {}),
+                ...(itemsChanged ? {items} : {}),
+                ...(selectedItemChanged ? {selectedItem} : {}),
             };
         }
 
@@ -147,7 +154,7 @@ export default class RNPickerSelect extends PureComponent {
             placeholder: this.props.placeholder,
         }).concat(this.props.items);
 
-        const { selectedItem } = RNPickerSelect.getSelectedItem({
+        const {selectedItem} = RNPickerSelect.getSelectedItem({
             items,
             key: this.props.itemKey,
             value: this.props.value,
@@ -157,7 +164,7 @@ export default class RNPickerSelect extends PureComponent {
             items,
             selectedItem,
             showPicker: false,
-            animationType: undefined,
+            animatedHeight: new Animated.Value(0),
         };
 
         this.onUpArrow = this.onUpArrow.bind(this);
@@ -165,26 +172,28 @@ export default class RNPickerSelect extends PureComponent {
         this.onValueChange = this.onValueChange.bind(this);
         this.setInputRef = this.setInputRef.bind(this);
         this.togglePicker = this.togglePicker.bind(this);
+        this.setModalVisible = this.setModalVisible.bind(this);
+        this.calculateHeight = this.calculateHeight.bind(this);
     }
 
     // these timeouts were a hacky first pass at ensuring the callback triggered after the modal animation
     // TODO: find a better approach
     onUpArrow() {
-        const { onUpArrow } = this.props;
+        const {onUpArrow} = this.props;
 
         this.togglePicker();
         setTimeout(onUpArrow);
     }
 
     onDownArrow() {
-        const { onDownArrow } = this.props;
+        const {onDownArrow} = this.props;
 
         this.togglePicker();
         setTimeout(onDownArrow);
     }
 
     onValueChange(value, index) {
-        const { onValueChange } = this.props;
+        const {onValueChange} = this.props;
 
         onValueChange(value, index);
 
@@ -198,7 +207,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     getPlaceholderStyle() {
-        const { placeholder, placeholderTextColor } = this.props;
+        const {placeholder, placeholderTextColor} = this.props;
 
         if (!isEqual(placeholder, {}) && this.state.selectedItem.label === placeholder.label) {
             return {
@@ -209,7 +218,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     triggerOpenCloseCallbacks() {
-        const { onOpen, onClose } = this.props;
+        const {onOpen, onClose} = this.props;
 
         if (!this.state.showPicker && onOpen) {
             onOpen();
@@ -220,27 +229,76 @@ export default class RNPickerSelect extends PureComponent {
         }
     }
 
-    togglePicker(animate = false) {
-        const { modalProps, disabled } = this.props;
+    setModalVisible(visible) {
+        const {height, duration, modalProps, disabled} = this.props;
 
         if (disabled) {
             return;
         }
 
-        const animationType =
-            modalProps && modalProps.animationType ? modalProps.animationType : 'slide';
+        if (!this.state.showPicker) {
+            this.setState({showPicker: visible});
+            return Animated.timing(
+                this.state.animatedHeight,
+                {
+                    toValue: this.calculateHeight(),
+                    duration: duration
+                }
+            ).start();
+        } else {
+            return Animated.timing(
+                this.state.animatedHeight,
+                {
+                    toValue: 0,
+                    duration: duration
+                }
+            ).start(() => {
+                this.setState({showPicker: visible});
+            });
+        }
 
         this.triggerOpenCloseCallbacks();
+    }
 
-        this.setState({
-            animationType: animate ? animationType : undefined,
-            showPicker: !this.state.showPicker,
-        });
+    togglePicker() {
+        const {height, duration, modalProps, disabled} = this.props;
+
+        if (disabled) {
+            return;
+        }
+
+        if (!this.state.showPicker) {
+            this.setState({showPicker: !this.state.showPicker});
+            return Animated.timing(
+                this.state.animatedHeight,
+                {
+                    toValue: this.calculateHeight(),
+                    duration: duration
+                }
+            ).start();
+        } else {
+            return Animated.timing(
+                this.state.animatedHeight,
+                {
+                    toValue: 0,
+                    duration: duration
+                }
+            ).start(() => {
+                this.setState({showPicker: !this.state.showPicker});
+            });
+        }
+
+        this.triggerOpenCloseCallbacks();
 
         if (!this.state.showPicker && this.inputRef) {
             this.inputRef.focus();
             this.inputRef.blur();
         }
+    }
+
+    calculateHeight() {
+        let {hideDoneBar, height} = this.props
+        return (height != null ? height : 216) + (hideDoneBar === true ? 0 : 40)
     }
 
     renderPickerItems() {
@@ -257,7 +315,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderDoneBar() {
-        const { doneText, hideDoneBar, onUpArrow, onDownArrow, onDonePress, style } = this.props;
+        const {doneText, hideDoneBar, onUpArrow, onDownArrow, onDonePress, style} = this.props;
 
         if (hideDoneBar) {
             return null;
@@ -299,12 +357,12 @@ export default class RNPickerSelect extends PureComponent {
                 </View>
                 <TouchableOpacity
                     onPress={() => {
-                        this.togglePicker(true);
+                        this.setModalVisible(false);
                         if (onDonePress) {
                             onDonePress();
                         }
                     }}
-                    hitSlop={{ top: 4, right: 4, bottom: 4, left: 4 }}
+                    hitSlop={{top: 4, right: 4, bottom: 4, left: 4}}
                     testID="done_button"
                 >
                     <View testID="needed_for_touchable">
@@ -316,7 +374,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderIcon() {
-        const { style, Icon } = this.props;
+        const {style, Icon} = this.props;
 
         if (!Icon) {
             return null;
@@ -327,13 +385,13 @@ export default class RNPickerSelect extends PureComponent {
                 testID="icon_container"
                 style={[defaultStyles.iconContainer, style.iconContainer]}
             >
-                <Icon testID="icon" />
+                <Icon testID="icon"/>
             </View>
         );
     }
 
     renderTextInputOrChildren() {
-        const { children, style, textInputProps } = this.props;
+        const {children, style, textInputProps} = this.props;
         const containerStyle =
             Platform.OS === 'ios' ? style.inputIOSContainer : style.inputAndroidContainer;
 
@@ -363,14 +421,14 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderIOS() {
-        const { style, modalProps, pickerProps } = this.props;
+        const {style, modalProps, pickerProps} = this.props;
 
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <TouchableOpacity
                     onPress={() => {
                         Keyboard.dismiss();
-                        this.togglePicker(true);
+                        this.togglePicker();
                     }}
                     testID="ios_touchable_wrapper"
                 >
@@ -380,28 +438,54 @@ export default class RNPickerSelect extends PureComponent {
                     testID="ios_modal"
                     visible={this.state.showPicker}
                     transparent
-                    animationType={this.state.animationType}
                     supportedOrientations={['portrait', 'landscape']}
                     // onOrientationChange={TODO: use this to resize window}
+                    animationType="none"
                     {...modalProps}
                 >
-                    <TouchableOpacity
-                        style={[defaultStyles.modalViewTop, style.modalViewTop]}
-                        testID="ios_modal_top"
-                        onPress={() => {
-                            this.togglePicker(true);
-                        }}
-                    />
-                    {this.renderDoneBar()}
-                    <View style={[defaultStyles.modalViewBottom, style.modalViewBottom]}>
-                        <Picker
-                            testID="ios_picker"
-                            onValueChange={this.onValueChange}
-                            selectedValue={this.state.selectedItem.value}
-                            {...pickerProps}
+                    <View
+                        style={{flex: 1}}
+                    >
+                        <TouchableHighlight
+                            style={{
+                                flex: 1,
+                                alignItems: 'flex-end',
+                                flexDirection: 'row',
+                                backgroundColor: '#00000077'
+                            }}
+                            activeOpacity={1}
+                            underlayColor={'#00000077'}
+                            onPress={() => this.setModalVisible(false)}
                         >
-                            {this.renderPickerItems()}
-                        </Picker>
+                            <TouchableHighlight
+                                underlayColor={'#fff'}
+                                style={{flex: 1}}
+                            >
+                                {/*<TouchableOpacity*/}
+                                {/*style={[defaultStyles.modalViewTop, style.modalViewTop]}*/}
+                                {/*testID="ios_modal_top"*/}
+                                {/*onPress={() => {*/}
+                                {/*this.togglePicker(true);*/}
+                                {/*}}*/}
+                                {/*/>*/}
+
+                                <Animated.View
+                                    style={[defaultStyles.modalViewBottom, style.modalViewBottom, {height: this.state.animatedHeight}]}
+                                >
+                                    {this.renderDoneBar()}
+                                    <View style={[defaultStyles.modalViewBottom, style.modalViewBottom]}>
+                                        <Picker
+                                            testID="ios_picker"
+                                            onValueChange={this.onValueChange}
+                                            selectedValue={this.state.selectedItem.value}
+                                            {...pickerProps}
+                                        >
+                                            {this.renderPickerItems()}
+                                        </Picker>
+                                    </View>
+                                </Animated.View>
+                            </TouchableHighlight>
+                        </TouchableHighlight>
                     </View>
                 </Modal>
             </View>
@@ -409,14 +493,14 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroidHeadless() {
-        const { disabled, Icon, style, pickerProps } = this.props;
+        const {disabled, Icon, style, pickerProps} = this.props;
 
         return (
             <View style={style.headlessAndroidContainer}>
                 {this.renderTextInputOrChildren()}
                 <Picker
                     style={[
-                        Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
+                        Icon ? {backgroundColor: 'transparent'} : {}, // to hide native icon
                         defaultStyles.headlessAndroidPicker,
                         style.headlessAndroidPicker,
                     ]}
@@ -433,13 +517,13 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroidNativePickerStyle() {
-        const { disabled, Icon, style, pickerProps } = this.props;
+        const {disabled, Icon, style, pickerProps} = this.props;
 
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <Picker
                     style={[
-                        Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
+                        Icon ? {backgroundColor: 'transparent'} : {}, // to hide native icon
                         style.inputAndroid,
                         this.getPlaceholderStyle(),
                     ]}
@@ -457,7 +541,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     render() {
-        const { children, useNativeAndroidPickerStyle } = this.props;
+        const {children, useNativeAndroidPickerStyle} = this.props;
 
         if (Platform.OS === 'ios') {
             return this.renderIOS();
@@ -505,11 +589,11 @@ const defaultStyles = StyleSheet.create({
     },
     chevronUp: {
         marginLeft: 11,
-        transform: [{ translateY: 4 }, { rotate: '-45deg' }],
+        transform: [{translateY: 4}, {rotate: '-45deg'}],
     },
     chevronDown: {
         marginLeft: 22,
-        transform: [{ translateY: -5 }, { rotate: '135deg' }],
+        transform: [{translateY: -5}, {rotate: '135deg'}],
     },
     chevronActive: {
         borderColor: '#007AFE',
@@ -522,8 +606,7 @@ const defaultStyles = StyleSheet.create({
         paddingRight: 2,
     },
     modalViewBottom: {
-        height: 215,
-        justifyContent: 'center',
+        height: 0,
         backgroundColor: '#D0D4DB',
     },
     headlessAndroidPicker: {
