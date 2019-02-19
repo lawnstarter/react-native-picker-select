@@ -9,7 +9,6 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    TouchableWithoutFeedback,
     View,
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -298,7 +297,7 @@ export default class RNPickerSelect extends PureComponent {
                         />
                     </TouchableOpacity>
                 </View>
-                <TouchableWithoutFeedback
+                <TouchableOpacity
                     onPress={() => {
                         this.togglePicker(true);
                         if (onDonePress) {
@@ -311,7 +310,7 @@ export default class RNPickerSelect extends PureComponent {
                     <View testID="needed_for_touchable">
                         <Text style={[defaultStyles.done, style.done]}>{doneText}</Text>
                     </View>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -368,7 +367,7 @@ export default class RNPickerSelect extends PureComponent {
 
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
-                <TouchableWithoutFeedback
+                <TouchableOpacity
                     onPress={() => {
                         Keyboard.dismiss();
                         this.togglePicker(true);
@@ -376,7 +375,7 @@ export default class RNPickerSelect extends PureComponent {
                     testID="ios_touchable_wrapper"
                 >
                     {this.renderTextInputOrChildren()}
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
                 <Modal
                     testID="ios_modal"
                     visible={this.state.showPicker}
