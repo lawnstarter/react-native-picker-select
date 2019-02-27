@@ -29,9 +29,11 @@ export default class RNPickerSelect extends PureComponent {
         value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
         placeholder: PropTypes.shape({
             label: PropTypes.string,
+            custom: PropTypes.element,
             value: PropTypes.any,
             key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
             color: ColorPropType,
+            size: PropTypes.number
         }),
         disabled: PropTypes.bool,
         itemKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -66,8 +68,10 @@ export default class RNPickerSelect extends PureComponent {
         value: undefined,
         placeholder: {
             label: 'Select an item...',
+            custom: null,
             value: null,
             color: '#9EA0A4',
+            size: null
         },
         disabled: false,
         itemKey: null,
@@ -200,11 +204,11 @@ export default class RNPickerSelect extends PureComponent {
 
     getPlaceholderStyle() {
         const { placeholder, placeholderTextColor } = this.props;
+        const { size: fontSize } = placeholder;
 
         if (!isEqual(placeholder, {}) && this.state.selectedItem.label === placeholder.label) {
-            return {
-                color: placeholderTextColor,
-            };
+          const placeholderStyle = { color: placeholderTextColor };
+          return !fontSize ? placeholderStyle : { ...placeholderStyle, fontSize };
         }
         return {};
     }
