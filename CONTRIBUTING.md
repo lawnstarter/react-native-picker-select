@@ -9,3 +9,7 @@
 * First create an issue using the "Feature request" template and make a note that you intend to make this change.
 
 * Before opening the PR, please wait for a response from our team.
+
+#### **Looking for inspiration?**
+
+* See the [Feature Requests](https://github.com/lawnstarter/react-native-picker-select/projects/1) board and feel free to submit a PR for anything in the "To do" column.
