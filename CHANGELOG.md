@@ -1,3 +1,11 @@
+### 6.1.0
+
+##### New
+
+-   Opened up `placeholder` on style object for modification (#119) (#155). The `placeholderTextColor` prop is now deprecated, as this style object allows for additional properties.
+
+---
+
 ## 6.0.0
 
 #### Breaking Changes

@@ -37,7 +37,7 @@ export default class RNPickerSelect extends PureComponent {
         itemKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         style: PropTypes.shape({}),
         children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
-        placeholderTextColor: ColorPropType,
+        placeholderTextColor: ColorPropType, // deprecated
         useNativeAndroidPickerStyle: PropTypes.bool,
 
         // Custom Modal props (iOS only)
@@ -73,7 +73,7 @@ export default class RNPickerSelect extends PureComponent {
         itemKey: null,
         style: {},
         children: null,
-        placeholderTextColor: '#C7C7CD',
+        placeholderTextColor: '#C7C7CD', // deprecated
         useNativeAndroidPickerStyle: true,
         hideDoneBar: false,
         doneText: 'Done',
@@ -199,11 +199,13 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     getPlaceholderStyle() {
-        const { placeholder, placeholderTextColor } = this.props;
+        const { placeholder, placeholderTextColor, style } = this.props;
 
         if (!isEqual(placeholder, {}) && this.state.selectedItem.label === placeholder.label) {
             return {
-                color: placeholderTextColor,
+                ...defaultStyles.placeholder,
+                color: placeholderTextColor, // deprecated
+                ...style.placeholder,
             };
         }
         return {};
@@ -526,6 +528,9 @@ const defaultStyles = StyleSheet.create({
         height: 215,
         justifyContent: 'center',
         backgroundColor: '#D0D4DB',
+    },
+    placeholder: {
+        color: '#C7C7CD',
     },
     headlessAndroidPicker: {
         position: 'absolute',
