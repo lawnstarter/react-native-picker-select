@@ -39,6 +39,7 @@ export default class RNPickerSelect extends PureComponent {
         children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
         placeholderTextColor: ColorPropType, // deprecated
         useNativeAndroidPickerStyle: PropTypes.bool,
+        caption: PropTypes.string,
 
         // Custom Modal props (iOS only)
         hideDoneBar: PropTypes.bool,
@@ -75,6 +76,7 @@ export default class RNPickerSelect extends PureComponent {
         children: null,
         placeholderTextColor: '#C7C7CD', // deprecated
         useNativeAndroidPickerStyle: true,
+        caption: null,
         hideDoneBar: false,
         doneText: 'Done',
         onDonePress: null,
