@@ -300,6 +300,9 @@ export default class RNPickerSelect extends PureComponent {
                         />
                     </TouchableOpacity>
                 </View>
+                {this.props.caption && (
+                    <Text style={[defaultStyles.caption, style.caption]}>{this.props.caption}</Text>
+                )}
                 <TouchableWithoutFeedback
                     onPress={() => {
                         this.togglePicker(true);
@@ -516,6 +519,10 @@ const defaultStyles = StyleSheet.create({
     },
     chevronActive: {
         borderColor: '#007AFE',
+    },
+    caption: {
+        fontSize: 14,
+        color: '#C7C7CD',
     },
     done: {
         color: '#007AFE',
