@@ -157,8 +157,8 @@ export default class RNPickerSelect extends PureComponent {
         const selectedItem = this.props.initialIndex !== undefined
             ? this.props.items[this.props.initialIndex]
             : RNPickerSelect.getSelectedItem({
-                items: this.props.items,
-                key,
+                items,
+                key: this.props.itemKey,
                 value: this.props.initialValue !== undefined ? this.props.initialValue : this.props.value,
             }).selectedItem;
 
