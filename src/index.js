@@ -60,6 +60,10 @@ export default class RNPickerSelect extends PureComponent {
 
         // Custom Icon
         Icon: PropTypes.func,
+
+        // Initial vars
+        initialIndex: PropTypes.number,
+        initialValue: PropTypes.any
     };
 
     static defaultProps = {
@@ -86,6 +90,8 @@ export default class RNPickerSelect extends PureComponent {
         textInputProps: {},
         pickerProps: {},
         Icon: null,
+        initialIndex: undefined,
+        initialValue: undefined
     };
 
     static handlePlaceholder({ placeholder }) {
@@ -148,11 +154,13 @@ export default class RNPickerSelect extends PureComponent {
             placeholder: this.props.placeholder,
         }).concat(this.props.items);
 
-        const { selectedItem } = RNPickerSelect.getSelectedItem({
-            items,
-            key: this.props.itemKey,
-            value: this.props.value,
-        });
+        const selectedItem = this.props.initialIndex !== undefined
+            ? this.props.items[this.props.initialIndex]
+            : RNPickerSelect.getSelectedItem({
+                items: this.props.items,
+                key,
+                value: this.props.initialValue !== undefined ? this.props.initialValue : this.props.value,
+            }).selectedItem;
 
         this.state = {
             items,
