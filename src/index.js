@@ -168,20 +168,16 @@ export default class RNPickerSelect extends PureComponent {
         this.togglePicker = this.togglePicker.bind(this);
     }
 
-    // these timeouts were a hacky first pass at ensuring the callback triggered after the modal animation
-    // TODO: find a better approach
     onUpArrow() {
         const { onUpArrow } = this.props;
 
-        this.togglePicker();
-        setTimeout(onUpArrow);
+        this.togglePicker(false, onUpArrow);
     }
 
     onDownArrow() {
         const { onDownArrow } = this.props;
 
-        this.togglePicker();
-        setTimeout(onDownArrow);
+        this.togglePicker(false, onDownArrow);
     }
 
     onValueChange(value, index) {
@@ -223,7 +219,7 @@ export default class RNPickerSelect extends PureComponent {
         }
     }
 
-    togglePicker(animate = false) {
+    togglePicker(animate = false, postToggleCallback) {
         const { modalProps, disabled } = this.props;
 
         if (disabled) {
@@ -235,10 +231,17 @@ export default class RNPickerSelect extends PureComponent {
 
         this.triggerOpenCloseCallbacks();
 
-        this.setState({
-            animationType: animate ? animationType : undefined,
-            showPicker: !this.state.showPicker,
-        });
+        this.setState(
+            (prevState) => ({
+                animationType: animate ? animationType : undefined,
+                showPicker: !prevState.showPicker,
+            }),
+            () => {
+                if (postToggleCallback) {
+                    postToggleCallback();
+                }
+            }
+        );
 
         if (!this.state.showPicker && this.inputRef) {
             this.inputRef.focus();
@@ -302,10 +305,7 @@ export default class RNPickerSelect extends PureComponent {
                 </View>
                 <TouchableWithoutFeedback
                     onPress={() => {
-                        this.togglePicker(true);
-                        if (onDonePress) {
-                            onDonePress();
-                        }
+                        this.togglePicker(true, onDonePress);
                     }}
                     hitSlop={{ top: 4, right: 4, bottom: 4, left: 4 }}
                     testID="done_button"
