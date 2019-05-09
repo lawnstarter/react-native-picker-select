@@ -1,188 +1,290 @@
 import React from 'react';
-import { Alert, Text, TextInput, StyleSheet, View } from 'react-native';
+import { Button, Text, TextInput, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { Chevron } from 'react-native-shapes';
+import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
-// import RNPickerSelect from './debug'
+// import RNPickerSelect from './debug';
+
+const sports = [
+    {
+        label: 'Football',
+        value: 'football',
+    },
+    {
+        label: 'Baseball',
+        value: 'baseball',
+    },
+    {
+        label: 'Hockey',
+        value: 'hockey',
+    },
+];
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
 
-        this.inputRefs = {};
+        this.inputRefs = {
+            firstTextInput: null,
+            favSport0: null,
+            favSport1: null,
+            lastTextInput: null,
+        };
 
         this.state = {
-            favColor: undefined,
-            items: [
+            numbers: [
                 {
-                    label: 'Red',
-                    value: 'red',
+                    label: '1',
+                    value: 1,
+                    color: 'orange',
                 },
                 {
-                    label: 'Orange',
-                    value: 'orange',
-                },
-                {
-                    label: 'Blue',
-                    value: 'blue',
+                    label: '2',
+                    value: 2,
+                    color: 'green',
                 },
             ],
-            favSport: undefined,
-            items2: [
-                {
-                    label: 'Football',
-                    value: 'football',
-                },
-                {
-                    label: 'Baseball',
-                    value: 'baseball',
-                },
-                {
-                    label: 'Hockey',
-                    value: 'hockey',
-                },
-            ],
+            favSport0: undefined,
+            favSport1: undefined,
+            favSport2: undefined,
+            favSport3: undefined,
+            favSport4: 'baseball',
+            favNumber: undefined,
         };
     }
 
-    componentDidMount() {
-        // if the component is using the optional `value` prop, the parent
-        // has the abililty to both set the initial value and also update it
-        setTimeout(() => {
-            this.setState({
-                favColor: 'red',
-            });
-        }, 1000);
-
-        // parent can also update the `items` prop
-        setTimeout(() => {
-            this.setState({
-                items: this.state.items.concat([{ value: 'purple', label: 'Purple' }]),
-            });
-        }, 2500);
-    }
-
     render() {
+        const placeholder = {
+            label: 'Select a sport...',
+            value: null,
+            color: '#9EA0A4',
+        };
+
         return (
-            <View style={styles.container}>
-                <Text>Name?</Text>
+            <ScrollView style={styles.container}>
+                <Text>Standard TextInput</Text>
                 <TextInput
                     ref={(el) => {
-                        this.inputRefs.name = el;
+                        this.inputRefs.firstTextInput = el;
                     }}
                     returnKeyType="next"
                     enablesReturnKeyAutomatically
                     onSubmitEditing={() => {
-                        this.inputRefs.picker.togglePicker();
+                        this.inputRefs.favSport0.togglePicker();
                     }}
-                    style={pickerSelectStyles.inputIOS}
+                    style={
+                        Platform.OS === 'ios'
+                            ? pickerSelectStyles.inputIOS
+                            : pickerSelectStyles.inputAndroid
+                    }
                     blurOnSubmit={false}
                 />
 
-                <View style={{ paddingVertical: 5 }} />
+                <View paddingVertical={5} />
 
-                <Text>What&rsquo;s your favorite color?</Text>
+                <Text>useNativeAndroidPickerStyle (default)</Text>
+                {/* and iOS onUpArrow/onDownArrow toggle example */}
                 <RNPickerSelect
-                    placeholder={{
-                        label: 'Select a color...',
-                        value: null,
-                        color: '#9EA0A4',
-                    }}
-                    items={this.state.items}
+                    placeholder={placeholder}
+                    items={sports}
                     onValueChange={(value) => {
                         this.setState({
-                            favColor: value,
+                            favSport0: value,
                         });
                     }}
                     onUpArrow={() => {
-                        this.inputRefs.name.focus();
+                        this.inputRefs.firstTextInput.focus();
                     }}
                     onDownArrow={() => {
-                        this.inputRefs.picker2.togglePicker();
+                        this.inputRefs.favSport1.togglePicker();
                     }}
-                    style={{ ...pickerSelectStyles }}
-                    value={this.state.favColor}
+                    style={pickerSelectStyles}
+                    value={this.state.favSport0}
                     ref={(el) => {
-                        this.inputRefs.picker = el;
+                        this.inputRefs.favSport0 = el;
                     }}
                 />
 
-                <View style={{ paddingVertical: 5 }} />
+                <View paddingVertical={5} />
 
-                <Text>What&rsquo;s your favorite sport?</Text>
+                <Text>set useNativeAndroidPickerStyle to false</Text>
                 <RNPickerSelect
-                    placeholder={{
-                        label: 'Select a sport...',
-                        value: null,
-                        color: '#9EA0A4',
-                    }}
-                    items={this.state.items2}
+                    placeholder={placeholder}
+                    items={sports}
                     onValueChange={(value) => {
                         this.setState({
-                            favSport: value,
+                            favSport1: value,
                         });
                     }}
-                    onUpArrow={() => {
-                        this.inputRefs.picker.togglePicker();
-                    }}
-                    onDownArrow={() => {
-                        this.inputRefs.company.focus();
-                    }}
-                    style={{ ...pickerSelectStyles }}
-                    value={this.state.favSport}
-                    ref={(el) => {
-                        this.inputRefs.picker2 = el;
-                    }}
+                    style={pickerSelectStyles}
+                    value={this.state.favSport1}
                     useNativeAndroidPickerStyle={false}
-                />
-
-                <View style={{ paddingVertical: 5 }} />
-
-                <Text>Company?</Text>
-                <TextInput
                     ref={(el) => {
-                        this.inputRefs.company = el;
-                    }}
-                    returnKeyType="go"
-                    enablesReturnKeyAutomatically
-                    style={pickerSelectStyles.inputIOS}
-                    onSubmitEditing={() => {
-                        Alert.alert('Success', 'Form submitted', [{ text: 'Okay', onPress: null }]);
+                        this.inputRefs.favSport1 = el;
                     }}
                 />
-            </View>
+
+                <View paddingVertical={5} />
+
+                <Text>set placeholder to empty object</Text>
+                <RNPickerSelect
+                    placeholder={{}}
+                    items={sports}
+                    onValueChange={(value) => {
+                        this.setState({
+                            favSport2: value,
+                        });
+                    }}
+                    style={pickerSelectStyles}
+                    value={this.state.favSport2}
+                />
+
+                <View paddingVertical={5} />
+
+                <Text>custom icon using react-native-shapes</Text>
+                {/* and useNativeAndroidPickerStyle={false} with underlineColorAndroid */}
+                <RNPickerSelect
+                    placeholder={placeholder}
+                    items={sports}
+                    onValueChange={(value) => {
+                        this.setState({
+                            favSport3: value,
+                        });
+                    }}
+                    style={{
+                        inputAndroid: {
+                            backgroundColor: 'transparent',
+                        },
+                        iconContainer: {
+                            top: 5,
+                            right: 15,
+                        },
+                    }}
+                    value={this.state.favSport3}
+                    useNativeAndroidPickerStyle={false}
+                    textInputProps={{ underlineColorAndroid: 'cyan' }}
+                    Icon={() => {
+                        return <Chevron size={1.5} color="gray" />;
+                    }}
+                />
+
+                <View paddingVertical={5} />
+
+                <Text>custom icon using react-native-vector-icons</Text>
+                {/* and value defined */}
+                <RNPickerSelect
+                    placeholder={placeholder}
+                    items={sports}
+                    onValueChange={(value) => {
+                        this.setState({
+                            favSport4: value,
+                        });
+                    }}
+                    style={{
+                        ...pickerSelectStyles,
+                        iconContainer: {
+                            top: 10,
+                            right: 12,
+                        },
+                    }}
+                    value={this.state.favSport4}
+                    useNativeAndroidPickerStyle={false}
+                    textInputProps={{ underlineColor: 'yellow' }}
+                    Icon={() => {
+                        return <Ionicons name="md-arrow-down" size={24} color="gray" />;
+                    }}
+                />
+
+                <View paddingVertical={5} />
+
+                <Text>custom icon using your own css</Text>
+                {/* and placeholderTextColor, showing colors on items, useNativeAndroidPickerStyle={false} */}
+                <RNPickerSelect
+                    placeholder={{
+                        label: 'Select a number or add another...',
+                        value: null,
+                        color: 'red',
+                    }}
+                    items={this.state.numbers}
+                    onValueChange={(value) => {
+                        this.setState({
+                            favNumber: value,
+                        });
+                    }}
+                    style={{
+                        ...pickerSelectStyles,
+                        iconContainer: {
+                            top: 20,
+                            right: 10,
+                        },
+                    }}
+                    value={this.state.favNumber}
+                    placeholderTextColor="purple"
+                    Icon={() => {
+                        return (
+                            <View
+                                style={{
+                                    backgroundColor: 'transparent',
+                                    borderTopWidth: 10,
+                                    borderTopColor: 'gray',
+                                    borderRightWidth: 10,
+                                    borderRightColor: 'transparent',
+                                    borderLeftWidth: 10,
+                                    borderLeftColor: 'transparent',
+                                    width: 0,
+                                    height: 0,
+                                }}
+                            />
+                        );
+                    }}
+                />
+                <Button
+                    title="+1 number to the above list"
+                    onPress={() => {
+                        const { numbers } = this.state;
+                        const value = numbers.length + 1;
+                        numbers.push({
+                            label: `${value}`,
+                            value,
+                            color: 'dodgerblue',
+                        });
+                        this.setState({
+                            numbers,
+                        });
+                    }}
+                />
+            </ScrollView>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 30,
-        backgroundColor: '#fff',
-        justifyContent: 'center',
+        paddingVertical: 40,
         paddingHorizontal: 10,
+        flex: 1,
     },
 });
 
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
         fontSize: 16,
-        paddingTop: 13,
+        paddingVertical: 12,
         paddingHorizontal: 10,
-        paddingBottom: 12,
         borderWidth: 1,
         borderColor: 'gray',
         borderRadius: 4,
-        backgroundColor: 'white',
         color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
     },
     inputAndroid: {
         fontSize: 16,
-        paddingTop: 13,
         paddingHorizontal: 10,
-        paddingBottom: 12,
-        borderWidth: 1,
-        borderColor: 'gray',
-        borderRadius: 4,
-        backgroundColor: 'white',
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        borderColor: 'eggplant',
+        borderRadius: 8,
         color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
     },
 });
