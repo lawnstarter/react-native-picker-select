@@ -166,6 +166,7 @@ export default class RNPickerSelect extends PureComponent {
         this.onValueChange = this.onValueChange.bind(this);
         this.setInputRef = this.setInputRef.bind(this);
         this.togglePicker = this.togglePicker.bind(this);
+        this.triggerDoneCallback = this.triggerDoneCallback.bind(this);
     }
 
     onUpArrow() {
@@ -219,6 +220,13 @@ export default class RNPickerSelect extends PureComponent {
         }
     }
 
+    triggerDoneCallback() {
+        const { hideDoneBar, onDonePress } = this.props;
+        if (!hideDoneBar && onDonePress) {
+            onDonePress();
+        }
+    }
+
     togglePicker(animate = false, postToggleCallback) {
         const { modalProps, disabled } = this.props;
 
@@ -232,10 +240,12 @@ export default class RNPickerSelect extends PureComponent {
         this.triggerOpenCloseCallbacks();
 
         this.setState(
-            (prevState) => ({
-                animationType: animate ? animationType : undefined,
-                showPicker: !prevState.showPicker,
-            }),
+            (prevState) => {
+                return {
+                    animationType: animate ? animationType : undefined,
+                    showPicker: !prevState.showPicker,
+                };
+            },
             () => {
                 if (postToggleCallback) {
                     postToggleCallback();
@@ -263,7 +273,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderDoneBar() {
-        const { doneText, hideDoneBar, onUpArrow, onDownArrow, onDonePress, style } = this.props;
+        const { doneText, hideDoneBar, onUpArrow, onDownArrow, style } = this.props;
 
         if (hideDoneBar) {
             return null;
@@ -305,7 +315,7 @@ export default class RNPickerSelect extends PureComponent {
                 </View>
                 <TouchableWithoutFeedback
                     onPress={() => {
-                        this.togglePicker(true, onDonePress);
+                        this.togglePicker(true);
                     }}
                     hitSlop={{ top: 4, right: 4, bottom: 4, left: 4 }}
                     testID="done_button"
@@ -385,6 +395,7 @@ export default class RNPickerSelect extends PureComponent {
                     transparent
                     animationType={this.state.animationType}
                     supportedOrientations={['portrait', 'landscape']}
+                    onDismiss={this.triggerDoneCallback}
                     // onOrientationChange={TODO: use this to resize window}
                     {...modalProps}
                 >
