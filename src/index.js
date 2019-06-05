@@ -166,22 +166,19 @@ export default class RNPickerSelect extends PureComponent {
         this.onValueChange = this.onValueChange.bind(this);
         this.setInputRef = this.setInputRef.bind(this);
         this.togglePicker = this.togglePicker.bind(this);
+        this.triggerDoneCallback = this.triggerDoneCallback.bind(this);
     }
 
-    // these timeouts were a hacky first pass at ensuring the callback triggered after the modal animation
-    // TODO: find a better approach
     onUpArrow() {
         const { onUpArrow } = this.props;
 
-        this.togglePicker();
-        setTimeout(onUpArrow);
+        this.togglePicker(false, onUpArrow);
     }
 
     onDownArrow() {
         const { onDownArrow } = this.props;
 
-        this.togglePicker();
-        setTimeout(onDownArrow);
+        this.togglePicker(false, onDownArrow);
     }
 
     onValueChange(value, index) {
@@ -223,7 +220,14 @@ export default class RNPickerSelect extends PureComponent {
         }
     }
 
-    togglePicker(animate = false) {
+    triggerDoneCallback() {
+        const { hideDoneBar, onDonePress } = this.props;
+        if (!hideDoneBar && onDonePress) {
+            onDonePress();
+        }
+    }
+
+    togglePicker(animate = false, postToggleCallback) {
         const { modalProps, disabled } = this.props;
 
         if (disabled) {
@@ -235,10 +239,19 @@ export default class RNPickerSelect extends PureComponent {
 
         this.triggerOpenCloseCallbacks();
 
-        this.setState({
-            animationType: animate ? animationType : undefined,
-            showPicker: !this.state.showPicker,
-        });
+        this.setState(
+            (prevState) => {
+                return {
+                    animationType: animate ? animationType : undefined,
+                    showPicker: !prevState.showPicker,
+                };
+            },
+            () => {
+                if (postToggleCallback) {
+                    postToggleCallback();
+                }
+            }
+        );
 
         if (!this.state.showPicker && this.inputRef) {
             this.inputRef.focus();
@@ -260,7 +273,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderDoneBar() {
-        const { doneText, hideDoneBar, onUpArrow, onDownArrow, onDonePress, style } = this.props;
+        const { doneText, hideDoneBar, onUpArrow, onDownArrow, style } = this.props;
 
         if (hideDoneBar) {
             return null;
@@ -303,9 +316,6 @@ export default class RNPickerSelect extends PureComponent {
                 <TouchableWithoutFeedback
                     onPress={() => {
                         this.togglePicker(true);
-                        if (onDonePress) {
-                            onDonePress();
-                        }
                     }}
                     hitSlop={{ top: 4, right: 4, bottom: 4, left: 4 }}
                     testID="done_button"
@@ -385,6 +395,7 @@ export default class RNPickerSelect extends PureComponent {
                     transparent
                     animationType={this.state.animationType}
                     supportedOrientations={['portrait', 'landscape']}
+                    onDismiss={this.triggerDoneCallback}
                     // onOrientationChange={TODO: use this to resize window}
                     {...modalProps}
                 >
