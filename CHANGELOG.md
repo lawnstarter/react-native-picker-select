@@ -1,3 +1,11 @@
+### 6.1.1
+
+##### Bugfix
+
+-   Replaced setTimeouts with callbacks for arrow buttons (#177)
+
+---
+
 ### 6.1.0
 
 ##### New
