@@ -236,6 +236,10 @@ export default class RNPickerSelect extends PureComponent {
             return;
         }
 
+        if (!this.state.showPicker) {
+            Keyboard.dismiss();
+        }
+
         const animationType =
             modalProps && modalProps.animationType ? modalProps.animationType : 'slide';
 
@@ -254,11 +258,6 @@ export default class RNPickerSelect extends PureComponent {
                 }
             }
         );
-
-        if (!this.state.showPicker && this.inputRef) {
-            this.inputRef.focus();
-            this.inputRef.blur();
-        }
     }
 
     renderPickerItems() {
@@ -384,7 +383,6 @@ export default class RNPickerSelect extends PureComponent {
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <TouchableWithoutFeedback
                     onPress={() => {
-                        Keyboard.dismiss();
                         this.togglePicker(true);
                     }}
                     testID="ios_touchable_wrapper"
