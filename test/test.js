@@ -107,6 +107,14 @@ describe('RNPickerSelect', () => {
         expect(done_bar).toHaveLength(0);
     });
 
+    it('should handle an empty items array', () => {
+        const wrapper = shallow(
+            <RNPickerSelect items={[]} placeholder={{}} onValueChange={() => {}} />
+        );
+
+        expect(wrapper.state().items).toHaveLength(0);
+    });
+
     it('should return the expected option to a callback passed into onSelect', () => {
         const onValueChangeSpy = jest.fn();
         const wrapper = shallow(

@@ -1,3 +1,11 @@
+### 6.2.0
+
+##### New
+
+-   Supports an empty `items` array (#161)
+
+---
+
 ### 6.1.1
 
 ##### Bugfix
