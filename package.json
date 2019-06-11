@@ -1,6 +1,6 @@
 {
     "name": "react-native-picker-select",
-    "version": "6.1.0",
+    "version": "6.1.1",
     "description": "A Picker component for React Native which emulates the native <select> interfaces for each platform",
     "license": "MIT",
     "author": "Michael Lefkowitz <lefkowitz.michael@gmail.com>",
@@ -34,8 +34,8 @@
         "enzyme": "^3.7.0",
         "enzyme-adapter-react-16": "^1.7.0",
         "enzyme-to-json": "^3.3.5",
-        "eslint-config-ls-react": "https://github.com/lawnstarter/eslint-config-ls-react#2.0.3",
-        "husky": "^0.14.3",
+        "eslint-config-ls-react": "https://github.com/lawnstarter/eslint-config-ls-react#3.0.0",
+        "husky": "^2.4.0",
         "jest": "^23.6.0",
         "prettier": "^1.15.3",
         "pretty-quick": "^1.8.0",
@@ -50,10 +50,16 @@
         "test:watch": "jest --watch",
         "test:coverage": "jest --coverage",
         "open:coverage": "open ./coverage/lcov-report/index.html",
-        "precommit": "pretty-quick --staged",
         "prettier:debug-check": "prettier --config ./.prettierrc.js --debug-check \"{src,test}/**/*.js\"",
         "preprettier:all": "yarn run prettier:debug-check",
-        "prettier:all": "prettier --config ./.prettierrc.js --write \"{src,test}/**/*.js\""
+        "prettier:all": "prettier --config ./.prettierrc.js --write \"{src,test}/**/*.js\"",
+        "lint": "echo \"---Running ESLint---\" && eslint \"src/**/*.{js,jsx}\""
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "pretty-quick --staged",
+            "pre-push": "echo \"---Running ESLint---\" && yarn lint && yarn test"
+        }
     },
     "jest": {
         "preset": "react-native",

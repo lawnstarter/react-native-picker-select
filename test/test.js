@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform, Keyboard, View } from 'react-native';
-import RNPickerSelect from '../src/';
+import RNPickerSelect from '../src';
 
 const selectItems = [
     {
@@ -283,11 +283,9 @@ describe('RNPickerSelect', () => {
         );
 
         wrapper
-            .find('[testID="ios_picker"]')
+            .find('[testID="ios_modal"]')
             .props()
-            .onValueChange('orange', 2);
-        const touchable = wrapper.find('[testID="done_button"]');
-        touchable.simulate('press');
+            .onDismiss();
         expect(onDonePressSpy).toHaveBeenCalledWith();
     });
 

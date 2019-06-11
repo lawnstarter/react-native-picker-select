@@ -76,7 +76,7 @@ All properties mentioned below must be nested under the `style` prop. Examples o
 
 ## Testing
 
-This component has been tested on React Native v0.51 - v0.57
+This component has been tested on React Native v0.51 - v0.58
 
 [![BrowserStack](https://i.imgur.com/cOdhMed.png)](https://www.browserstack.com/)
 
