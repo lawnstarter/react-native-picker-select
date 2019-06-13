@@ -20,6 +20,7 @@ declare module 'react-native-picker-select' {
         useNativeAndroidPickerStyle?: boolean;
         hideDoneBar?: boolean;
         doneText?: string;
+        titleText?: string;
         onDonePress?: () => void;
         onUpArrow?: () => void;
         onDownArrow?: () => void;

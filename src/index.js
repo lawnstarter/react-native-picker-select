@@ -43,6 +43,7 @@ export default class RNPickerSelect extends PureComponent {
         // Custom Modal props (iOS only)
         hideDoneBar: PropTypes.bool,
         doneText: PropTypes.string,
+        titleText: PropTypes.string,
         onDonePress: PropTypes.func,
         onUpArrow: PropTypes.func,
         onDownArrow: PropTypes.func,
@@ -77,6 +78,7 @@ export default class RNPickerSelect extends PureComponent {
         useNativeAndroidPickerStyle: true,
         hideDoneBar: false,
         doneText: 'Done',
+        titleText: null,
         onDonePress: null,
         onUpArrow: null,
         onDownArrow: null,
@@ -274,7 +276,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderDoneBar() {
-        const { doneText, hideDoneBar, onUpArrow, onDownArrow, style } = this.props;
+        const { doneText, hideDoneBar, onUpArrow, onDownArrow, titleText, style } = this.props;
 
         if (hideDoneBar) {
             return null;
@@ -314,6 +316,11 @@ export default class RNPickerSelect extends PureComponent {
                         />
                     </TouchableOpacity>
                 </View>
+                {titleText && (
+                    <View>
+                        <Text style={[defaultStyles.title, style.title]}>{titleText}</Text>
+                    </View>
+                )}
                 <TouchableWithoutFeedback
                     onPress={() => {
                         this.togglePicker(true);
@@ -549,5 +556,9 @@ const defaultStyles = StyleSheet.create({
         height: '100%',
         color: 'transparent',
         opacity: 0,
+    },
+    title: {
+        color: '#000000',
+        fontSize: 15,
     },
 });
