@@ -154,15 +154,17 @@ export default class RNPickerSelect extends PureComponent {
             placeholder: this.props.placeholder,
         }).concat(this.props.items);
 
-        const { selectedItem } = RNPickerSelect.getSelectedItem({
+        const { selectedItem, idx } = RNPickerSelect.getSelectedItem({
             items,
             key: this.props.itemKey,
             value: this.props.value,
         });
 
         this.state = {
+            confirmedSelection: { value: selectedItem.value, index: idx },
             items,
             selectedItem,
+            selectedItemIndex: idx,
             showPicker: false,
             animationType: undefined,
         };
@@ -195,6 +197,7 @@ export default class RNPickerSelect extends PureComponent {
         this.setState((prevState) => {
             return {
                 selectedItem: prevState.items[index],
+                selectedItemIndex: index,
             };
         });
     }
@@ -235,14 +238,29 @@ export default class RNPickerSelect extends PureComponent {
         }
     }
 
-    togglePicker(animate = false, postToggleCallback) {
+    togglePicker(animate = false, postToggleCallback, cancel = false) {
         const { modalProps, disabled } = this.props;
+        const { confirmedSelection, selectedItem, selectedItemIndex, showPicker } = this.state;
+
+        // If cancelled, changed selected value to last confirmed selection
+        if (cancel) {
+            this.onValueChange(confirmedSelection.value, confirmedSelection.index);
+            this.setState({ showPicker: false });
+            return;
+        }
 
         if (disabled) {
             return;
         }
 
-        if (!this.state.showPicker) {
+        // Keep track of confirmed selection on modal close
+        if (showPicker) {
+            this.setState({
+                confirmedSelection: { value: selectedItem.value, index: selectedItemIndex },
+            });
+        }
+
+        if (!showPicker) {
             Keyboard.dismiss();
         }
 
@@ -300,7 +318,7 @@ export default class RNPickerSelect extends PureComponent {
                 {showCancel ? (
                     <TouchableWithoutFeedback
                         onPress={() => {
-                            this.togglePicker(true);
+                            this.togglePicker(true, () => {}, true);
                         }}
                     >
                         <Text style={[defaultStyles.cancel, style.cancel]}>{cancelText}</Text>
