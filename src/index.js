@@ -42,8 +42,10 @@ export default class RNPickerSelect extends PureComponent {
 
         // Custom Modal props (iOS only)
         hideDoneBar: PropTypes.bool,
+        cancelText: PropTypes.string,
         doneText: PropTypes.string,
         titleText: PropTypes.string,
+        showCancel: PropTypes.bool,
         onDonePress: PropTypes.func,
         onUpArrow: PropTypes.func,
         onDownArrow: PropTypes.func,
@@ -77,6 +79,7 @@ export default class RNPickerSelect extends PureComponent {
         placeholderTextColor: '#C7C7CD', // deprecated
         useNativeAndroidPickerStyle: true,
         hideDoneBar: false,
+        cancelText: 'Cancel',
         doneText: 'Done',
         titleText: null,
         onDonePress: null,
@@ -85,6 +88,7 @@ export default class RNPickerSelect extends PureComponent {
         onOpen: null,
         onClose: null,
         modalProps: {},
+        showCancel: false,
         textInputProps: {},
         pickerProps: {},
         Icon: null,
@@ -276,7 +280,16 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderDoneBar() {
-        const { doneText, hideDoneBar, onUpArrow, onDownArrow, titleText, style } = this.props;
+        const {
+            cancelText,
+            doneText,
+            hideDoneBar,
+            onUpArrow,
+            onDownArrow,
+            showCancel,
+            titleText,
+            style,
+        } = this.props;
 
         if (hideDoneBar) {
             return null;
@@ -284,38 +297,50 @@ export default class RNPickerSelect extends PureComponent {
 
         return (
             <View style={[defaultStyles.modalViewMiddle, style.modalViewMiddle]} testID="done_bar">
-                <View style={[defaultStyles.chevronContainer, style.chevronContainer]}>
-                    <TouchableOpacity
-                        activeOpacity={onUpArrow ? 0.5 : 1}
-                        onPress={onUpArrow ? this.onUpArrow : null}
+                {showCancel ? (
+                    <TouchableWithoutFeedback
+                        onPress={() => {
+                            this.togglePicker(true);
+                        }}
                     >
-                        <View
-                            style={[
-                                defaultStyles.chevron,
-                                style.chevron,
-                                defaultStyles.chevronUp,
-                                style.chevronUp,
-                                onUpArrow ? [defaultStyles.chevronActive, style.chevronActive] : {},
-                            ]}
-                        />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        activeOpacity={onDownArrow ? 0.5 : 1}
-                        onPress={onDownArrow ? this.onDownArrow : null}
-                    >
-                        <View
-                            style={[
-                                defaultStyles.chevron,
-                                style.chevron,
-                                defaultStyles.chevronDown,
-                                style.chevronDown,
-                                onDownArrow
-                                    ? [defaultStyles.chevronActive, style.chevronActive]
-                                    : {},
-                            ]}
-                        />
-                    </TouchableOpacity>
-                </View>
+                        <Text style={[defaultStyles.cancel, style.cancel]}>{cancelText}</Text>
+                    </TouchableWithoutFeedback>
+                ) : (
+                    <View style={[defaultStyles.chevronContainer, style.chevronContainer]}>
+                        <TouchableOpacity
+                            activeOpacity={onUpArrow ? 0.5 : 1}
+                            onPress={onUpArrow ? this.onUpArrow : null}
+                        >
+                            <View
+                                style={[
+                                    defaultStyles.chevron,
+                                    style.chevron,
+                                    defaultStyles.chevronUp,
+                                    style.chevronUp,
+                                    onUpArrow
+                                        ? [defaultStyles.chevronActive, style.chevronActive]
+                                        : {},
+                                ]}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            activeOpacity={onDownArrow ? 0.5 : 1}
+                            onPress={onDownArrow ? this.onDownArrow : null}
+                        >
+                            <View
+                                style={[
+                                    defaultStyles.chevron,
+                                    style.chevron,
+                                    defaultStyles.chevronDown,
+                                    style.chevronDown,
+                                    onDownArrow
+                                        ? [defaultStyles.chevronActive, style.chevronActive]
+                                        : {},
+                                ]}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                )}
                 {titleText && (
                     <View>
                         <Text style={[defaultStyles.title, style.title]}>{titleText}</Text>
@@ -512,6 +537,12 @@ const defaultStyles = StyleSheet.create({
         backgroundColor: '#EFF1F2',
         borderTopWidth: 0.5,
         borderTopColor: '#919498',
+    },
+    cancel: {
+        color: '#ff3b30',
+        fontSize: 15,
+        paddingTop: 1,
+        paddingRight: 2,
     },
     chevronContainer: {
         flexDirection: 'row',

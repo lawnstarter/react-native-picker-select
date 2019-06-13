@@ -19,6 +19,8 @@ declare module 'react-native-picker-select' {
         placeholderTextColor?: string;
         useNativeAndroidPickerStyle?: boolean;
         hideDoneBar?: boolean;
+        showCancel?: boolean;
+        cancelText?: string;
         doneText?: string;
         titleText?: string;
         onDonePress?: () => void;
