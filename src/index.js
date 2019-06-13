@@ -320,6 +320,7 @@ export default class RNPickerSelect extends PureComponent {
                         onPress={() => {
                             this.togglePicker(true, () => {}, true);
                         }}
+                        testID="cancel_button"
                     >
                         <Text style={[defaultStyles.cancel, style.cancel]}>{cancelText}</Text>
                     </TouchableWithoutFeedback>

@@ -373,6 +373,40 @@ describe('RNPickerSelect', () => {
         expect(wrapper.instance().togglePicker).toHaveBeenCalledWith(true);
     });
 
+    it('should revert to the last confirmed value on cancellation', () => {
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                placeholder={placeholder}
+                onValueChange={() => {}}
+                showCancel
+            />
+        );
+        const doneButton = wrapper.find('[testID="done_button"]');
+
+        // Open
+        doneButton.simulate('press');
+
+        wrapper
+            .find('[testID="ios_picker"]')
+            .props()
+            .onValueChange('orange', 2);
+
+        // Close
+        doneButton.simulate('press');
+        // Open
+        doneButton.simulate('press');
+
+        wrapper
+            .find('[testID="ios_picker"]')
+            .props()
+            .onValueChange('yellow', 3);
+        const cancelButton = wrapper.find('[testID="cancel_button"]');
+        cancelButton.simulate('press');
+
+        expect(wrapper.state().selectedItem.value).toEqual('orange');
+    });
+
     describe('getDerivedStateFromProps', () => {
         it('should return null when nothing changes', () => {
             const nextProps = {
