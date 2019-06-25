@@ -108,7 +108,7 @@ export default class RNPickerSelect extends PureComponent {
             idx = 0;
         }
         return {
-            selectedItem: items[idx],
+            selectedItem: items[idx] || {},
             idx,
         };
     }
