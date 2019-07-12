@@ -41,7 +41,7 @@ export default class RNPickerSelect extends PureComponent {
         useNativeAndroidPickerStyle: PropTypes.bool,
 
         // Custom Modal props (iOS only)
-        hideDoneBar: PropTypes.bool,
+        hideDoneBar: PropTypes.bool, // deprecated
         doneText: PropTypes.string,
         onDonePress: PropTypes.func,
         onUpArrow: PropTypes.func,
@@ -60,6 +60,7 @@ export default class RNPickerSelect extends PureComponent {
 
         // Custom Icon
         Icon: PropTypes.func,
+        InputAccessoryView: PropTypes.func,
     };
 
     static defaultProps = {
@@ -75,7 +76,7 @@ export default class RNPickerSelect extends PureComponent {
         children: null,
         placeholderTextColor: '#C7C7CD', // deprecated
         useNativeAndroidPickerStyle: true,
-        hideDoneBar: false,
+        hideDoneBar: false, // deprecated
         doneText: 'Done',
         onDonePress: null,
         onUpArrow: null,
@@ -86,6 +87,7 @@ export default class RNPickerSelect extends PureComponent {
         textInputProps: {},
         pickerProps: {},
         Icon: null,
+        InputAccessoryView: null,
     };
 
     static handlePlaceholder({ placeholder }) {
@@ -159,14 +161,17 @@ export default class RNPickerSelect extends PureComponent {
             selectedItem,
             showPicker: false,
             animationType: undefined,
+            orientation: 'portrait',
         };
 
         this.onUpArrow = this.onUpArrow.bind(this);
         this.onDownArrow = this.onDownArrow.bind(this);
         this.onValueChange = this.onValueChange.bind(this);
+        this.onOrientationChange = this.onOrientationChange.bind(this);
         this.setInputRef = this.setInputRef.bind(this);
         this.togglePicker = this.togglePicker.bind(this);
         this.triggerDoneCallback = this.triggerDoneCallback.bind(this);
+        this.renderInputAccessoryView = this.renderInputAccessoryView.bind(this);
     }
 
     onUpArrow() {
@@ -190,6 +195,12 @@ export default class RNPickerSelect extends PureComponent {
             return {
                 selectedItem: prevState.items[index],
             };
+        });
+    }
+
+    onOrientationChange({ nativeEvent }) {
+        this.setState({
+            orientation: nativeEvent.orientation,
         });
     }
 
@@ -273,15 +284,30 @@ export default class RNPickerSelect extends PureComponent {
         });
     }
 
-    renderDoneBar() {
-        const { doneText, hideDoneBar, onUpArrow, onDownArrow, style } = this.props;
+    renderInputAccessoryView() {
+        const {
+            InputAccessoryView,
+            doneText,
+            hideDoneBar,
+            onUpArrow,
+            onDownArrow,
+            style,
+        } = this.props;
 
+        // deprecated
         if (hideDoneBar) {
             return null;
         }
 
+        if (InputAccessoryView) {
+            return <InputAccessoryView testID="custom_input_accessory_view" />;
+        }
+
         return (
-            <View style={[defaultStyles.modalViewMiddle, style.modalViewMiddle]} testID="done_bar">
+            <View
+                style={[defaultStyles.modalViewMiddle, style.modalViewMiddle]}
+                testID="input_accessory_view"
+            >
                 <View style={[defaultStyles.chevronContainer, style.chevronContainer]}>
                     <TouchableOpacity
                         activeOpacity={onUpArrow ? 0.5 : 1}
@@ -396,7 +422,7 @@ export default class RNPickerSelect extends PureComponent {
                     animationType={this.state.animationType}
                     supportedOrientations={['portrait', 'landscape']}
                     onDismiss={this.triggerDoneCallback}
-                    // onOrientationChange={TODO: use this to resize window}
+                    onOrientationChange={this.onOrientationChange}
                     {...modalProps}
                 >
                     <TouchableOpacity
@@ -406,8 +432,14 @@ export default class RNPickerSelect extends PureComponent {
                             this.togglePicker(true);
                         }}
                     />
-                    {this.renderDoneBar()}
-                    <View style={[defaultStyles.modalViewBottom, style.modalViewBottom]}>
+                    {this.renderInputAccessoryView()}
+                    <View
+                        style={[
+                            defaultStyles.modalViewBottom,
+                            { height: this.state.orientation === 'portrait' ? 215 : 162 },
+                            style.modalViewBottom,
+                        ]}
+                    >
                         <Picker
                             testID="ios_picker"
                             onValueChange={this.onValueChange}
@@ -485,7 +517,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 }
 
-const defaultStyles = StyleSheet.create({
+export const defaultStyles = StyleSheet.create({
     viewContainer: {
         alignSelf: 'stretch',
     },
@@ -536,7 +568,6 @@ const defaultStyles = StyleSheet.create({
         paddingRight: 2,
     },
     modalViewBottom: {
-        height: 215,
         justifyContent: 'center',
         backgroundColor: '#D0D4DB',
     },

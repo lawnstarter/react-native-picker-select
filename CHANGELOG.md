@@ -1,3 +1,13 @@
+### 6.3.0
+
+##### New
+
+-   Added a prop called `InputAccessoryView` to allow a custom component to replace the InputAccessoryView on iOS. View the [snack](https://snack.expo.io/@lfkwtz/react-native-picker-select) to see examples on how this can be customized. As a result of this change, the `hideDoneBar` prop has been deprecated.
+-   iOS modal window now correctly resizes on orientation change
+-   `defaultStyles` are now exported
+
+---
+
 ### 6.2.0
 
 ##### New

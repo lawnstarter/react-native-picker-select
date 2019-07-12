@@ -92,19 +92,33 @@ describe('RNPickerSelect', () => {
         expect(wrapper.state().selectedItem.value).toEqual('yellow');
     });
 
-    it('should hide the "Done" bar if hideDoneBar prop is true', () => {
+    it('should not return the default InputAccessoryView if custom component is passed in', () => {
         const wrapper = shallow(
             <RNPickerSelect
                 items={selectItems}
                 placeholder={placeholder}
                 onValueChange={() => {}}
-                hideDoneBar
+                InputAccessoryView={() => {
+                    return <View />;
+                }}
             />
         );
 
-        const done_bar = wrapper.find('[testID="done_bar"]');
+        const input_accessory_view = wrapper.find('[testID="input_accessory_view"]');
+        const custom_input_accessory_view = wrapper.find('[testID="custom_input_accessory_view"]');
 
-        expect(done_bar).toHaveLength(0);
+        expect(input_accessory_view).toHaveLength(0);
+        expect(custom_input_accessory_view).toHaveLength(1);
+    });
+
+    it('should update the orientation state when onOrientationChange is called', () => {
+        const wrapper = shallow(<RNPickerSelect items={[]} onValueChange={() => {}} />);
+
+        expect(wrapper.state().orientation).toEqual('portrait');
+
+        wrapper.instance().onOrientationChange({ nativeEvent: { orientation: 'landscape' } });
+
+        expect(wrapper.state().orientation).toEqual('landscape');
     });
 
     it('should handle an empty items array', () => {
