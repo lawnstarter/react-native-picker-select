@@ -1,10 +1,10 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: 🐛 Bug Report
+about: Report a reproducible bug or regression.
 
 ---
 
-### YOU MUST FILL OUT THE ENTIRE BUG REPORT
+### YOU MUST FILL OUT EVERY SECTION. INCOMPLETE BUG REPORTS WILL BE CLOSED.
 
 **Describe the bug**<br />
 A clear and concise description of what the bug is.
@@ -21,9 +21,9 @@ Steps to reproduce the behavior:
 A clear and concise description of what you expected to happen.
 
 **Screenshots**<br />
-If applicable, add screenshots to help explain your problem.
+Add screenshots to help explain your problem. If screenshots aren't applicable to this issue, write "n/a".
 
-**Smartphone (please complete the following information):**<br />
+**Additional details**<br />
 -   Device: [e.g. iPhone6]
 -   OS: [e.g. iOS8.1]
 -   react-native-picker-select version: [e.g. 4.3.0]
@@ -31,4 +31,4 @@ If applicable, add screenshots to help explain your problem.
 -   react version: [e.g. 16.3]
 
 **Reproduction and/or code sample**<br />
-Provide a link to a reproduction of this issue on https://snack.expo.io **or a good explanation on why you can not**. Not including a link will result in a significant delay in our ability to address this issue.
+Provide a link to a reproduction of this issue on https://snack.expo.io **or an explanation why you can not**. Not including a snack link will result in a significant delay in our ability to address this issue.
