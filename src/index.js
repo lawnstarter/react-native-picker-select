@@ -272,6 +272,8 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderPickerItems() {
+        if (!this.state.items.map || !this.state.items.map.length) return null
+        
         return this.state.items.map((item) => {
             return (
                 <Picker.Item
