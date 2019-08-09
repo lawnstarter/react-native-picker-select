@@ -457,6 +457,9 @@ export default class RNPickerSelect extends PureComponent {
     renderAndroidHeadless() {
         const { disabled, Icon, style, pickerProps } = this.props;
 
+        if (!this.state.items.find(i => i.value === this.state.selectedItem.value))
+            return null
+                               
         return (
             <View style={style.headlessAndroidContainer}>
                 {this.renderTextInputOrChildren()}
@@ -481,6 +484,9 @@ export default class RNPickerSelect extends PureComponent {
     renderAndroidNativePickerStyle() {
         const { disabled, Icon, style, pickerProps } = this.props;
 
+        if (!this.state.items.find(i => i.value === this.state.selectedItem.value))
+            return null
+        
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <Picker
