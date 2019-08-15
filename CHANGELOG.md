@@ -1,3 +1,11 @@
+### 6.3.1
+
+##### Bugfix
+
+-   Fix Done button on iPad (#209)
+
+---
+
 ### 6.3.0
 
 ##### New
