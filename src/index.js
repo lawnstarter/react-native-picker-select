@@ -537,6 +537,7 @@ export const defaultStyles = StyleSheet.create({
         backgroundColor: '#EFF1F2',
         borderTopWidth: 0.5,
         borderTopColor: '#919498',
+        zIndex: 2,
     },
     chevronContainer: {
         flexDirection: 'row',
