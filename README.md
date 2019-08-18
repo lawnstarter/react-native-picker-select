@@ -13,7 +13,7 @@ For Android, by default we are using the native Picker component. If you prefer,
 
 For either platform, you can alternatively pass down a child element of your choice that will be wrapped in a touchable area.
 
-![iOS Example](./example/ios-example.gif) ![Android Example](./example/android-example.gif)
+![iOS Example](./ex-ios.gif) ![Android Example](./ex-android.gif)
 
 ## [View examples on snack.expo.io](https://snack.expo.io/@lfkwtz/react-native-picker-select)
 
@@ -29,17 +29,17 @@ For either platform, you can alternatively pass down a child element of your cho
 import RNPickerSelect from 'react-native-picker-select';
 
 export const Dropdown = () => {
-  return (
-    <RNPickerSelect
-      onValueChange={(value) => console.log(value)}
-      items={[
-        { label: 'Football', value: 'football' },
-        { label: 'Baseball', value: 'baseball' },
-        { label: 'Hockey', value: 'hockey' },
-      ]}
-    />
-  )
-}
+    return (
+        <RNPickerSelect
+            onValueChange={(value) => console.log(value)}
+            items={[
+                { label: 'Football', value: 'football' },
+                { label: 'Baseball', value: 'baseball' },
+                { label: 'Hockey', value: 'hockey' },
+            ]}
+        />
+    );
+};
 ```
 
 ### Versioning

@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {Chevron} from 'react-native-shapes';
 // import { Ionicons } from '@expo/vector-icons';
-import RNPickerSelect from './rnpickerselect';
+import RNPickerSelect, {defaultStyles} from './rnpickerselect';
 
 const sports = [
   {
@@ -59,7 +59,7 @@ export default class App extends React.Component {
       favSport3: undefined,
       favSport4: 'baseball',
       previousFavSport5: undefined,
-      favSport5: undefined,
+      favSport5: null,
       favNumber: undefined,
     };
 
@@ -71,6 +71,7 @@ export default class App extends React.Component {
       <View style={defaultStyles.modalViewMiddle}>
         <TouchableWithoutFeedback
           onPress={() => {
+            console.log(this.state.previousFavSport5);
             this.setState(
               {
                 favSport5: this.state.previousFavSport5,
@@ -351,7 +352,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   scrollContentContainer: {
-    paddingVertical: 10,
+    paddingTop: 40,
+    paddingBottom: 10,
   },
 });
 
