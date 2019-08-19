@@ -68,6 +68,9 @@
         ],
         "snapshotSerializers": [
             "enzyme-to-json/serializer"
+        ],
+        "testPathIgnorePatterns": [
+            "<rootDir>/demo/"
         ]
     }
 }
