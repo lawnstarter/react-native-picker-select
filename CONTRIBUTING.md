@@ -13,3 +13,5 @@
 #### **Looking for inspiration?**
 
 * See the [Feature Requests](https://github.com/lawnstarter/react-native-picker-select/projects/1) board and feel free to submit a PR for anything in the "To do" column.
+
+* If you're interested in working on anything in the "Under consideration" column - please first respond to the issue with your ideas on how you'd implement the feature.
