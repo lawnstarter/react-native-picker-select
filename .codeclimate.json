@@ -52,5 +52,5 @@
             }
         }
     },
-    "exclude_patterns": ["demo/"]
+    "exclude_patterns": ["**/demo/", "**/node_modules/", "**/test/", "**/*.d.ts"]
 }
