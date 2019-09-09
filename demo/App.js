@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {Chevron} from 'react-native-shapes';
 // import { Ionicons } from '@expo/vector-icons';
-import RNPickerSelect, {defaultStyles} from './rnpickerselect';
+import RNPickerSelect, {defaultStyles} from './react-native-picker-select';
 
 const sports = [
   {
