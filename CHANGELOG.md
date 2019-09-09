@@ -1,3 +1,11 @@
+### 6.3.3
+
+##### Chore
+
+-   Split off styles into separate file
+
+---
+
 ### 6.3.2
 
 ##### Bugfix
