@@ -53,7 +53,7 @@ export default class RNPickerSelect extends PureComponent {
         modalProps: PropTypes.shape({}),
 
         // TextInput props (iOS only)
-        text: PropTypes.shape({}),
+        textInputProps: PropTypes.shape({}),
 
         // Picker props
         pickerProps: PropTypes.shape({}),
@@ -84,7 +84,7 @@ export default class RNPickerSelect extends PureComponent {
         onOpen: null,
         onClose: null,
         modalProps: {},
-        text: {},
+        textInputProps: {},
         pickerProps: {},
         Icon: null,
         InputAccessoryView: null,
@@ -368,7 +368,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderTextInputOrChildren() {
-        const { children, style, text } = this.props;
+        const { children, style, textInputProps } = this.props;
         const containerStyle =
             Platform.OS === 'ios' ? style.inputIOSContainer : style.inputAndroidContainer;
 
@@ -387,7 +387,7 @@ export default class RNPickerSelect extends PureComponent {
                         Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
                         this.getPlaceholderStyle(),
                     ]}
-                    {...text}
+                    {...textInputProps}
                 >{this.state.selectedItem.label}</Text>
                 {this.renderIcon()}
             </View>
