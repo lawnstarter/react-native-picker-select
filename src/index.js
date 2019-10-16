@@ -15,528 +15,416 @@ import PropTypes from 'prop-types'
 import isEqual from 'lodash.isequal'
 import { defaultStyles } from './styles'
 
+const getSelectedItem = (items, selectedValue) => items.find(item => item.value === selectedValue)
+
 export default class RNPickerSelect extends PureComponent {
-    static propTypes = {
-      onValueChange: PropTypes.func.isRequired,
-      items: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        value: PropTypes.any.isRequired,
-        key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        color: ColorPropType,
-      })).isRequired,
-      selectedItem: PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        value: PropTypes.any.isRequired,
-        key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        color: ColorPropType,
-      }).isRequired,
-      value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
-      placeholder: PropTypes.shape({
-        label: PropTypes.string,
-        value: PropTypes.any,
-        key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        color: ColorPropType,
-      }),
-      disabled: PropTypes.bool,
-      itemKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      style: PropTypes.shape({}),
-      children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
-      placeholderTextColor: ColorPropType, // deprecated
-      useNativeAndroidPickerStyle: PropTypes.bool,
+  static propTypes = {
+    onValueChange: PropTypes.func.isRequired,
+    items: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      color: ColorPropType,
+    })).isRequired,
+    placeholder: PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      color: ColorPropType,
+    }),
+    disabled: PropTypes.bool,
+    selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    style: PropTypes.shape({}),
+    children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
+    placeholderTextColor: ColorPropType, // deprecated
+    useNativeAndroidPickerStyle: PropTypes.bool,
 
-      // Custom Modal props (iOS only)
-      hideDoneBar: PropTypes.bool, // deprecated
-      doneText: PropTypes.string,
-      onDonePress: PropTypes.func,
-      onUpArrow: PropTypes.func,
-      onDownArrow: PropTypes.func,
-      onOpen: PropTypes.func,
-      onClose: PropTypes.func,
+    // Custom Modal props (iOS only)
+    hideDoneBar: PropTypes.bool, // deprecated
+    doneText: PropTypes.string,
+    onDonePress: PropTypes.func,
+    onUpArrow: PropTypes.func,
+    onDownArrow: PropTypes.func,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
 
-      // Modal props (iOS only)
-      modalProps: PropTypes.shape({}),
+    // Modal props (iOS only)
+    modalProps: PropTypes.shape({}),
 
-      // TextInput props (iOS only)
-      textInputProps: PropTypes.shape({}),
+    // TextInput props (iOS only)
+    textInputProps: PropTypes.shape({}),
 
-      // Picker props
-      pickerProps: PropTypes.shape({}),
+    // Picker props
+    pickerProps: PropTypes.shape({}),
 
-      // Custom Icon
-      Icon: PropTypes.func,
-      InputAccessoryView: PropTypes.func,
-    };
+    // Custom Icon
+    Icon: PropTypes.func,
+    InputAccessoryView: PropTypes.func,
+  }
 
-    static defaultProps = {
-      value: undefined,
-      placeholder: {
-        label: 'Select an item...',
-        value: null,
-        color: '#9EA0A4',
-      },
-      disabled: false,
-      itemKey: null,
-      style: {},
-      children: null,
-      placeholderTextColor: '#C7C7CD', // deprecated
-      useNativeAndroidPickerStyle: true,
-      hideDoneBar: false, // deprecated
-      doneText: 'Done',
-      onDonePress: null,
-      onUpArrow: null,
-      onDownArrow: null,
-      onOpen: null,
-      onClose: null,
-      modalProps: {},
-      textInputProps: {},
-      pickerProps: {},
-      Icon: null,
-      InputAccessoryView: null,
-    };
+  static defaultProps = {
+    placeholder: {
+      label: 'Select an item...',
+      value: null,
+      color: '#9EA0A4',
+    },
+    disabled: false,
+    style: {},
+    children: null,
+    placeholderTextColor: '#C7C7CD', // deprecated
+    useNativeAndroidPickerStyle: true,
+    hideDoneBar: false, // deprecated
+    doneText: 'Done',
+    onDonePress: null,
+    onUpArrow: null,
+    onDownArrow: null,
+    onOpen: null,
+    onClose: null,
+    modalProps: {},
+    textInputProps: {},
+    pickerProps: {},
+    Icon: null,
+    InputAccessoryView: null,
+  }
 
-    static handlePlaceholder({ placeholder }) {
-      if (isEqual(placeholder, {})) {
-        return []
-      }
-      return [placeholder]
+  static handlePlaceholder({ placeholder }) {
+    if (isEqual(placeholder, {})) {
+      return []
+    }
+    return [placeholder]
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      showPicker: false,
+      animationType: undefined,
+      orientation: 'portrait',
     }
 
-    static getSelectedItem({ items, key, value }) {
-      let idx = items.findIndex((item) => {
-        if (item.key && key) {
-          return isEqual(item.key, key)
-        }
-        return isEqual(item.value, value)
-      })
-      if (idx === -1) {
-        idx = 0
-      }
+    this.onUpArrow = this.onUpArrow.bind(this)
+    this.onDownArrow = this.onDownArrow.bind(this)
+    this.onValueChange = this.onValueChange.bind(this)
+    this.onOrientationChange = this.onOrientationChange.bind(this)
+    this.setInputRef = this.setInputRef.bind(this)
+    this.togglePicker = this.togglePicker.bind(this)
+    this.triggerDoneCallback = this.triggerDoneCallback.bind(this)
+    this.renderInputAccessoryView = this.renderInputAccessoryView.bind(this)
+  }
+
+  onUpArrow() {
+    const { onUpArrow } = this.props
+
+    this.togglePicker(false, onUpArrow)
+  }
+
+  onDownArrow() {
+    const { onDownArrow } = this.props
+
+    this.togglePicker(false, onDownArrow)
+  }
+
+  onValueChange(value, index) {
+    this.props.onValueChange(value, index)
+  }
+
+  onOrientationChange({ nativeEvent }) {
+    this.setState({
+      orientation: nativeEvent.orientation,
+    })
+  }
+
+  setInputRef(ref) {
+    this.inputRef = ref
+  }
+
+  getPlaceholderStyle(selectedItem) {
+    const { placeholder, placeholderTextColor, style } = this.props
+
+    if (!isEqual(placeholder, {}) && selectedItem.label === placeholder.label) {
       return {
-        selectedItem: items[idx] || {},
-        idx,
+        ...defaultStyles.placeholder,
+        color: placeholderTextColor, // deprecated
+        ...style.placeholder,
       }
     }
+    return {}
+  }
 
-    // static getDerivedStateFromProps(nextProps, prevState) {
-    //   // update items if items or placeholder prop changes
-    //   const items = RNPickerSelect.handlePlaceholder({
-    //     placeholder: nextProps.placeholder,
-    //   }).concat(nextProps.items)
-    //   const itemsChanged = !isEqual(prevState.items, items)
+  triggerOpenCloseCallbacks() {
+    const { onOpen, onClose } = this.props
 
-    //   // update selectedItem if value prop is defined and differs from currently selected item
-    //   const { selectedItem, idx } = RNPickerSelect.getSelectedItem({
-    //     items,
-    //     key: nextProps.itemKey,
-    //     value: nextProps.value,
-    //   })
-    //     const selectedItemChanged =
-    //           !isEqual(nextProps.value, undefined) && !isEqual(prevState.selectedItem, selectedItem)
-
-    //   if (itemsChanged || selectedItemChanged) {
-    //     if (selectedItemChanged) {
-    //     //   nextProps.onValueChange(selectedItem.value, idx)
-    //     }
-
-    //     return {
-    //       ...(itemsChanged ? { items } : {}),
-    //         ...(selectedItemChanged ? { selectedItem } : {}),
-    //     }
-    //   }
-
-    //   return null
-    // }
-
-    constructor(props) {
-      super(props)
-
-      //   const items = RNPickerSelect.handlePlaceholder({
-      //     placeholder: this.props.placeholder,
-      //   }).concat(this.props.items)
-
-      //   const { selectedItem } = RNPickerSelect.getSelectedItem({
-      //     items,
-      //     key: this.props.itemKey,
-      //     value: this.props.value,
-      //   })
-
-      this.state = {
-        // items,
-        // selectedItem,
-        showPicker: false,
-        animationType: undefined,
-        orientation: 'portrait',
-      }
-
-      this.onUpArrow = this.onUpArrow.bind(this)
-      this.onDownArrow = this.onDownArrow.bind(this)
-      this.onValueChange = this.onValueChange.bind(this)
-      this.onOrientationChange = this.onOrientationChange.bind(this)
-      this.setInputRef = this.setInputRef.bind(this)
-      this.togglePicker = this.togglePicker.bind(this)
-      this.triggerDoneCallback = this.triggerDoneCallback.bind(this)
-      this.renderInputAccessoryView = this.renderInputAccessoryView.bind(this)
+    if (!this.state.showPicker && onOpen) {
+      onOpen()
     }
 
-    onUpArrow() {
-      const { onUpArrow } = this.props
+    if (this.state.showPicker && onClose) {
+      onClose()
+    }
+  }
 
-      this.togglePicker(false, onUpArrow)
+  triggerDoneCallback() {
+    const { hideDoneBar, onDonePress } = this.props
+    if (!hideDoneBar && onDonePress) {
+      onDonePress()
+    }
+  }
+
+  togglePicker(animate = false, postToggleCallback) {
+    const { modalProps, disabled } = this.props
+
+    if (disabled) {
+      return
     }
 
-    onDownArrow() {
-      const { onDownArrow } = this.props
-
-      this.togglePicker(false, onDownArrow)
+    if (!this.state.showPicker) {
+      Keyboard.dismiss()
     }
 
-    onValueChange(value, index) {
-      this.props.onValueChange(value, index)
-    }
+    const animationType = modalProps && modalProps.animationType ? modalProps.animationType : 'slide'
 
-    // onValueChange(value, index) {
-    //   const { onValueChange } = this.props
+    this.triggerOpenCloseCallbacks()
 
-    //   // Fix for Android Picker not consistently firing onValueChange
-    //   // https://github.com/facebook/react-native/issues/15556#issuecomment-395483381
-    //   if (Platform.OS === 'android') {
-    //     setTimeout(() => {
-    //       onValueChange(value, index)
-    //       this.setState(prevState => ({
-    //         selectedItem: prevState.items[index],
-    //       }))
-    //     }, 10)
-    //   } else {
-    //     onValueChange(value, index)
-    //     this.setState(prevState => ({
-    //       selectedItem: prevState.items[index],
-    //     }))
-    //   }
-    // }
-
-    onOrientationChange({ nativeEvent }) {
-      this.setState({
-        orientation: nativeEvent.orientation,
-      })
-    }
-
-    setInputRef(ref) {
-      this.inputRef = ref
-    }
-
-    getPlaceholderStyle() {
-      const { placeholder, placeholderTextColor, style } = this.props
-
-      if (!isEqual(placeholder, {}) && this.props.selectedItem.label === placeholder.label) {
-        return {
-          ...defaultStyles.placeholder,
-          color: placeholderTextColor, // deprecated
-          ...style.placeholder,
+    this.setState(
+      prevState => ({
+        animationType: animate ? animationType : undefined,
+        showPicker: !prevState.showPicker,
+      }),
+      () => {
+        if (postToggleCallback) {
+          postToggleCallback()
         }
-      }
-      return {}
+      },
+    )
+  }
+
+  renderPickerItems() {
+    return this.props.items.map(item => (
+      <Picker.Item label={item.label} value={item.value} key={item.key || item.label} color={item.color} />
+    ))
+  }
+
+  renderInputAccessoryView() {
+    const {
+      InputAccessoryView, doneText, hideDoneBar, onUpArrow, onDownArrow, style,
+    } = this.props
+
+    // deprecated
+    if (hideDoneBar) {
+      return null
     }
 
-    triggerOpenCloseCallbacks() {
-      const { onOpen, onClose } = this.props
-
-      if (!this.state.showPicker && onOpen) {
-        onOpen()
-      }
-
-      if (this.state.showPicker && onClose) {
-        onClose()
-      }
+    if (InputAccessoryView) {
+      return <InputAccessoryView testID="custom_input_accessory_view" />
     }
 
-    triggerDoneCallback() {
-      const { hideDoneBar, onDonePress } = this.props
-      if (!hideDoneBar && onDonePress) {
-        onDonePress()
-      }
-    }
-
-    togglePicker(animate = false, postToggleCallback) {
-      const { modalProps, disabled } = this.props
-
-      if (disabled) {
-        return
-      }
-
-      if (!this.state.showPicker) {
-        Keyboard.dismiss()
-      }
-
-      const animationType =
-            modalProps && modalProps.animationType ? modalProps.animationType : 'slide'
-
-      this.triggerOpenCloseCallbacks()
-
-      this.setState(
-        prevState => ({
-          animationType: animate ? animationType : undefined,
-          showPicker: !prevState.showPicker,
-        }),
-        () => {
-          if (postToggleCallback) {
-            postToggleCallback()
-          }
-        },
-      )
-    }
-
-    renderPickerItems() {
-      return this.props.items.map(item => (
-        <Picker.Item
-          label={item.label}
-          value={item.value}
-          key={item.key || item.label}
-          color={item.color}
-        />
-      ))
-    }
-
-    renderInputAccessoryView() {
-      const {
-        InputAccessoryView,
-        doneText,
-        hideDoneBar,
-        onUpArrow,
-        onDownArrow,
-        style,
-      } = this.props
-
-      // deprecated
-      if (hideDoneBar) {
-        return null
-      }
-
-      if (InputAccessoryView) {
-        return <InputAccessoryView testID="custom_input_accessory_view" />
-      }
-
-      return (
-        <View
-          style={[defaultStyles.modalViewMiddle, style.modalViewMiddle]}
-          testID="input_accessory_view"
-        >
-          <View style={[defaultStyles.chevronContainer, style.chevronContainer]}>
-            <TouchableOpacity
-              activeOpacity={onUpArrow ? 0.5 : 1}
-              onPress={onUpArrow ? this.onUpArrow : null}
-            >
-              <View
-                style={[
-                                defaultStyles.chevron,
-                                style.chevron,
-                                defaultStyles.chevronUp,
-                                style.chevronUp,
-                                onUpArrow ? [defaultStyles.chevronActive, style.chevronActive] : {},
-                            ]}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={onDownArrow ? 0.5 : 1}
-              onPress={onDownArrow ? this.onDownArrow : null}
-            >
-              <View
-                style={[
-                                defaultStyles.chevron,
-                                style.chevron,
-                                defaultStyles.chevronDown,
-                                style.chevronDown,
-                                onDownArrow
-                                    ? [defaultStyles.chevronActive, style.chevronActive]
-                                    : {},
-                            ]}
-              />
-            </TouchableOpacity>
-          </View>
-          <TouchableWithoutFeedback
-            onPress={() => {
-                        this.togglePicker(true)
-                    }}
-            hitSlop={{
-                        top: 4,
-                        right: 4,
-                        bottom: 4,
-                        left: 4,
-                    }}
-            testID="done_button"
-          >
-            <View testID="needed_for_touchable">
-              <Text style={[defaultStyles.done, style.done]}>{doneText}</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-      )
-    }
-
-    renderIcon() {
-      const { style, Icon } = this.props
-
-      if (!Icon) {
-        return null
-      }
-
-      return (
-        <View
-          testID="icon_container"
-          style={[defaultStyles.iconContainer, style.iconContainer]}
-        >
-          <Icon testID="icon" />
-        </View>
-      )
-    }
-
-    renderTextInputOrChildren() {
-      const { children, style, textInputProps } = this.props
-      const containerStyle =
-            Platform.OS === 'ios' ? style.inputIOSContainer : style.inputAndroidContainer
-
-      if (children) {
-        return (
-          <View pointerEvents="box-only" style={containerStyle}>
-            {children}
-          </View>
-        )
-      }
-
-      return (
-        <View pointerEvents="box-only" style={containerStyle}>
-          <TextInput
-            style={[
-                        Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
-                        this.getPlaceholderStyle(),
-                    ]}
-            value={this.props.selectedItem.label}
-            ref={this.setInputRef}
-            editable={false}
-            {...textInputProps}
-          />
-          {this.renderIcon()}
-        </View>
-      )
-    }
-
-    renderIOS() {
-      const { style, modalProps, pickerProps } = this.props
-
-      return (
-        <View style={[defaultStyles.viewContainer, style.viewContainer]}>
-          <TouchableWithoutFeedback
-            onPress={() => {
-                        this.togglePicker(true)
-                    }}
-            testID="ios_touchable_wrapper"
-          >
-            {this.renderTextInputOrChildren()}
-          </TouchableWithoutFeedback>
-          <Modal
-            testID="ios_modal"
-            visible={this.state.showPicker}
-            transparent
-            animationType={this.state.animationType}
-            supportedOrientations={['portrait', 'landscape']}
-            onDismiss={this.triggerDoneCallback}
-            onOrientationChange={this.onOrientationChange}
-            {...modalProps}
-          >
-            <TouchableOpacity
-              style={[defaultStyles.modalViewTop, style.modalViewTop]}
-              testID="ios_modal_top"
-              onPress={() => {
-                            this.togglePicker(true)
-                        }}
-            />
-            {this.renderInputAccessoryView()}
+    return (
+      <View style={[defaultStyles.modalViewMiddle, style.modalViewMiddle]} testID="input_accessory_view">
+        <View style={[defaultStyles.chevronContainer, style.chevronContainer]}>
+          <TouchableOpacity activeOpacity={onUpArrow ? 0.5 : 1} onPress={onUpArrow ? this.onUpArrow : null}>
             <View
               style={[
-                            defaultStyles.modalViewBottom,
-                            { height: this.state.orientation === 'portrait' ? 215 : 162 },
-                            style.modalViewBottom,
-                        ]}
+                defaultStyles.chevron,
+                style.chevron,
+                defaultStyles.chevronUp,
+                style.chevronUp,
+                onUpArrow ? [defaultStyles.chevronActive, style.chevronActive] : {},
+              ]}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={onDownArrow ? 0.5 : 1} onPress={onDownArrow ? this.onDownArrow : null}>
+            <View
+              style={[
+                defaultStyles.chevron,
+                style.chevron,
+                defaultStyles.chevronDown,
+                style.chevronDown,
+                onDownArrow ? [defaultStyles.chevronActive, style.chevronActive] : {},
+              ]}
+            />
+          </TouchableOpacity>
+        </View>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            this.togglePicker(true)
+          }}
+          hitSlop={{
+            top: 4,
+            right: 4,
+            bottom: 4,
+            left: 4,
+          }}
+          testID="done_button"
+        >
+          <View testID="needed_for_touchable">
+            <Text style={[defaultStyles.done, style.done]}>{doneText}</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+    )
+  }
+
+  renderIcon() {
+    const { style, Icon } = this.props
+
+    if (!Icon) {
+      return null
+    }
+
+    return (
+      <View testID="icon_container" style={[defaultStyles.iconContainer, style.iconContainer]}>
+        <Icon testID="icon" />
+      </View>
+    )
+  }
+
+  renderTextInputOrChildren(selectedItem) {
+    const { children, style, textInputProps } = this.props
+    const containerStyle = Platform.OS === 'ios' ? style.inputIOSContainer : style.inputAndroidContainer
+
+    if (children) {
+      return (
+        <View pointerEvents="box-only" style={containerStyle}>
+          {children}
+        </View>
+      )
+    }
+
+    return (
+      <View pointerEvents="box-only" style={containerStyle}>
+        <TextInput
+          style={[Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid, this.getPlaceholderStyle(selectedItem)]}
+          value={selectedItem.label}
+          ref={this.setInputRef}
+          editable={false}
+          {...textInputProps}
+        />
+        {this.renderIcon()}
+      </View>
+    )
+  }
+
+  renderIOS(selectedItem) {
+    const { style, modalProps, pickerProps } = this.props
+
+    return (
+      <View style={[defaultStyles.viewContainer, style.viewContainer]}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            this.togglePicker(true)
+          }}
+          testID="ios_touchable_wrapper"
+        >
+          {this.renderTextInputOrChildren(selectedItem)}
+        </TouchableWithoutFeedback>
+        <Modal
+          testID="ios_modal"
+          visible={this.state.showPicker}
+          transparent
+          animationType={this.state.animationType}
+          supportedOrientations={['portrait', 'landscape']}
+          onDismiss={this.triggerDoneCallback}
+          onOrientationChange={this.onOrientationChange}
+          {...modalProps}
+        >
+          <TouchableOpacity
+            style={[defaultStyles.modalViewTop, style.modalViewTop]}
+            testID="ios_modal_top"
+            onPress={() => {
+              this.togglePicker(true)
+            }}
+          />
+          {this.renderInputAccessoryView()}
+          <View
+            style={[
+              defaultStyles.modalViewBottom,
+              { height: this.state.orientation === 'portrait' ? 215 : 162 },
+              style.modalViewBottom,
+            ]}
+          >
+            <Picker
+              testID="ios_picker"
+              onValueChange={this.onValueChange}
+              selectedValue={selectedItem.value}
+              {...pickerProps}
             >
-              <Picker
-                testID="ios_picker"
-                onValueChange={this.onValueChange}
-                selectedValue={this.props.selectedItem.value}
-                {...pickerProps}
-              >
-                {this.renderPickerItems()}
-              </Picker>
-            </View>
-          </Modal>
-        </View>
-      )
+              {this.renderPickerItems()}
+            </Picker>
+          </View>
+        </Modal>
+      </View>
+    )
+  }
+
+  renderAndroidHeadless(selectedItem) {
+    const {
+      disabled, Icon, style, pickerProps,
+    } = this.props
+
+    return (
+      <View style={style.headlessAndroidContainer}>
+        {this.renderTextInputOrChildren(selectedItem)}
+        <Picker
+          style={[
+            Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
+            defaultStyles.headlessAndroidPicker,
+            style.headlessAndroidPicker,
+          ]}
+          testID="android_picker_headless"
+          enabled={!disabled}
+          onValueChange={this.onValueChange}
+          selectedValue={selectedItem.value}
+          {...pickerProps}
+        >
+          {this.renderPickerItems()}
+        </Picker>
+      </View>
+    )
+  }
+
+  renderAndroidNativePickerStyle(selectedItem) {
+    const {
+      disabled, Icon, style, pickerProps,
+    } = this.props
+
+    return (
+      <View style={[defaultStyles.viewContainer, style.viewContainer]}>
+        <Picker
+          style={[
+            Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
+            style.inputAndroid,
+            this.getPlaceholderStyle(selectedItem),
+          ]}
+          testID="android_picker"
+          enabled={!disabled}
+          onValueChange={this.onValueChange}
+          selectedValue={selectedItem.value}
+          {...pickerProps}
+        >
+          {this.renderPickerItems()}
+        </Picker>
+        {this.renderIcon()}
+      </View>
+    )
+  }
+
+  render() {
+    const {
+      children, useNativeAndroidPickerStyle, items, selectedValue,
+    } = this.props
+    const selectedItem = getSelectedItem(items, selectedValue)
+
+    if (Platform.OS === 'ios') {
+      return this.renderIOS(selectedItem)
     }
 
-    renderAndroidHeadless() {
-      const {
-        disabled, Icon, style, pickerProps,
-      } = this.props
-
-      return (
-        <View style={style.headlessAndroidContainer}>
-          {this.renderTextInputOrChildren()}
-          <Picker
-            style={[
-                        Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
-                        defaultStyles.headlessAndroidPicker,
-                        style.headlessAndroidPicker,
-                    ]}
-            testID="android_picker_headless"
-            enabled={!disabled}
-            onValueChange={this.onValueChange}
-            selectedValue={this.props.selectedItem.value}
-            {...pickerProps}
-          >
-            {this.renderPickerItems()}
-          </Picker>
-        </View>
-      )
+    if (children || !useNativeAndroidPickerStyle) {
+      return this.renderAndroidHeadless(selectedItem)
     }
 
-    renderAndroidNativePickerStyle() {
-      const {
-        disabled, Icon, style, pickerProps,
-      } = this.props
-
-      return (
-        <View style={[defaultStyles.viewContainer, style.viewContainer]}>
-          <Picker
-            style={[
-                        Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
-                        style.inputAndroid,
-                        this.getPlaceholderStyle(),
-                    ]}
-            testID="android_picker"
-            enabled={!disabled}
-            onValueChange={this.onValueChange}
-            selectedValue={this.props.selectedItem.value}
-            {...pickerProps}
-          >
-            {this.renderPickerItems()}
-          </Picker>
-          {this.renderIcon()}
-        </View>
-      )
-    }
-
-    render() {
-      const { children, useNativeAndroidPickerStyle } = this.props
-
-
-      if (Platform.OS === 'ios') {
-        return this.renderIOS()
-      }
-
-      if (children || !useNativeAndroidPickerStyle) {
-        return this.renderAndroidHeadless()
-      }
-
-      return this.renderAndroidNativePickerStyle()
-    }
+    return this.renderAndroidNativePickerStyle(selectedItem)
+  }
 }
 
 export { defaultStyles }
