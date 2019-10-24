@@ -1,4 +1,4 @@
-/// <reference types="react" />
+// / <reference types="react" />
 
 declare module 'react-native-picker-select' {
     export interface Item {
@@ -16,10 +16,9 @@ declare module 'react-native-picker-select' {
         itemKey?: string | number;
         style?: object;
         children?: any;
-        hideIcon?: boolean;
-        placeholderTextColor?: string;
+        placeholderTextColor?: string; // deprecated
         useNativeAndroidPickerStyle?: boolean;
-        hideDoneBar?: boolean;
+        hideDoneBar?: boolean; // deprecated
         doneText?: string;
         onDonePress?: () => void;
         onUpArrow?: () => void;
@@ -29,6 +28,8 @@ declare module 'react-native-picker-select' {
         modalProps?: object;
         textInputProps?: object;
         pickerProps?: object;
+        Icon?: React.ReactNode;
+        InputAccessoryView?: React.ReactNode;
     }
     class Picker extends React.Component<PickerProps> {}
     export default Picker;

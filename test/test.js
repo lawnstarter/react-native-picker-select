@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform, Keyboard, View } from 'react-native';
-import RNPickerSelect from '../src/';
+import RNPickerSelect from '../src';
 
 const selectItems = [
     {
@@ -82,29 +82,51 @@ describe('RNPickerSelect', () => {
         );
 
         wrapper
-            .find('[testID="RNPickerSelectIOS"]')
+            .find('[testID="ios_picker"]')
             .props()
             .onValueChange('orange', 2);
         wrapper
-            .find('[testID="RNPickerSelectIOS"]')
+            .find('[testID="ios_picker"]')
             .props()
             .onValueChange('yellow', 3);
         expect(wrapper.state().selectedItem.value).toEqual('yellow');
     });
 
-    it('should hide the "Done" bar if hideDoneBar prop is true', () => {
+    it('should not return the default InputAccessoryView if custom component is passed in', () => {
         const wrapper = shallow(
             <RNPickerSelect
                 items={selectItems}
                 placeholder={placeholder}
                 onValueChange={() => {}}
-                hideDoneBar
+                InputAccessoryView={() => {
+                    return <View />;
+                }}
             />
         );
 
-        const done_bar = wrapper.find('[testID="done_bar"]');
+        const input_accessory_view = wrapper.find('[testID="input_accessory_view"]');
+        const custom_input_accessory_view = wrapper.find('[testID="custom_input_accessory_view"]');
 
-        expect(done_bar).toHaveLength(0);
+        expect(input_accessory_view).toHaveLength(0);
+        expect(custom_input_accessory_view).toHaveLength(1);
+    });
+
+    it('should update the orientation state when onOrientationChange is called', () => {
+        const wrapper = shallow(<RNPickerSelect items={[]} onValueChange={() => {}} />);
+
+        expect(wrapper.state().orientation).toEqual('portrait');
+
+        wrapper.instance().onOrientationChange({ nativeEvent: { orientation: 'landscape' } });
+
+        expect(wrapper.state().orientation).toEqual('landscape');
+    });
+
+    it('should handle an empty items array', () => {
+        const wrapper = shallow(
+            <RNPickerSelect items={[]} placeholder={{}} onValueChange={() => {}} />
+        );
+
+        expect(wrapper.state().items).toHaveLength(0);
     });
 
     it('should return the expected option to a callback passed into onSelect', () => {
@@ -118,7 +140,7 @@ describe('RNPickerSelect', () => {
         );
 
         wrapper
-            .find('[testID="RNPickerSelectIOS"]')
+            .find('[testID="ios_picker"]')
             .props()
             .onValueChange('orange', 2);
         expect(onValueChangeSpy).toHaveBeenCalledWith('orange', 2);
@@ -200,12 +222,24 @@ describe('RNPickerSelect', () => {
         expect(wrapper.state().items).toEqual(selectItems);
     });
 
-    it('should should suppress the icon when the hideIcon flag is used', () => {
+    it('should should show the icon container the Icon prop receives a component', () => {
         const wrapper = shallow(
-            <RNPickerSelect items={selectItems} onValueChange={() => {}} hideIcon />
+            <RNPickerSelect
+                items={selectItems}
+                onValueChange={() => {}}
+                Icon={() => {
+                    return <View />;
+                }}
+            />
         );
 
-        expect(wrapper.find('[testID="icon_ios"]')).toHaveLength(0);
+        expect(wrapper.find('[testID="icon_container"]')).toHaveLength(1);
+    });
+
+    it('should should not show the icon container when the Icon prop is empty', () => {
+        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={() => {}} />);
+
+        expect(wrapper.find('[testID="icon_container"]')).toHaveLength(0);
     });
 
     it('should call Keyboard.dismiss when opened', () => {
@@ -228,7 +262,7 @@ describe('RNPickerSelect', () => {
         );
 
         wrapper
-            .find('[testID="RNPickerSelectIOS"]')
+            .find('[testID="ios_picker"]')
             .props()
             .onValueChange('orange', 2);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
@@ -241,13 +275,13 @@ describe('RNPickerSelect', () => {
         const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={() => {}} />);
 
         wrapper
-            .find('[testID="RNPickerSelectAndroid"]')
+            .find('[testID="android_picker"]')
             .props()
             .onValueChange('orange', 2);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
     });
 
-    it('should render the headless component when children are passed in (Android)', () => {
+    it('should render the headless component when a child is passed in (Android)', () => {
         Platform.OS = 'android';
         const wrapper = shallow(
             <RNPickerSelect items={selectItems} onValueChange={() => {}}>
@@ -255,7 +289,7 @@ describe('RNPickerSelect', () => {
             </RNPickerSelect>
         );
 
-        const component = wrapper.find('[testID="RNPickerSelectAndroidHeadless"]');
+        const component = wrapper.find('[testID="android_picker_headless"]');
         expect(component).toHaveLength(1);
     });
 
@@ -271,11 +305,9 @@ describe('RNPickerSelect', () => {
         );
 
         wrapper
-            .find('[testID="RNPickerSelectIOS"]')
+            .find('[testID="ios_modal"]')
             .props()
-            .onValueChange('orange', 2);
-        const touchable = wrapper.find('[testID="done_button"]');
-        touchable.simulate('press');
+            .onDismiss();
         expect(onDonePressSpy).toHaveBeenCalledWith();
     });
 
@@ -292,7 +324,7 @@ describe('RNPickerSelect', () => {
             />
         );
         wrapper
-            .find('[testID="RNPickerSelectModal"]')
+            .find('[testID="ios_modal"]')
             .props()
             .onShow();
         expect(onShowSpy).toHaveBeenCalledWith();
@@ -311,7 +343,7 @@ describe('RNPickerSelect', () => {
             />
         );
         wrapper
-            .find('[testID="RNPickerSelectModal"]')
+            .find('[testID="ios_modal"]')
             .props()
             .onDismiss();
         expect(onDismissSpy).toHaveBeenCalledWith();
@@ -342,6 +374,17 @@ describe('RNPickerSelect', () => {
         touchable.simulate('press');
 
         expect(onCloseSpy).toHaveBeenCalledWith();
+    });
+
+    it('should close the modal when the empty area above the picker is tapped', () => {
+        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={() => {}} />);
+
+        jest.spyOn(wrapper.instance(), 'togglePicker');
+
+        const touchable = wrapper.find('[testID="ios_modal_top"]');
+        touchable.simulate('press');
+
+        expect(wrapper.instance().togglePicker).toHaveBeenCalledWith(true);
     });
 
     describe('getDerivedStateFromProps', () => {
