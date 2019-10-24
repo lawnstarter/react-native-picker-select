@@ -127,7 +127,6 @@ export default class RNPickerSelect extends PureComponent {
             value: nextProps.value,
         });
 
-        // update selectedItem if value prop is defined and differs from currently selected item
         const selectedItemChanged =
             !isEqual(nextProps.value, undefined) && !isEqual(prevState.selectedItem, selectedItem);
 
