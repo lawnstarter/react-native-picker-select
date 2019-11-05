@@ -1,3 +1,15 @@
+## 7.0.0
+
+#### Breaking Changes
+
+-   Deprecated `placeholderTextColor` and `hideDoneBar` props removed
+
+##### Bugfix
+
+-   "Done" Text element now set to `allowFontScaling={false}` (#247)
+
+---
+
 ### 6.3.3
 
 ##### Chore

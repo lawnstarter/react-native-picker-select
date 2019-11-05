@@ -37,11 +37,9 @@ export default class RNPickerSelect extends PureComponent {
         itemKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         style: PropTypes.shape({}),
         children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
-        placeholderTextColor: ColorPropType, // deprecated
         useNativeAndroidPickerStyle: PropTypes.bool,
 
         // Custom Modal props (iOS only)
-        hideDoneBar: PropTypes.bool, // deprecated
         doneText: PropTypes.string,
         onDonePress: PropTypes.func,
         onUpArrow: PropTypes.func,
@@ -74,9 +72,7 @@ export default class RNPickerSelect extends PureComponent {
         itemKey: null,
         style: {},
         children: null,
-        placeholderTextColor: '#C7C7CD', // deprecated
         useNativeAndroidPickerStyle: true,
-        hideDoneBar: false, // deprecated
         doneText: 'Done',
         onDonePress: null,
         onUpArrow: null,
@@ -204,12 +200,11 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     getPlaceholderStyle() {
-        const { placeholder, placeholderTextColor, style } = this.props;
+        const { placeholder, style } = this.props;
 
         if (!isEqual(placeholder, {}) && this.state.selectedItem.label === placeholder.label) {
             return {
                 ...defaultStyles.placeholder,
-                color: placeholderTextColor, // deprecated
                 ...style.placeholder,
             };
         }
@@ -229,8 +224,8 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     triggerDoneCallback() {
-        const { hideDoneBar, onDonePress } = this.props;
-        if (!hideDoneBar && onDonePress) {
+        const { onDonePress } = this.props;
+        if (onDonePress) {
             onDonePress();
         }
     }
@@ -280,19 +275,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderInputAccessoryView() {
-        const {
-            InputAccessoryView,
-            doneText,
-            hideDoneBar,
-            onUpArrow,
-            onDownArrow,
-            style,
-        } = this.props;
-
-        // deprecated
-        if (hideDoneBar) {
-            return null;
-        }
+        const { InputAccessoryView, doneText, onUpArrow, onDownArrow, style } = this.props;
 
         if (InputAccessoryView) {
             return <InputAccessoryView testID="custom_input_accessory_view" />;
@@ -343,7 +326,9 @@ export default class RNPickerSelect extends PureComponent {
                     testID="done_button"
                 >
                     <View testID="needed_for_touchable">
-                        <Text style={[defaultStyles.done, style.done]}>{doneText}</Text>
+                        <Text allowFontScaling={false} style={[defaultStyles.done, style.done]}>
+                            {doneText}
+                        </Text>
                     </View>
                 </TouchableWithoutFeedback>
             </View>
@@ -388,7 +373,9 @@ export default class RNPickerSelect extends PureComponent {
                         this.getPlaceholderStyle(),
                     ]}
                     {...textInputProps}
-                >{this.state.selectedItem.label}</Text>
+                >
+                    {this.state.selectedItem.label}
+                </Text>
                 {this.renderIcon()}
             </View>
         );
