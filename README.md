@@ -7,9 +7,11 @@
 
 A Picker component for React Native which emulates the native `<select>` interfaces for iOS and Android
 
-For iOS, by default we are wrapping an unstyled TextInput component. You can then pass down styles to customize it to your needs.
+For iOS, by default we are wrapping an unstyled Text component.
 
-For Android, by default we are using the native Picker component. If you prefer, you can set `useNativeAndroidPickerStyle` to false, which will also render an unstyled TextInput component. You can then pass down styles to customize it to your needs.
+For Android, by default we are using the native Picker component. If you prefer, you can set `useNativeAndroidPickerStyle` to false, which will also render an unstyled Text component.
+
+The Text component can receive styles to customize it to your needs - for example, you may want it to look like your other TextInput components.
 
 For either platform, you can alternatively pass down a child element of your choice that will be wrapped in a touchable area.
 
@@ -41,13 +43,6 @@ export const Dropdown = () => {
     );
 };
 ```
-
-### Versioning
-
-| Component | React   |
-| --------- | ------- |
-| >= 3.0.0  | >= 16.3 |
-| < 3.0.0   | < 16.3  |
 
 ### Props
 
@@ -93,9 +88,16 @@ All properties mentioned below must be nested under the `style` prop. Examples o
 -   You can pass a component of your choosing (css, image, svg, etc..) for use as the icon. For ease of use, consider a library such as [react-native-shapes](https://github.com/lfkwtz/react-native-shapes) or [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons).
 -   Examples of different icons and their usage can be found [on the example snack](https://snack.expo.io/@lfkwtz/react-native-picker-select).
 
+### Versioning
+
+| Component | React   |
+| --------- | ------- |
+| >= 3.0.0  | >= 16.3 |
+| < 3.0.0   | < 16.3  |
+
 ## Testing
 
-This component has been tested on React Native v0.51 - v0.59
+This component has been tested on React Native v0.51 - v0.60
 
 [![BrowserStack](https://i.imgur.com/cOdhMed.png)](https://www.browserstack.com/)
 
