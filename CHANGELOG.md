@@ -3,10 +3,14 @@
 #### Breaking Changes
 
 -   Deprecated `placeholderTextColor` and `hideDoneBar` props removed
+-   Typescript type definitions received a major overhaul (#248)
+-   Base component is now a `Text` element to fix issues on Android (#234). This _should_ not cause any issues unless you are targeting the former `TextInput` in tests.
 
 ##### Bugfix
 
 -   "Done" Text element now set to `allowFontScaling={false}` (#247)
+-   Fix for `onValueChange` event triggering a re-render on Android (#112)
+-   Fix for `onDonePress` regression (#236)
 
 ---
 
