@@ -164,7 +164,6 @@ export default class RNPickerSelect extends PureComponent {
         this.onValueChange = this.onValueChange.bind(this);
         this.onOrientationChange = this.onOrientationChange.bind(this);
         this.togglePicker = this.togglePicker.bind(this);
-        this.triggerDoneCallback = this.triggerDoneCallback.bind(this);
         this.renderInputAccessoryView = this.renderInputAccessoryView.bind(this);
     }
 
@@ -224,13 +223,6 @@ export default class RNPickerSelect extends PureComponent {
         }
     }
 
-    triggerDoneCallback() {
-        const { onDonePress } = this.props;
-        if (onDonePress) {
-            onDonePress();
-        }
-    }
-
     togglePicker(animate = false, postToggleCallback) {
         const { modalProps, disabled } = this.props;
         const { showPicker } = this.state;
@@ -279,7 +271,14 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderInputAccessoryView() {
-        const { InputAccessoryView, doneText, onUpArrow, onDownArrow, style } = this.props;
+        const {
+            InputAccessoryView,
+            doneText,
+            onUpArrow,
+            onDownArrow,
+            style,
+            onDonePress,
+        } = this.props;
 
         if (InputAccessoryView) {
             return <InputAccessoryView testID="custom_input_accessory_view" />;
@@ -324,7 +323,7 @@ export default class RNPickerSelect extends PureComponent {
                 </View>
                 <TouchableWithoutFeedback
                     onPress={() => {
-                        this.togglePicker(true);
+                        this.togglePicker(true, onDonePress);
                     }}
                     hitSlop={{ top: 4, right: 4, bottom: 4, left: 4 }}
                     testID="done_button"
@@ -407,7 +406,6 @@ export default class RNPickerSelect extends PureComponent {
                     transparent
                     animationType={animationType}
                     supportedOrientations={['portrait', 'landscape']}
-                    onDismiss={this.triggerDoneCallback}
                     onOrientationChange={this.onOrientationChange}
                     {...modalProps}
                 >
