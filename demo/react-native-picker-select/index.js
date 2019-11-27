@@ -180,16 +180,19 @@ export default class RNPickerSelect extends PureComponent {
     this.togglePicker(false, onDownArrow);
   }
 
-  onValueChange(value, index) {
-    const {onValueChange} = this.props;
+  onValueChange(val, idx) {
+    const {onValueChange, value} = this.props;
 
-    onValueChange(value, index);
+    onValueChange(val, idx);
 
-    this.setState(prevState => {
-      return {
-        selectedItem: prevState.items[index],
-      };
-    });
+    // if value prop is not used, maintain selectedItem internally
+    if (isEqual(value, undefined)) {
+      this.setState(prevState => {
+        return {
+          selectedItem: prevState.items[idx],
+        };
+      });
+    }
   }
 
   onOrientationChange({nativeEvent}) {

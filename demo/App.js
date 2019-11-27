@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Alert,
   Button,
   Text,
   TextInput,
@@ -9,7 +10,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-// import {Chevron} from 'react-native-shapes';
+import {Chevron} from 'react-native-shapes';
 // import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect, {defaultStyles} from './react-native-picker-select';
 
@@ -154,6 +155,9 @@ export default class App extends React.Component {
             onDownArrow={() => {
               this.inputRefs.favSport1.togglePicker();
             }}
+            onDonePress={() => {
+              Alert.alert('Done pressed');
+            }}
             style={pickerSelectStyles}
             value={this.state.favSport0}
             ref={el => {
@@ -171,6 +175,9 @@ export default class App extends React.Component {
               this.setState({
                 favSport1: value,
               });
+            }}
+            onUpArrow={() => {
+              this.inputRefs.favSport0.togglePicker();
             }}
             style={pickerSelectStyles}
             value={this.state.favSport1}
@@ -191,6 +198,9 @@ export default class App extends React.Component {
               this.setState({
                 favSport2: value,
               });
+            }}
+            onDonePress={() => {
+              Alert.alert('Should never appear - no InputAccessoryView');
             }}
             InputAccessoryView={() => null}
             style={pickerSelectStyles}
@@ -221,9 +231,9 @@ export default class App extends React.Component {
             value={this.state.favSport3}
             useNativeAndroidPickerStyle={false}
             textInputProps={{underlineColorAndroid: 'cyan'}}
-            // Icon={() => {
-            //   return <Chevron size={1.5} color="gray" />;
-            // }}
+            Icon={() => {
+              return <Chevron size={1.5} color="gray" />;
+            }}
           />
 
           <View paddingVertical={5} />
