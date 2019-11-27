@@ -304,10 +304,8 @@ describe('RNPickerSelect', () => {
             />
         );
 
-        wrapper
-            .find('[testID="ios_modal"]')
-            .props()
-            .onDismiss();
+        const touchable = wrapper.find('[testID="done_button"]');
+        touchable.simulate('press');
         expect(onDonePressSpy).toHaveBeenCalledWith();
     });
 
