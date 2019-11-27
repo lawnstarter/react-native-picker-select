@@ -1,3 +1,19 @@
+### 6.3.3
+
+##### Chore
+
+-   Split off styles into separate file
+
+---
+
+### 6.3.2
+
+##### Bugfix
+
+-   Update typescript definition file to add `InputAccessoryView`
+
+---
+
 ### 6.3.1
 
 ##### Bugfix
