@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {Chevron} from 'react-native-shapes';
+// import {Chevron} from 'react-native-shapes';
 // import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect, {defaultStyles} from './react-native-picker-select';
 
@@ -221,9 +221,9 @@ export default class App extends React.Component {
             value={this.state.favSport3}
             useNativeAndroidPickerStyle={false}
             textInputProps={{underlineColorAndroid: 'cyan'}}
-            Icon={() => {
-              return <Chevron size={1.5} color="gray" />;
-            }}
+            // Icon={() => {
+            //   return <Chevron size={1.5} color="gray" />;
+            // }}
           />
 
           <View paddingVertical={5} />
