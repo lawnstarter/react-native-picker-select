@@ -61,6 +61,9 @@ export default class RNPickerSelect extends PureComponent {
         // Custom Icon
         Icon: PropTypes.func,
         InputAccessoryView: PropTypes.func,
+
+        // hitSlop
+        hitSlop: PropTypes.shape({}),
     };
 
     static defaultProps = {
@@ -88,6 +91,7 @@ export default class RNPickerSelect extends PureComponent {
         pickerProps: {},
         Icon: null,
         InputAccessoryView: null,
+        hitSlop: {}
     };
 
     static handlePlaceholder({ placeholder }) {
@@ -408,6 +412,7 @@ export default class RNPickerSelect extends PureComponent {
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <TouchableWithoutFeedback
+                    hitSlop={this.props.hitSlop}
                     onPress={() => {
                         this.togglePicker(true);
                     }}
@@ -461,6 +466,7 @@ export default class RNPickerSelect extends PureComponent {
             <View style={style.headlessAndroidContainer}>
                 {this.renderTextInputOrChildren()}
                 <Picker
+                    hitSlop={this.props.hitSlop}
                     style={[
                         Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
                         defaultStyles.headlessAndroidPicker,
@@ -484,6 +490,7 @@ export default class RNPickerSelect extends PureComponent {
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <Picker
+                    hitSlop={this.props.hitSlop}
                     style={[
                         Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
                         style.inputAndroid,
