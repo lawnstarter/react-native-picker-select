@@ -27,6 +27,7 @@ declare module 'react-native-picker-select' {
         onClose?: () => void;
         modalProps?: object;
         textInputProps?: object;
+        hitSlop?: object;
         pickerProps?: object;
         Icon?: React.ReactNode;
         InputAccessoryView?: React.ReactNode;
