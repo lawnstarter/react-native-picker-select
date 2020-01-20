@@ -1,3 +1,12 @@
+### 6.3.4
+
+##### Bugfix
+
+-   Fix for `onDonePress` regression (#236)
+-   "Done" Text element now set to `allowFontScaling={false}` (#247)
+
+---
+
 ### 6.3.3
 
 ##### Chore
