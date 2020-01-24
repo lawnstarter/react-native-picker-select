@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import {
     ColorPropType,
     Keyboard,
-    Modal,
     Picker,
     Platform,
     Text,
@@ -11,6 +10,7 @@ import {
     TouchableWithoutFeedback,
     View,
 } from 'react-native';
+import Modal from 'react-native-modal';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import { defaultStyles } from './styles';
