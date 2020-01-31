@@ -38,6 +38,7 @@ export default class RNPickerSelect extends PureComponent {
         style: PropTypes.shape({}),
         children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
         placeholderTextColor: ColorPropType, // deprecated
+        onOpen: PropTypes.func,
         useNativeAndroidPickerStyle: PropTypes.bool,
 
         // Custom Modal props (iOS only)
@@ -46,7 +47,6 @@ export default class RNPickerSelect extends PureComponent {
         onDonePress: PropTypes.func,
         onUpArrow: PropTypes.func,
         onDownArrow: PropTypes.func,
-        onOpen: PropTypes.func,
         onClose: PropTypes.func,
 
         // Modal props (iOS only)
@@ -457,27 +457,29 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroidHeadless() {
-        const { disabled, Icon, style, pickerProps } = this.props;
+        const { disabled, Icon, style, pickerProps, onOpen } = this.props;
         const { selectedItem } = this.state;
 
         return (
-            <View style={style.headlessAndroidContainer}>
-                {this.renderTextInputOrChildren()}
-                <Picker
-                    style={[
-                        Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
-                        defaultStyles.headlessAndroidPicker,
-                        style.headlessAndroidPicker,
-                    ]}
-                    testID="android_picker_headless"
-                    enabled={!disabled}
-                    onValueChange={this.onValueChange}
-                    selectedValue={selectedItem.value}
-                    {...pickerProps}
-                >
-                    {this.renderPickerItems()}
-                </Picker>
-            </View>
+            <TouchableWithoutFeedback onPress={onOpen} testID="android_touchable_wrapper">
+                <View style={style.headlessAndroidContainer}>
+                    {this.renderTextInputOrChildren()}
+                    <Picker
+                        style={[
+                            Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
+                            defaultStyles.headlessAndroidPicker,
+                            style.headlessAndroidPicker,
+                        ]}
+                        testID="android_picker_headless"
+                        enabled={!disabled}
+                        onValueChange={this.onValueChange}
+                        selectedValue={selectedItem.value}
+                        {...pickerProps}
+                    >
+                        {this.renderPickerItems()}
+                    </Picker>
+                </View>
+            </TouchableWithoutFeedback>
         );
     }
 
