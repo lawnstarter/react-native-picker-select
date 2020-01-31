@@ -353,7 +353,7 @@ describe('RNPickerSelect', () => {
                 items={selectItems}
                 onValueChange={noop}
                 onOpen={onOpenSpy}
-                useNativeAndroidPicker={false}
+                useNativeAndroidPickerStyle={false}
             />
         );
 
