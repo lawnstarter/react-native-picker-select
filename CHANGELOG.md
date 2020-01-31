@@ -1,3 +1,11 @@
+### 6.4.0
+
+##### New
+
+-   Opened up `onOpen` prop to now support Android when in headless or `useNativeAndroidPickerStyle={false}` mode
+
+---
+
 ### 6.3.4
 
 ##### Bugfix
