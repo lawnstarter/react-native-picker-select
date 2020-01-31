@@ -349,7 +349,12 @@ describe('RNPickerSelect', () => {
         Platform.OS = 'android';
         const onOpenSpy = jest.fn();
         const wrapper = shallow(
-            <RNPickerSelect items={selectItems} onValueChange={noop} onOpen={onOpenSpy} />
+            <RNPickerSelect
+                items={selectItems}
+                onValueChange={noop}
+                onOpen={onOpenSpy}
+                useNativeAndroidPicker={false}
+            />
         );
 
         const touchable = wrapper.find('[testID="android_touchable_wrapper"]');
