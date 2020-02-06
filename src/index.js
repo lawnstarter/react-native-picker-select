@@ -61,6 +61,9 @@ export default class RNPickerSelect extends PureComponent {
         // Custom Icon
         Icon: PropTypes.func,
         InputAccessoryView: PropTypes.func,
+
+        // Prop to use value instead of label in the text input
+        useValueForTextInput: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -88,6 +91,7 @@ export default class RNPickerSelect extends PureComponent {
         pickerProps: {},
         Icon: null,
         InputAccessoryView: null,
+        useValueForTextInput: false,
     };
 
     static handlePlaceholder({ placeholder }) {
@@ -373,7 +377,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderTextInputOrChildren() {
-        const { children, style, textInputProps } = this.props;
+        const { children, style, textInputProps, useValueForTextInput } = this.props;
         const { selectedItem } = this.state;
 
         const containerStyle =
@@ -390,11 +394,12 @@ export default class RNPickerSelect extends PureComponent {
         return (
             <View pointerEvents="box-only" style={containerStyle}>
                 <TextInput
+                    testID="text_input"
                     style={[
                         Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
                         this.getPlaceholderStyle(),
                     ]}
-                    value={selectedItem.label}
+                    value={useValueForTextInput ? selectedItem.value : selectedItem.label}
                     ref={this.setInputRef}
                     editable={false}
                     {...textInputProps}
