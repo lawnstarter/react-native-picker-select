@@ -168,6 +168,22 @@ describe('RNPickerSelect', () => {
         expect(wrapper.state().showPicker).toEqual(false);
     });
 
+    it('should show the value (`red`) in the TextInput instead of the label (`Red`) when the `useValueForTextInput` prop is set to true', () => {
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                placeholder={{}}
+                onValueChange={noop}
+                useValueForTextInput
+                value="red"
+            />
+        );
+
+        const textInput = wrapper.find('[testID="text_input"]');
+
+        expect(textInput.props().value).toEqual('red');
+    });
+
     it('should update the selected value when the `value` prop updates and call the onValueChange cb', () => {
         const onValueChangeSpy = jest.fn();
         const wrapper = shallow(
