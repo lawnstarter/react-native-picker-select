@@ -1,3 +1,11 @@
+### 6.5.0
+
+##### New
+
+-   If an item has the `displayValue` property set to true, the TextInput shows the item `value` instead of the item `label` (#279)
+
+---
+
 ### 6.4.0
 
 ##### New

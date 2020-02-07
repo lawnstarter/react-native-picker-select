@@ -24,6 +24,7 @@ export default class RNPickerSelect extends PureComponent {
                 value: PropTypes.any.isRequired,
                 key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
                 color: ColorPropType,
+                displayValue: PropTypes.bool,
             })
         ).isRequired,
         value: PropTypes.any, // eslint-disable-line react/forbid-prop-types

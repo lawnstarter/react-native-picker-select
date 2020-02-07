@@ -6,6 +6,7 @@ declare module 'react-native-picker-select' {
         value: any;
         key?: string | number;
         color?: string;
+        displayValue?: boolean;
     }
     export interface PickerProps {
         onValueChange: (value: any, index: number) => void;
