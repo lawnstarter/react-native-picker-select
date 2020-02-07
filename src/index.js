@@ -390,11 +390,12 @@ export default class RNPickerSelect extends PureComponent {
         return (
             <View pointerEvents="box-only" style={containerStyle}>
                 <TextInput
+                    testID="text_input"
                     style={[
                         Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
                         this.getPlaceholderStyle(),
                     ]}
-                    value={selectedItem.label}
+                    value={selectedItem.displayValue ? selectedItem.value : selectedItem.label}
                     ref={this.setInputRef}
                     editable={false}
                     {...textInputProps}
