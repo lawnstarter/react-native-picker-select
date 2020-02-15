@@ -42,10 +42,10 @@ export const defaultStyles = StyleSheet.create({
         transform: [{ translateY: -5 }, { rotate: '135deg' }],
     },
     chevronActive: {
-        borderColor: '#040404',
+        borderColor: '#007aff',
     },
     done: {
-        color: '#000000',
+        color: '#007aff',
         fontWeight: '600',
         fontSize: 17,
         paddingTop: 1,
