@@ -3,7 +3,6 @@ import {
     ColorPropType,
     Keyboard,
     Modal,
-    Picker,
     Platform,
     Text,
     TextInput,
@@ -11,6 +10,7 @@ import {
     TouchableWithoutFeedback,
     View,
 } from 'react-native';
+import { Picker } from '@react-native-community/picker';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import { defaultStyles } from './styles';
