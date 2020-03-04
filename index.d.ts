@@ -49,9 +49,9 @@ export interface PickerSelectProps {
     itemKey?: string | number;
     style?: PickerStyle;
     children?: React.ReactNode;
-    placeholderTextColor?: string; // deprecated
+    placeholderTextColor?: string; // deprecated
     useNativeAndroidPickerStyle?: boolean;
-    hideDoneBar?: boolean; // deprecated
+    hideDoneBar?: boolean; // deprecated
     doneText?: string;
     onDonePress?: () => void;
     onUpArrow?: () => void;

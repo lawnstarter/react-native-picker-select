@@ -30,5 +30,3 @@ checks:
     identical-code:
         config:
             threshold: 50 # language-specific defaults. an override will affect all languages.
-exclude_patterns:
-    - 'demo/'
