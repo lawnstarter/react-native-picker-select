@@ -12,6 +12,8 @@
 
 ##### Bugfix
 
+-   Update iOS colors (#281)
+
 ---
 
 ### 6.5.0

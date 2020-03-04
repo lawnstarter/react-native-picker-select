@@ -36,9 +36,10 @@ const placeholder = {
     value: null,
 };
 
+const noop = () => {};
+
 describe('RNPickerSelect', () => {
     beforeEach(() => {
-        // jest.useFakeTimers();
         jest.resetAllMocks();
         jest.spyOn(Keyboard, 'dismiss');
     });
@@ -64,7 +65,7 @@ describe('RNPickerSelect', () => {
                     placeholder={placeholder}
                     itemKey="usa"
                     value={1}
-                    onValueChange={() => {}}
+                    onValueChange={noop}
                 />
             );
 
@@ -74,11 +75,7 @@ describe('RNPickerSelect', () => {
 
     it('should set the selected value to state', () => {
         const wrapper = shallow(
-            <RNPickerSelect
-                items={selectItems}
-                placeholder={placeholder}
-                onValueChange={() => {}}
-            />
+            <RNPickerSelect items={selectItems} placeholder={placeholder} onValueChange={noop} />
         );
 
         wrapper
@@ -97,7 +94,7 @@ describe('RNPickerSelect', () => {
             <RNPickerSelect
                 items={selectItems}
                 placeholder={placeholder}
-                onValueChange={() => {}}
+                onValueChange={noop}
                 InputAccessoryView={() => {
                     return <View />;
                 }}
@@ -112,7 +109,7 @@ describe('RNPickerSelect', () => {
     });
 
     it('should update the orientation state when onOrientationChange is called', () => {
-        const wrapper = shallow(<RNPickerSelect items={[]} onValueChange={() => {}} />);
+        const wrapper = shallow(<RNPickerSelect items={[]} onValueChange={noop} />);
 
         expect(wrapper.state().orientation).toEqual('portrait');
 
@@ -123,7 +120,7 @@ describe('RNPickerSelect', () => {
 
     it('should handle an empty items array', () => {
         const wrapper = shallow(
-            <RNPickerSelect items={[]} placeholder={{}} onValueChange={() => {}} />
+            <RNPickerSelect items={[]} placeholder={{}} onValueChange={noop} />
         );
 
         expect(wrapper.state().items).toHaveLength(0);
@@ -148,11 +145,7 @@ describe('RNPickerSelect', () => {
 
     it('should show the picker when pressed', () => {
         const wrapper = shallow(
-            <RNPickerSelect
-                items={selectItems}
-                placeholder={placeholder}
-                onValueChange={() => {}}
-            />
+            <RNPickerSelect items={selectItems} placeholder={placeholder} onValueChange={noop} />
         );
 
         const touchable = wrapper.find('TouchableWithoutFeedback').at(1);
@@ -165,7 +158,7 @@ describe('RNPickerSelect', () => {
             <RNPickerSelect
                 items={selectItems}
                 placeholder={placeholder}
-                onValueChange={() => {}}
+                onValueChange={noop}
                 disabled
             />
         );
@@ -173,6 +166,52 @@ describe('RNPickerSelect', () => {
         const touchable = wrapper.find('TouchableWithoutFeedback').at(1);
         touchable.simulate('press');
         expect(wrapper.state().showPicker).toEqual(false);
+    });
+
+    describe('when provided a displayValue item property', () => {
+        const items = [
+            {
+                label: 'Red',
+                value: 'red',
+                displayValue: true,
+            },
+            {
+                label: 'Orange',
+                value: 'orange',
+            },
+        ];
+
+        it('should show the value (`red`) in the Text instead of the label (`Red`) when the displayValue is set to true', () => {
+            const wrapper = shallow(
+                <RNPickerSelect
+                    items={items}
+                    placeholder={{}}
+                    onValueChange={noop}
+                    useValueForTextInput
+                    value="red"
+                />
+            );
+
+            const textInput = wrapper.find('[testID="text_input"]');
+
+            expect(textInput.props().children).toEqual('red');
+        });
+
+        it('should show the label (`Orange`) in the Text instead of the value (`orange`) when the displayValue is set to false or it is not set', () => {
+            const wrapper = shallow(
+                <RNPickerSelect
+                    items={items}
+                    placeholder={{}}
+                    onValueChange={noop}
+                    useValueForTextInput
+                    value="orange"
+                />
+            );
+
+            const textInput = wrapper.find('[testID="text_input"]');
+
+            expect(textInput.props().children).toEqual('Orange');
+        });
     });
 
     it('should update the selected value when the `value` prop updates and call the onValueChange cb', () => {
@@ -199,11 +238,7 @@ describe('RNPickerSelect', () => {
 
     it('should update the items when the `items` prop updates', () => {
         const wrapper = shallow(
-            <RNPickerSelect
-                items={selectItems}
-                placeholder={placeholder}
-                onValueChange={() => {}}
-            />
+            <RNPickerSelect items={selectItems} placeholder={placeholder} onValueChange={noop} />
         );
 
         expect(wrapper.state().items).toEqual([placeholder].concat(selectItems));
@@ -216,7 +251,7 @@ describe('RNPickerSelect', () => {
 
     it('should should handle having no placeholder', () => {
         const wrapper = shallow(
-            <RNPickerSelect items={selectItems} placeholder={{}} onValueChange={() => {}} />
+            <RNPickerSelect items={selectItems} placeholder={{}} onValueChange={noop} />
         );
 
         expect(wrapper.state().items).toEqual(selectItems);
@@ -226,7 +261,7 @@ describe('RNPickerSelect', () => {
         const wrapper = shallow(
             <RNPickerSelect
                 items={selectItems}
-                onValueChange={() => {}}
+                onValueChange={noop}
                 Icon={() => {
                     return <View />;
                 }}
@@ -237,13 +272,13 @@ describe('RNPickerSelect', () => {
     });
 
     it('should should not show the icon container when the Icon prop is empty', () => {
-        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={() => {}} />);
+        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={noop} />);
 
         expect(wrapper.find('[testID="icon_container"]')).toHaveLength(0);
     });
 
     it('should call Keyboard.dismiss when opened', () => {
-        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={() => {}} />);
+        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={noop} />);
 
         const touchable = wrapper.find('[testID="ios_touchable_wrapper"]');
         touchable.simulate('press');
@@ -256,7 +291,7 @@ describe('RNPickerSelect', () => {
             <RNPickerSelect
                 items={selectItems}
                 placeholder={placeholder}
-                onValueChange={() => {}}
+                onValueChange={noop}
                 value={undefined}
             />
         );
@@ -272,7 +307,7 @@ describe('RNPickerSelect', () => {
 
     it('should set the selected value to state (Android)', () => {
         Platform.OS = 'android';
-        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={() => {}} />);
+        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={noop} />);
 
         wrapper
             .find('[testID="android_picker"]')
@@ -284,7 +319,7 @@ describe('RNPickerSelect', () => {
     it('should render the headless component when a child is passed in (Android)', () => {
         Platform.OS = 'android';
         const wrapper = shallow(
-            <RNPickerSelect items={selectItems} onValueChange={() => {}}>
+            <RNPickerSelect items={selectItems} onValueChange={noop}>
                 <View />
             </RNPickerSelect>
         );
@@ -297,15 +332,11 @@ describe('RNPickerSelect', () => {
         Platform.OS = 'ios';
         const onDonePressSpy = jest.fn();
         const wrapper = shallow(
-            <RNPickerSelect
-                items={selectItems}
-                onValueChange={() => {}}
-                onDonePress={onDonePressSpy}
-            />
+            <RNPickerSelect items={selectItems} onValueChange={noop} onDonePress={onDonePressSpy} />
         );
 
-        const touchable = wrapper.find('[testID="done_button"]');
-        touchable.simulate('press');
+        wrapper.find('[testID="done_button"]').simulate('press');
+
         expect(onDonePressSpy).toHaveBeenCalledWith();
     });
 
@@ -315,7 +346,7 @@ describe('RNPickerSelect', () => {
         const wrapper = shallow(
             <RNPickerSelect
                 items={selectItems}
-                onValueChange={() => {}}
+                onValueChange={noop}
                 modalProps={{
                     onShow: onShowSpy,
                 }}
@@ -334,7 +365,7 @@ describe('RNPickerSelect', () => {
         const wrapper = shallow(
             <RNPickerSelect
                 items={selectItems}
-                onValueChange={() => {}}
+                onValueChange={noop}
                 modalProps={{
                     onDismiss: onDismissSpy,
                 }}
@@ -347,22 +378,42 @@ describe('RNPickerSelect', () => {
         expect(onDismissSpy).toHaveBeenCalledWith();
     });
 
-    it('should call the onOpen callback when set', () => {
+    it('should call the onOpen callback when set (iOS)', () => {
+        Platform.OS = 'ios';
         const onOpenSpy = jest.fn();
         const wrapper = shallow(
-            <RNPickerSelect items={selectItems} onValueChange={() => {}} onOpen={onOpenSpy} />
+            <RNPickerSelect items={selectItems} onValueChange={noop} onOpen={onOpenSpy} />
         );
 
-        const touchable = wrapper.find('[testID="done_button"]');
+        const touchable = wrapper.find('[testID="ios_touchable_wrapper"]');
+        touchable.simulate('press');
+
+        expect(onOpenSpy).toHaveBeenCalledWith();
+    });
+
+    it('should call the onOpen callback when set (Android)', () => {
+        Platform.OS = 'android';
+        const onOpenSpy = jest.fn();
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                onValueChange={noop}
+                onOpen={onOpenSpy}
+                useNativeAndroidPickerStyle={false}
+            />
+        );
+
+        const touchable = wrapper.find('[testID="android_touchable_wrapper"]');
         touchable.simulate('press');
 
         expect(onOpenSpy).toHaveBeenCalledWith();
     });
 
     it('should call the onClose callback when set', () => {
+        Platform.OS = 'ios';
         const onCloseSpy = jest.fn();
         const wrapper = shallow(
-            <RNPickerSelect items={selectItems} onValueChange={() => {}} onClose={onCloseSpy} />
+            <RNPickerSelect items={selectItems} onValueChange={noop} onClose={onCloseSpy} />
         );
 
         const touchable = wrapper.find('[testID="done_button"]');
@@ -375,7 +426,7 @@ describe('RNPickerSelect', () => {
     });
 
     it('should close the modal when the empty area above the picker is tapped', () => {
-        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={() => {}} />);
+        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={noop} />);
 
         jest.spyOn(wrapper.instance(), 'togglePicker');
 
