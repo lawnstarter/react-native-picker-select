@@ -56,7 +56,7 @@ export const defaultStyles = StyleSheet.create({
         backgroundColor: '#d0d4da',
     },
     placeholder: {
-        color: '#C7C7CD',
+        color: '#c7c7cd',
     },
     headlessAndroidPicker: {
         position: 'absolute',
