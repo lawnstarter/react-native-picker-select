@@ -29,6 +29,8 @@ declare module 'react-native-picker-select' {
         modalProps?: object;
         textInputProps?: object;
         pickerProps?: object;
+        touchableDoneProps?: object;
+        touchableWrapperProps?: object;
         Icon?: React.ReactNode;
         InputAccessoryView?: React.ReactNode;
     }
