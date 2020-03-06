@@ -366,6 +366,7 @@ export default class RNPickerSelect extends PureComponent {
                 >
                     <View testID="needed_for_touchable">
                         <Text
+                            testID="done_text"
                             allowFontScaling={false}
                             style={[
                                 defaultStyles.done,

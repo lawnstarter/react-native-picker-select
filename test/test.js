@@ -338,6 +338,20 @@ describe('RNPickerSelect', () => {
         wrapper.find('[testID="done_button"]').simulate('press');
 
         expect(onDonePressSpy).toHaveBeenCalledWith();
+        expect(onDonePressSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should update the Done styling during a press (iOS)', () => {
+        Platform.OS = 'ios';
+        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={noop} />);
+
+        const done_button = wrapper.find('[testID="done_button"]');
+
+        done_button.simulate('pressIn');
+        expect(wrapper.state().doneDepressed).toEqual(true);
+
+        done_button.simulate('pressOut');
+        expect(wrapper.state().doneDepressed).toEqual(false);
     });
 
     it('should call the onShow callback when set (iOS)', () => {
