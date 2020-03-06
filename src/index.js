@@ -8,7 +8,6 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    TouchableWithoutFeedback,
     View,
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -59,6 +58,12 @@ export default class RNPickerSelect extends PureComponent {
         // Picker props
         pickerProps: PropTypes.shape({}),
 
+        // Touchable Done props (iOS only)
+        touchableDoneProps: PropTypes.shape({}),
+
+        // Touchable wrapper props
+        touchableWrapperProps: PropTypes.shape({}),
+
         // Custom Icon
         Icon: PropTypes.func,
         InputAccessoryView: PropTypes.func,
@@ -87,6 +92,8 @@ export default class RNPickerSelect extends PureComponent {
         modalProps: {},
         textInputProps: {},
         pickerProps: {},
+        touchableDoneProps: {},
+        touchableWrapperProps: {},
         Icon: null,
         InputAccessoryView: null,
     };
@@ -163,6 +170,7 @@ export default class RNPickerSelect extends PureComponent {
             showPicker: false,
             animationType: undefined,
             orientation: 'portrait',
+            doneDepressed: false,
         };
 
         this.onUpArrow = this.onUpArrow.bind(this);
@@ -291,7 +299,10 @@ export default class RNPickerSelect extends PureComponent {
             onDownArrow,
             onDonePress,
             style,
+            touchableDoneProps,
         } = this.props;
+
+        const { doneDepressed } = this.state;
 
         // deprecated
         if (hideDoneBar) {
@@ -339,19 +350,35 @@ export default class RNPickerSelect extends PureComponent {
                         />
                     </TouchableOpacity>
                 </View>
-                <TouchableWithoutFeedback
+                <TouchableOpacity
                     onPress={() => {
                         this.togglePicker(true, onDonePress);
                     }}
+                    onPressIn={() => {
+                        this.setState({ doneDepressed: true });
+                    }}
+                    onPressOut={() => {
+                        this.setState({ doneDepressed: false });
+                    }}
                     hitSlop={{ top: 4, right: 4, bottom: 4, left: 4 }}
                     testID="done_button"
+                    {...touchableDoneProps}
                 >
                     <View testID="needed_for_touchable">
-                        <Text allowFontScaling={false} style={[defaultStyles.done, style.done]}>
+                        <Text
+                            allowFontScaling={false}
+                            style={[
+                                defaultStyles.done,
+                                style.done,
+                                doneDepressed
+                                    ? [defaultStyles.doneDepressed, style.doneDepressed]
+                                    : {},
+                            ]}
+                        >
                             {doneText}
                         </Text>
                     </View>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -407,19 +434,21 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderIOS() {
-        const { style, modalProps, pickerProps } = this.props;
+        const { style, modalProps, pickerProps, touchableWrapperProps } = this.props;
         const { animationType, orientation, selectedItem, showPicker } = this.state;
 
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
-                <TouchableWithoutFeedback
+                <TouchableOpacity
+                    testID="ios_touchable_wrapper"
                     onPress={() => {
                         this.togglePicker(true);
                     }}
-                    testID="ios_touchable_wrapper"
+                    activeOpacity={1}
+                    {...touchableWrapperProps}
                 >
                     {this.renderTextInputOrChildren()}
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
                 <Modal
                     testID="ios_modal"
                     visible={showPicker}
@@ -459,11 +488,16 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroidHeadless() {
-        const { disabled, Icon, style, pickerProps, onOpen } = this.props;
+        const { disabled, Icon, style, pickerProps, onOpen, touchableWrapperProps } = this.props;
         const { selectedItem } = this.state;
 
         return (
-            <TouchableWithoutFeedback onPress={onOpen} testID="android_touchable_wrapper">
+            <TouchableOpacity
+                onPress={onOpen}
+                testID="android_touchable_wrapper"
+                activeOpacity={1}
+                {...touchableWrapperProps}
+            >
                 <View style={style.headlessAndroidContainer}>
                     {this.renderTextInputOrChildren()}
                     <Picker
@@ -481,7 +515,7 @@ export default class RNPickerSelect extends PureComponent {
                         {this.renderPickerItems()}
                     </Picker>
                 </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
         );
     }
 

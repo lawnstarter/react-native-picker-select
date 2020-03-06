@@ -51,6 +51,9 @@ export const defaultStyles = StyleSheet.create({
         paddingTop: 1,
         paddingRight: 11,
     },
+    doneDepressed: {
+        fontSize: 19,
+    },
     modalViewBottom: {
         justifyContent: 'center',
         backgroundColor: '#d0d4da',

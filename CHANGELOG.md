@@ -1,3 +1,12 @@
+### 6.6.0
+
+##### New
+
+-   Updated touchables to all be all TouchableOpacity (with override props available)
+-   Done text now animates on depress like native select dialog (#215)
+
+---
+
 ### 6.5.1
 
 ##### Bugfix

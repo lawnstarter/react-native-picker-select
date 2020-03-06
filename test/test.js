@@ -148,7 +148,7 @@ describe('RNPickerSelect', () => {
             <RNPickerSelect items={selectItems} placeholder={placeholder} onValueChange={noop} />
         );
 
-        const touchable = wrapper.find('TouchableWithoutFeedback').at(1);
+        const touchable = wrapper.find('TouchableOpacity').at(1);
         touchable.simulate('press');
         expect(wrapper.state().showPicker).toEqual(true);
     });
@@ -163,7 +163,7 @@ describe('RNPickerSelect', () => {
             />
         );
 
-        const touchable = wrapper.find('TouchableWithoutFeedback').at(1);
+        const touchable = wrapper.find('TouchableOpacity').at(1);
         touchable.simulate('press');
         expect(wrapper.state().showPicker).toEqual(false);
     });
