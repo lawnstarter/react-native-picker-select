@@ -13,5 +13,5 @@ A clear and concise description of what you want to happen.
 **Describe alternatives you've considered**<br><!-- do not remove heading -->
 A clear and concise description of any alternative solutions or features you've considered.
 
-**Additional context**<br><!-- do not remove heading -->
-Add any other context or screenshots about the feature request here.
+**Additional details**<br><!-- do not remove heading -->
+Add any other details or screenshots about the feature request here.
