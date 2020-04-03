@@ -29,6 +29,9 @@
     },
     "devDependencies": {
         "babel-jest": "^23.6.0",
+        "babel-plugin-add-module-exports": "^1.0.2",
+        "babel-plugin-transform-replace-object-assign": "^2.0.0",
+        "babel-preset-airbnb": "^2.0.0",
         "babel-preset-react-native": "^4.0.1",
         "enzyme": "^3.7.0",
         "enzyme-adapter-react-16": "^1.7.0",
@@ -67,6 +70,9 @@
         ],
         "snapshotSerializers": [
             "enzyme-to-json/serializer"
+        ],
+        "transformIgnorePatterns": [
+            "node_modules/?!(@react-native-community/picker)"
         ]
     }
 }
