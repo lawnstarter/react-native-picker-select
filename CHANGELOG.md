@@ -1,3 +1,11 @@
+### 7.0.0
+
+##### Chore
+
+-   Remove deprecated ColorPropType
+
+---
+
 ### 6.6.0
 
 ##### New
