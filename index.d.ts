@@ -1,4 +1,11 @@
-import { ViewStyle, TextStyle, ModalProps, TextInputProperties, PickerProps } from 'react-native';
+import {
+    ModalProps,
+    PickerProps,
+    TextInputProps,
+    TextStyle,
+    TouchableOpacityProps,
+    ViewStyle,
+} from 'react-native';
 import React from 'react';
 
 export interface Item {
@@ -16,6 +23,7 @@ export interface PickerStyle {
     chevronDown?: ViewStyle;
     chevronUp?: ViewStyle;
     done?: TextStyle;
+    doneDepressed?: TextStyle;
     headlessAndroidContainer?: ViewStyle;
     headlessAndroidPicker?: ViewStyle;
     iconContainer?: ViewStyle;
@@ -30,16 +38,29 @@ export interface PickerStyle {
     viewContainer?: ViewStyle;
 }
 
-// Omit props needed by the library
-type PickerModalProps = Omit<
+type CustomModalProps = Omit<
     ModalProps,
     | 'testID'
     | 'visible'
     | 'transparent'
     | 'animationType'
     | 'supportedOrientations'
-    | 'onDismiss'
     | 'onOrientationChange'
+>;
+
+type CustomTextInputProps = Omit<TextInputProps, 'testID' | 'style' | 'value' | 'ref' | 'editable'>;
+
+type CustomPickerProps = Omit<PickerProps, 'testID' | 'onValueChange' | 'selectedValue'>;
+// 'style' and 'enabled' are also used - but only in headless or native Android mode
+
+type CustomTouchableDoneProps = Omit<
+    TouchableOpacityProps,
+    'testID' | 'onPress' | 'onPressIn' | 'onPressOut' | 'hitSlop'
+>;
+
+type CustomTouchableWrapperProps = Omit<
+    TouchableOpacityProps,
+    'testID' | 'onPress' | 'activeOpacity'
 >;
 
 export interface PickerSelectProps {
@@ -58,11 +79,11 @@ export interface PickerSelectProps {
     onUpArrow?: () => void;
     onDownArrow?: () => void;
     onClose?: () => void;
-    modalProps?: PickerModalProps;
-    textInputProps?: TextInputProperties;
-    pickerProps?: PickerProps;
-    touchableDoneProps?: object;
-    touchableWrapperProps?: object;
+    modalProps?: CustomModalProps;
+    textInputProps?: CustomTextInputProps;
+    pickerProps?: CustomPickerProps;
+    touchableDoneProps?: CustomTouchableDoneProps;
+    touchableWrapperProps?: CustomTouchableWrapperProps;
     Icon?: React.ReactNode;
     InputAccessoryView?: React.ReactNode;
 }

@@ -339,6 +339,7 @@ export default class RNPickerSelect extends PureComponent {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity
+                    testID="done_button"
                     onPress={() => {
                         this.togglePicker(true, onDonePress);
                     }}
@@ -349,7 +350,6 @@ export default class RNPickerSelect extends PureComponent {
                         this.setState({ doneDepressed: false });
                     }}
                     hitSlop={{ top: 4, right: 4, bottom: 4, left: 4 }}
-                    testID="done_button"
                     {...touchableDoneProps}
                 >
                     <View testID="needed_for_touchable">
@@ -482,8 +482,8 @@ export default class RNPickerSelect extends PureComponent {
 
         return (
             <TouchableOpacity
-                onPress={onOpen}
                 testID="android_touchable_wrapper"
+                onPress={onOpen}
                 activeOpacity={1}
                 {...touchableWrapperProps}
             >
