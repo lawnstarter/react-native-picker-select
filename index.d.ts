@@ -38,30 +38,21 @@ export interface PickerStyle {
     viewContainer?: ViewStyle;
 }
 
-type CustomModalProps = Omit<
-    ModalProps,
-    | 'testID'
-    | 'visible'
-    | 'transparent'
-    | 'animationType'
-    | 'supportedOrientations'
-    | 'onOrientationChange'
->;
+type CustomModalProps = Omit<ModalProps, 'visible' | 'transparent' | 'animationType'>;
+// 'testID', 'supportedOrientations', and 'onOrientationChange' are also used, but can be overwritten safely
 
-type CustomTextInputProps = Omit<TextInputProps, 'testID' | 'style' | 'value' | 'ref' | 'editable'>;
+type CustomTextInputProps = Omit<TextInputProps, 'style' | 'value' | 'ref' | 'editable'>;
+// 'testID' is also used, but can be overwritten safely
 
-type CustomPickerProps = Omit<PickerProps, 'testID' | 'onValueChange' | 'selectedValue'>;
-// 'style' and 'enabled' are also used - but only in headless or native Android mode
+type CustomPickerProps = Omit<PickerProps, 'onValueChange' | 'selectedValue'>;
+// 'style' and 'enabled' are also used, but only in headless or native Android mode
+// 'testID' is also used, but can be overwritten safely
 
-type CustomTouchableDoneProps = Omit<
-    TouchableOpacityProps,
-    'testID' | 'onPress' | 'onPressIn' | 'onPressOut' | 'hitSlop'
->;
+type CustomTouchableDoneProps = Omit<TouchableOpacityProps, 'onPress'>;
+// 'testID', 'onPressIn', 'onPressOut', and 'hitSlop' are also used, but can be overwritten safely
 
-type CustomTouchableWrapperProps = Omit<
-    TouchableOpacityProps,
-    'testID' | 'onPress' | 'activeOpacity'
->;
+type CustomTouchableWrapperProps = Omit<TouchableOpacityProps, 'onPress'>;
+// 'testID' and 'activeOpacity' are also used, but can be overwritten safely
 
 export interface PickerSelectProps {
     onValueChange: (value: any, index: number) => void;

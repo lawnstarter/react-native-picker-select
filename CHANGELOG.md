@@ -4,6 +4,7 @@
 
 -   Deprecated prop `hideDoneBar` has been removed
 -   Deprecated prop `placeholderTextColor` has been removed
+-   Type definitions rewritten (#305)
 
 ##### Chore
 
