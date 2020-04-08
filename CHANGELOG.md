@@ -1,3 +1,17 @@
+### 7.0.0
+
+##### Breaking Changes
+
+-   Deprecated prop `hideDoneBar` has been removed
+-   Deprecated prop `placeholderTextColor` has been removed
+-   Type definitions rewritten (#305)
+
+##### Chore
+
+-   Remove deprecated ColorPropType
+
+---
+
 ### 6.6.0
 
 ##### New
