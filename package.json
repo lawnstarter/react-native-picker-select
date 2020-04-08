@@ -27,6 +27,7 @@
         "lodash.isequal": "^4.5.0"
     },
     "devDependencies": {
+        "@types/react-native": "^0.60.22",
         "babel-jest": "^23.6.0",
         "babel-preset-react-native": "^4.0.1",
         "enzyme": "^3.7.0",
