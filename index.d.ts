@@ -8,6 +8,7 @@ export interface Item {
     color?: string;
     displayValue?: boolean;
 }
+
 export interface PickerStyle {
     chevron?: ViewStyle;
     chevronActive?: ViewStyle;
@@ -50,14 +51,12 @@ export interface PickerSelectProps {
     itemKey?: string | number;
     style?: PickerStyle;
     children?: React.ReactNode;
-    placeholderTextColor?: string; // deprecated
+    onOpen?: () => void;
     useNativeAndroidPickerStyle?: boolean;
-    hideDoneBar?: boolean; // deprecated
     doneText?: string;
     onDonePress?: () => void;
     onUpArrow?: () => void;
     onDownArrow?: () => void;
-    onOpen?: () => void;
     onClose?: () => void;
     modalProps?: PickerModalProps;
     textInputProps?: TextInputProperties;

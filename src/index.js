@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import {
-    ColorPropType,
     Keyboard,
     Modal,
     Picker,
@@ -22,7 +21,7 @@ export default class RNPickerSelect extends PureComponent {
                 label: PropTypes.string.isRequired,
                 value: PropTypes.any.isRequired,
                 key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-                color: ColorPropType,
+                color: PropTypes.string,
                 displayValue: PropTypes.bool,
             })
         ).isRequired,
@@ -31,18 +30,16 @@ export default class RNPickerSelect extends PureComponent {
             label: PropTypes.string,
             value: PropTypes.any,
             key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-            color: ColorPropType,
+            color: PropTypes.string,
         }),
         disabled: PropTypes.bool,
         itemKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         style: PropTypes.shape({}),
         children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
-        placeholderTextColor: ColorPropType, // deprecated
         onOpen: PropTypes.func,
         useNativeAndroidPickerStyle: PropTypes.bool,
 
         // Custom Modal props (iOS only)
-        hideDoneBar: PropTypes.bool, // deprecated
         doneText: PropTypes.string,
         onDonePress: PropTypes.func,
         onUpArrow: PropTypes.func,
@@ -80,9 +77,7 @@ export default class RNPickerSelect extends PureComponent {
         itemKey: null,
         style: {},
         children: null,
-        placeholderTextColor: '#C7C7CD', // deprecated
         useNativeAndroidPickerStyle: true,
-        hideDoneBar: false, // deprecated
         doneText: 'Done',
         onDonePress: null,
         onUpArrow: null,
@@ -217,13 +212,12 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     getPlaceholderStyle() {
-        const { placeholder, placeholderTextColor, style } = this.props;
+        const { placeholder, style } = this.props;
         const { selectedItem } = this.state;
 
         if (!isEqual(placeholder, {}) && selectedItem.label === placeholder.label) {
             return {
                 ...defaultStyles.placeholder,
-                color: placeholderTextColor, // deprecated
                 ...style.placeholder,
             };
         }
@@ -294,7 +288,6 @@ export default class RNPickerSelect extends PureComponent {
         const {
             InputAccessoryView,
             doneText,
-            hideDoneBar,
             onUpArrow,
             onDownArrow,
             onDonePress,
@@ -303,11 +296,6 @@ export default class RNPickerSelect extends PureComponent {
         } = this.props;
 
         const { doneDepressed } = this.state;
-
-        // deprecated
-        if (hideDoneBar) {
-            return null;
-        }
 
         if (InputAccessoryView) {
             return <InputAccessoryView testID="custom_input_accessory_view" />;
