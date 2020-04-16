@@ -14,6 +14,14 @@ export interface Item {
     key?: string | number;
     color?: string;
     displayValue?: boolean;
+    /**
+     * Used when you want a different label displayed
+     * in the scroller/picker than the label that is
+     * displayed in the in the selector field.
+     *
+     * If falsy, label is used
+     */
+    scrollLabel?: string;
 }
 
 export interface PickerStyle {

@@ -23,6 +23,7 @@ export default class RNPickerSelect extends PureComponent {
                 key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
                 color: PropTypes.string,
                 displayValue: PropTypes.bool,
+                scrollLabel: PropTypes.string,
             })
         ).isRequired,
         value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
@@ -275,7 +276,7 @@ export default class RNPickerSelect extends PureComponent {
         return items.map((item) => {
             return (
                 <Picker.Item
-                    label={item.label}
+                    label={!!item.scrollLabel ? item.scrollLabel : item.label}
                     value={item.value}
                     key={item.key || item.label}
                     color={item.color}
