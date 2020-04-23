@@ -533,6 +533,31 @@ export default class RNPickerSelect extends PureComponent {
         );
     }
 
+    renderWeb() {
+        const { disabled, Icon, style, pickerProps } = this.props;
+        const { selectedItem } = this.state;
+
+        return (
+            <View style={[defaultStyles.viewContainer, style.viewContainer]}>
+                <Picker
+                    style={[
+                        Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
+                        style.inputWeb,
+                        this.getPlaceholderStyle(),
+                    ]}
+                    testID="web_picker"
+                    enabled={!disabled}
+                    onValueChange={this.onValueChange}
+                    selectedValue={selectedItem.value}
+                    {...pickerProps}
+                >
+                    {this.renderPickerItems()}
+                </Picker>
+                {this.renderIcon()}
+            </View>
+        );
+    }
+
     render() {
         const { children, useNativeAndroidPickerStyle } = this.props;
 
@@ -540,10 +565,13 @@ export default class RNPickerSelect extends PureComponent {
             return this.renderIOS();
         }
 
+        if (Platform.OS === 'web') {
+            return this.renderWeb();
+        }
+
         if (children || !useNativeAndroidPickerStyle) {
             return this.renderAndroidHeadless();
         }
-
         return this.renderAndroidNativePickerStyle();
     }
 }
