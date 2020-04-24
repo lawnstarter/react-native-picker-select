@@ -93,7 +93,7 @@ All properties mentioned below must be nested under the `style` prop. Examples o
 #### Web-specific
 
 -   The component creates a <select> tag.
--   The styling of this select tag can be modified using the prop `inputWeb`
+-   The styling of this select tag can be modified using a nested object with the key `inputWeb`
 
 ### Icon
 
