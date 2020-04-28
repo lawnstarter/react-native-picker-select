@@ -83,7 +83,7 @@ export default class RNPickerSelect extends PureComponent {
         onUpArrow: null,
         onDownArrow: null,
         onOpen: null,
-        onClose: (donePressed) => null,
+        onClose: null,
         modalProps: {},
         textInputProps: {},
         pickerProps: {},
