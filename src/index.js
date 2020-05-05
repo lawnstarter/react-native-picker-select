@@ -512,7 +512,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroidNativePickerStyle() {
-        const { disabled, Icon, style, pickerProps } = this.props;
+        const { disabled, Icon, style, pickerProps, testID } = this.props;
         const { selectedItem } = this.state;
 
         return (
