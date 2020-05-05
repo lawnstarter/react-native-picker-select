@@ -64,6 +64,8 @@ export default class RNPickerSelect extends PureComponent {
         // Custom Icon
         Icon: PropTypes.func,
         InputAccessoryView: PropTypes.func,
+        // For easy locating with testing libraries
+        testID: PropTypes.string,
     };
 
     static defaultProps = {
@@ -91,6 +93,7 @@ export default class RNPickerSelect extends PureComponent {
         touchableWrapperProps: {},
         Icon: null,
         InputAccessoryView: null,
+        testID: null,
     };
 
     static handlePlaceholder({ placeholder }) {
@@ -423,13 +426,13 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderIOS() {
-        const { style, modalProps, pickerProps, touchableWrapperProps } = this.props;
+        const { style, modalProps, pickerProps, touchableWrapperProps, testID } = this.props;
         const { animationType, orientation, selectedItem, showPicker } = this.state;
 
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <TouchableOpacity
-                    testID="ios_touchable_wrapper"
+                    testID={testID || 'ios_touchable_wrapper'}
                     onPress={() => {
                         this.togglePicker(true);
                     }}
@@ -477,12 +480,12 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroidHeadless() {
-        const { disabled, Icon, style, pickerProps, onOpen, touchableWrapperProps } = this.props;
+        const { disabled, Icon, style, pickerProps, onOpen, touchableWrapperProps, testID } = this.props;
         const { selectedItem } = this.state;
 
         return (
             <TouchableOpacity
-                testID="android_touchable_wrapper"
+                testID={testID || 'android_touchable_wrapper'}
                 onPress={onOpen}
                 activeOpacity={1}
                 {...touchableWrapperProps}
@@ -520,7 +523,7 @@ export default class RNPickerSelect extends PureComponent {
                         style.inputAndroid,
                         this.getPlaceholderStyle(),
                     ]}
-                    testID="android_picker"
+                    testID={testID || 'android_picker'}
                     enabled={!disabled}
                     onValueChange={this.onValueChange}
                     selectedValue={selectedItem.value}
