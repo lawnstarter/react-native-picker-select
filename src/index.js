@@ -49,7 +49,6 @@ export default class RNPickerSelect extends PureComponent {
         // Modal props (iOS only)
         modalProps: PropTypes.shape({}),
 
-        // TextInput props (iOS only)
         textInputProps: PropTypes.shape({}),
 
         // Picker props
