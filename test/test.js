@@ -521,4 +521,22 @@ describe('RNPickerSelect', () => {
             });
         });
     });
+
+    it('renders custom icon when disabling native android picker style', () => {
+        Platform.OS = 'android';
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                onValueChange={noop}
+                useNativeAndroidPickerStyle={false}
+                Icon={() => {
+                    return <View />;
+                }}
+            />
+        );
+
+        const icon = wrapper.find('[testID="icon_container"]');
+
+        expect(icon.exists()).toBeTruthy();
+    });
 });

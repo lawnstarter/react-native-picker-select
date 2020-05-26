@@ -503,6 +503,7 @@ export default class RNPickerSelect extends PureComponent {
                     >
                         {this.renderPickerItems()}
                     </Picker>
+                    {this.renderIcon()}
                 </View>
             </TouchableOpacity>
         );
