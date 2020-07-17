@@ -13,15 +13,13 @@ export interface Item {
     value: any;
     key?: string | number;
     color?: string;
-    displayValue?: boolean;
     /**
      * Used when you want a different label displayed
-     * in the scroller/picker than the label that is
-     * displayed in the in the selector field.
+     * on the input than what is displayed on the Picker
      *
      * If falsy, label is used
      */
-    scrollLabel?: string;
+    inputLabel?: string;
 }
 
 export interface PickerStyle {
