@@ -541,9 +541,7 @@ export default class RNPickerSelect extends PureComponent {
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <Picker
                     style={[
-                        Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
                         style.inputWeb,
-                        this.getPlaceholderStyle(),
                     ]}
                     testID="web_picker"
                     enabled={!disabled}
