@@ -20,9 +20,9 @@ export default class RNPickerSelect extends PureComponent {
             PropTypes.shape({
                 label: PropTypes.string.isRequired,
                 value: PropTypes.any.isRequired,
+                inputLabel: PropTypes.string,
                 key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
                 color: PropTypes.string,
-                displayValue: PropTypes.bool,
             })
         ).isRequired,
         value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
@@ -412,7 +412,7 @@ export default class RNPickerSelect extends PureComponent {
                         Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
                         this.getPlaceholderStyle(),
                     ]}
-                    value={selectedItem.displayValue ? selectedItem.value : selectedItem.label}
+                    value={selectedItem.inputLabel ? selectedItem.inputLabel : selectedItem.label}
                     ref={this.setInputRef}
                     editable={false}
                     {...textInputProps}
