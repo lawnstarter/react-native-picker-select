@@ -2,7 +2,11 @@
 
 ##### Breaking Changes
 
--   Replaced item prop `displayValue` with `inputLabel`
+-   Replaced item prop `displayValue` with `inputLabel` (#336)
+
+##### New
+
+-   Added web support (#316)
 
 ---
 

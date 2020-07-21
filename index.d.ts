@@ -37,6 +37,7 @@ export interface PickerStyle {
     inputAndroidContainer?: ViewStyle;
     inputIOS?: TextStyle;
     inputIOSContainer?: ViewStyle;
+    inputWeb?: ViewStyle;
     modalViewBottom?: ViewStyle;
     modalViewMiddle?: ViewStyle;
     modalViewTop?: ViewStyle;

@@ -36,7 +36,7 @@ const placeholder = {
     value: null,
 };
 
-const noop = () => { };
+const noop = () => {};
 
 describe('RNPickerSelect', () => {
     beforeEach(() => {
@@ -442,7 +442,7 @@ describe('RNPickerSelect', () => {
             const nextProps = {
                 placeholder,
                 value: selectItems[0].value,
-                onValueChange() { },
+                onValueChange() {},
                 items: selectItems,
             };
             const prevState = {
@@ -457,7 +457,7 @@ describe('RNPickerSelect', () => {
             const nextProps = {
                 placeholder,
                 value: selectItems[0].value,
-                onValueChange() { },
+                onValueChange() {},
                 items: selectItems.concat([violet]),
             };
             const prevState = {
@@ -478,7 +478,7 @@ describe('RNPickerSelect', () => {
             const nextProps = {
                 placeholder: newPlaceholder,
                 value: selectItems[0].value,
-                onValueChange() { },
+                onValueChange() {},
                 items: selectItems,
             };
             const prevState = {
@@ -495,7 +495,7 @@ describe('RNPickerSelect', () => {
             const nextProps = {
                 placeholder,
                 value: selectItems[1].value,
-                onValueChange() { },
+                onValueChange() {},
                 items: selectItems,
             };
             const prevState = {

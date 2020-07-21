@@ -534,15 +534,13 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderWeb() {
-        const { disabled, Icon, style, pickerProps } = this.props;
+        const { disabled, style, pickerProps } = this.props;
         const { selectedItem } = this.state;
 
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <Picker
-                    style={[
-                        style.inputWeb,
-                    ]}
+                    style={[style.inputWeb]}
                     testID="web_picker"
                     enabled={!disabled}
                     onValueChange={this.onValueChange}
