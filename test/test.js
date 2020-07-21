@@ -36,7 +36,7 @@ const placeholder = {
     value: null,
 };
 
-const noop = () => {};
+const noop = () => { };
 
 describe('RNPickerSelect', () => {
     beforeEach(() => {
@@ -304,6 +304,17 @@ describe('RNPickerSelect', () => {
         expect(component).toHaveLength(1);
     });
 
+    it('should set the selected value to state (Web)', () => {
+        Platform.OS = 'web';
+        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={noop} />);
+
+        wrapper
+            .find('[testID="web_picker"]')
+            .props()
+            .onValueChange('orange', 2);
+        expect(wrapper.state().selectedItem.value).toEqual('orange');
+    });
+
     it('should call the onDonePress callback when set (iOS)', () => {
         Platform.OS = 'ios';
         const onDonePressSpy = jest.fn();
@@ -431,7 +442,7 @@ describe('RNPickerSelect', () => {
             const nextProps = {
                 placeholder,
                 value: selectItems[0].value,
-                onValueChange() {},
+                onValueChange() { },
                 items: selectItems,
             };
             const prevState = {
@@ -446,7 +457,7 @@ describe('RNPickerSelect', () => {
             const nextProps = {
                 placeholder,
                 value: selectItems[0].value,
-                onValueChange() {},
+                onValueChange() { },
                 items: selectItems.concat([violet]),
             };
             const prevState = {
@@ -467,7 +478,7 @@ describe('RNPickerSelect', () => {
             const nextProps = {
                 placeholder: newPlaceholder,
                 value: selectItems[0].value,
-                onValueChange() {},
+                onValueChange() { },
                 items: selectItems,
             };
             const prevState = {
@@ -484,7 +495,7 @@ describe('RNPickerSelect', () => {
             const nextProps = {
                 placeholder,
                 value: selectItems[1].value,
-                onValueChange() {},
+                onValueChange() { },
                 items: selectItems,
             };
             const prevState = {

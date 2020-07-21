@@ -90,6 +90,11 @@ All properties mentioned below must be nested under the `style` prop. Examples o
 -   If you set the prop `useNativeAndroidPickerStyle` to false, the component will allow a few other style objects: `inputAndroidContainer`, `placeholder`, and `inputAndroid`
 -   Other styles that can be modified for Android are named `headlessAndroidContainer` and `viewContainer`
 
+#### Web-specific
+
+-   The component creates a <select> tag.
+-   The styling of this select tag can be modified using a nested object with the key `inputWeb`
+
 ### Icon
 
 -   If a component is passed in via the `Icon` prop - it will be rendered with `{ position: 'absolute', right: 0 }` applied to its wrapping container. You can modify these values and add additional spacing to position the icon as needed by modifying `iconContainer`. You'll probably also want to add some `paddingRight` to your input styling to avoid any longer text appearing behind the icon.
