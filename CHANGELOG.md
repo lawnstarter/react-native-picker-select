@@ -1,3 +1,15 @@
+### 8.0.0 (pending)
+
+##### Breaking Changes
+
+-   Replaced item prop `displayValue` with `inputLabel` (#336)
+
+##### New
+
+-   Added web support (#316)
+
+---
+
 ### 7.0.0
 
 ##### Breaking Changes

@@ -13,7 +13,13 @@ export interface Item {
     value: any;
     key?: string | number;
     color?: string;
-    displayValue?: boolean;
+    /**
+     * Used when you want a different label displayed
+     * on the input than what is displayed on the Picker
+     *
+     * If falsy, label is used
+     */
+    inputLabel?: string;
 }
 
 export interface PickerStyle {
@@ -31,6 +37,7 @@ export interface PickerStyle {
     inputAndroidContainer?: ViewStyle;
     inputIOS?: TextStyle;
     inputIOSContainer?: ViewStyle;
+    inputWeb?: ViewStyle;
     modalViewBottom?: ViewStyle;
     modalViewMiddle?: ViewStyle;
     modalViewTop?: ViewStyle;
