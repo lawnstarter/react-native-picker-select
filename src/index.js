@@ -1,17 +1,9 @@
 import React, { PureComponent } from 'react';
-import {
-    Keyboard,
-    Modal,
-    Platform,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { Keyboard, Modal, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
-import { defaultStyles } from './styles';
 import { Picker } from '@react-native-community/picker';
+import { defaultStyles } from './styles';
 
 export default class RNPickerSelect extends PureComponent {
     static propTypes = {
