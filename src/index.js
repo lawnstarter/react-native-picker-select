@@ -56,6 +56,9 @@ export default class RNPickerSelect extends PureComponent {
         // Custom Icon
         Icon: PropTypes.func,
         InputAccessoryView: PropTypes.func,
+
+        // Use date picker
+        useDatePicker: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -415,7 +418,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderIOS() {
-        const { style, modalProps, pickerProps, touchableWrapperProps } = this.props;
+        const { style, modalProps, pickerProps, touchableWrapperProps, useDatePicker } = this.props;
         const { animationType, orientation, selectedItem, showPicker } = this.state;
 
         return (
@@ -454,14 +457,26 @@ export default class RNPickerSelect extends PureComponent {
                             style.modalViewBottom,
                         ]}
                     >
-                        <Picker
-                            testID="ios_picker"
-                            onValueChange={this.onValueChange}
-                            selectedValue={selectedItem.value}
-                            {...pickerProps}
-                        >
-                            {this.renderPickerItems()}
-                        </Picker>
+                        {useDatePicker
+                        ? 
+                            <DateTimePicker
+                                testID="ios_date_picker"
+                                value={selectedItem.value}
+                                mode={'date'}
+                                is24Hour={true}
+                                display="default"
+                                onChange={this.onValueChange}
+                            />
+                        :
+                            <Picker
+                                testID="ios_picker"
+                                onValueChange={this.onValueChange}
+                                selectedValue={selectedItem.value}
+                                {...pickerProps}
+                            >
+                                {this.renderPickerItems()}
+                            </Picker>
+                        }
                     </View>
                 </Modal>
             </View>
