@@ -25,6 +25,8 @@ For either platform, you can alternatively pass down a child element of your cho
 
 `npm install react-native-picker-select`
 
+If using React Native 0.60 or above - no additional steps required. Otherwise, see details [here](https://github.com/react-native-community/react-native-picker#readme).
+
 ### Basic Usage
 
 ```js
@@ -46,10 +48,11 @@ export const Dropdown = () => {
 
 ### Versioning
 
-| Component | React   |
-| --------- | ------- |
-| >= 3.0.0  | >= 16.3 |
-| < 3.0.0   | < 16.3  |
+| Version       | Notes                                                                                                                                                                   |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| >=&nbsp;8.0.0 | Uses [@react-native-community/picker](https://github.com/react-native-community/react-native-picker#readme). React Native 0.57 or above. If using Expo, SDK38 or above. |
+| >=&nbsp;3.0.0 | React v16.3 or above.                                                                                                                                                   |
+| <&nbsp;3.0.0  | React v16.2 or below.                                                                                                                                                   |
 
 ### Props
 
@@ -106,7 +109,7 @@ All properties mentioned below must be nested under the `style` prop. Examples o
 
 ## Testing
 
-This component has been tested on React Native v0.51 - v0.61
+Test suite included. This component has been used and tested since React Native v0.51.
 
 [![BrowserStack](https://i.imgur.com/cOdhMed.png)](https://www.browserstack.com/)
 

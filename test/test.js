@@ -78,14 +78,8 @@ describe('RNPickerSelect', () => {
             <RNPickerSelect items={selectItems} placeholder={placeholder} onValueChange={noop} />
         );
 
-        wrapper
-            .find('[testID="ios_picker"]')
-            .props()
-            .onValueChange('orange', 2);
-        wrapper
-            .find('[testID="ios_picker"]')
-            .props()
-            .onValueChange('yellow', 3);
+        wrapper.find('[testID="ios_picker"]').props().onValueChange('orange', 2);
+        wrapper.find('[testID="ios_picker"]').props().onValueChange('yellow', 3);
         expect(wrapper.state().selectedItem.value).toEqual('yellow');
     });
 
@@ -136,10 +130,7 @@ describe('RNPickerSelect', () => {
             />
         );
 
-        wrapper
-            .find('[testID="ios_picker"]')
-            .props()
-            .onValueChange('orange', 2);
+        wrapper.find('[testID="ios_picker"]').props().onValueChange('orange', 2);
         expect(onValueChangeSpy).toHaveBeenCalledWith('orange', 2);
     });
 
@@ -272,10 +263,7 @@ describe('RNPickerSelect', () => {
             />
         );
 
-        wrapper
-            .find('[testID="ios_picker"]')
-            .props()
-            .onValueChange('orange', 2);
+        wrapper.find('[testID="ios_picker"]').props().onValueChange('orange', 2);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
         wrapper.setProps({ value: 'violet' });
         expect(wrapper.state().selectedItem).toEqual(placeholder);
@@ -285,10 +273,7 @@ describe('RNPickerSelect', () => {
         Platform.OS = 'android';
         const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={noop} />);
 
-        wrapper
-            .find('[testID="android_picker"]')
-            .props()
-            .onValueChange('orange', 2);
+        wrapper.find('[testID="android_picker"]').props().onValueChange('orange', 2);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
     });
 
@@ -308,10 +293,7 @@ describe('RNPickerSelect', () => {
         Platform.OS = 'web';
         const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={noop} />);
 
-        wrapper
-            .find('[testID="web_picker"]')
-            .props()
-            .onValueChange('orange', 2);
+        wrapper.find('[testID="web_picker"]').props().onValueChange('orange', 2);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
     });
 
@@ -353,10 +335,7 @@ describe('RNPickerSelect', () => {
                 }}
             />
         );
-        wrapper
-            .find('[testID="ios_modal"]')
-            .props()
-            .onShow();
+        wrapper.find('[testID="ios_modal"]').props().onShow();
         expect(onShowSpy).toHaveBeenCalledWith();
     });
 
@@ -372,10 +351,7 @@ describe('RNPickerSelect', () => {
                 }}
             />
         );
-        wrapper
-            .find('[testID="ios_modal"]')
-            .props()
-            .onDismiss();
+        wrapper.find('[testID="ios_modal"]').props().onDismiss();
         expect(onDismissSpy).toHaveBeenCalledWith();
     });
 

@@ -1,7 +1,8 @@
-### 8.0.0 (pending)
+### 8.0.0
 
 ##### Breaking Changes
 
+-   Now using [@react-native-community/picker](https://github.com/react-native-community/react-native-picker#readme) under the hood (#340)
 -   Replaced item prop `displayValue` with `inputLabel` (#336)
 
 ##### New
