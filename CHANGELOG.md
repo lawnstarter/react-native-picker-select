@@ -1,4 +1,4 @@
-### 8.0.0 (pending)
+### 8.0.0
 
 ##### Breaking Changes
 
