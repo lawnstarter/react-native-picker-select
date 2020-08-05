@@ -2,7 +2,7 @@
 
 ##### Breaking Changes
 
--   Now using [@react-native-community/picker](https://github.com/react-native-community/react-native-picker#readme) under the hood (#340)
+-   Now using [@react-native-community/picker](https://github.com/react-native-community/react-native-picker#readme) under the hood (#340). For that reason, this library now requires React Native 0.60 or above. If using Expo, SDK38 or above is required.
 -   Replaced item prop `displayValue` with `inputLabel` (#336)
 
 ##### New
