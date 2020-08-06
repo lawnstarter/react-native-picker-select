@@ -170,7 +170,7 @@ export default class RNPickerSelect extends PureComponent {
                 //   and pass back a simple object rather than a single element array.
                 if (outputValue.length === 1) {
                     outputValue = outputValue[0];
-                    outputIndex = idx[0];
+                    outputIndex = idx ? idx[0] : null;
                 }
                 
                 nextProps.onValueChange(outputValue, outputIndex);
