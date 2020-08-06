@@ -119,8 +119,8 @@ export default class RNPickerSelect extends PureComponent {
         } else {
             return {
                 selectedItem: {
-                    color: '#9EA0A4',
-                    label: 'Select an item...',
+                    color: null,
+                    label: null,
                     value: value || new Date()
                 }
             };
@@ -431,6 +431,14 @@ export default class RNPickerSelect extends PureComponent {
             );
         }
 
+        // Create the displayed label by concatenating values across all wheels.
+        let label = '';
+        if (!useDatePicker) {
+            label = selectedItem.inputLabel ? selectedItem.inputLabel : selectedItem.label;
+        } else {
+            label = moment(selectedItem[0].value).format('M/D/YYYY');
+        }
+                
         return (
             <View pointerEvents="box-only" style={containerStyle}>
                 <TextInput
@@ -439,7 +447,7 @@ export default class RNPickerSelect extends PureComponent {
                         Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
                         this.getPlaceholderStyle(),
                     ]}
-                    value={selectedItem.inputLabel ? selectedItem.inputLabel : selectedItem.label}
+                    value={label}
                     ref={this.setInputRef}
                     editable={false}
                     {...textInputProps}
