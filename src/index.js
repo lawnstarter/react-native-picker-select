@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import { Picker } from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 import { defaultStyles } from './styles';
 
 export default class RNPickerSelect extends PureComponent {
@@ -60,6 +61,7 @@ export default class RNPickerSelect extends PureComponent {
 
         // Use date picker
         useDatePicker: PropTypes.bool,
+        dateFormat: PropTypes.string,
     };
 
     static defaultProps = {
@@ -75,6 +77,7 @@ export default class RNPickerSelect extends PureComponent {
         children: null,
         useNativeAndroidPickerStyle: true,
         useDatePicker: false,
+        dateFormat: 'M/D/YYYY',
         doneText: 'Done',
         onDonePress: null,
         onUpArrow: null,
@@ -417,7 +420,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderTextInputOrChildren() {
-        const { children, style, textInputProps } = this.props;
+        const { children, style, textInputProps, dateFormat } = this.props;
         const { selectedItem } = this.state;
 
         const containerStyle =
@@ -436,7 +439,7 @@ export default class RNPickerSelect extends PureComponent {
         if (!useDatePicker) {
             label = selectedItem.inputLabel ? selectedItem.inputLabel : selectedItem.label;
         } else {
-            label = moment(selectedItem[0].value).format('M/D/YYYY');
+            label = moment(selectedItem[0].value).format(dateFormat);
         }
                 
         return (
