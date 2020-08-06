@@ -56,6 +56,9 @@ export default class RNPickerSelect extends PureComponent {
         // Custom Icon
         Icon: PropTypes.func,
         InputAccessoryView: PropTypes.func,
+
+        // The width of the item picker for each wheel
+        itemWidth: PropTypes.array,
     };
 
     static defaultProps = {
@@ -83,6 +86,7 @@ export default class RNPickerSelect extends PureComponent {
         touchableWrapperProps: {},
         Icon: null,
         InputAccessoryView: null,
+        itemWidth: null,
     };
 
     static handlePlaceholder({ items, placeholder }) {
@@ -218,6 +222,7 @@ export default class RNPickerSelect extends PureComponent {
             animationType: undefined,
             orientation: 'portrait',
             doneDepressed: false,
+            itemWidth: this.props.itemWidth || new Array(items.length).fill(100 / items.length + '%')
         };
 
         this.onUpArrow = this.onUpArrow.bind(this);
@@ -507,7 +512,7 @@ export default class RNPickerSelect extends PureComponent {
 
     renderIOS() {
         const { style, modalProps, pickerProps, touchableWrapperProps } = this.props;
-        const { animationType, orientation, selectedItem, showPicker, items } = this.state;
+        const { animationType, orientation, selectedItem, showPicker, items, itemWidth } = this.state;
 
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
@@ -546,10 +551,10 @@ export default class RNPickerSelect extends PureComponent {
                         ]}
                     >
                         <View style={[{justifyContent: 'center'}]}>
-                            <View style={[{flexDirection: 'row', justifyContent: 'center',paddingLeft: 0}]}>
+                            <View style={[{flexDirection: 'row', justifyContent: 'center'}]}>
                                 {items.map((wheel, wheelIndex) => {
                                     return (
-                                        <View style={{width: '33%'}}>
+                                        <View style={{width: itemWidth[wheelIndex]}}>
                                             <Picker
                                                 testID="ios_picker"
                                                 onValueChange={(value, index) => this.onValueChange(wheelIndex, value, index)}
@@ -571,7 +576,7 @@ export default class RNPickerSelect extends PureComponent {
 
     renderAndroidHeadless() {
         const { disabled, Icon, style, pickerProps, onOpen, touchableWrapperProps } = this.props;
-        const { selectedItem } = this.state;
+        const { selectedItem, itemWidth } = this.state;
 
         return (
             <TouchableOpacity
@@ -586,7 +591,7 @@ export default class RNPickerSelect extends PureComponent {
                         <View style={[{flexDirection: 'row', justifyContent: 'center',paddingLeft: 0}]}>
                             {items.map((wheel, wheelIndex) => {
                                 return (
-                                    <View style={{width: '33%'}}>
+                                    <View style={{width: itemWidth[wheelIndex]}}>
                                         <Picker
                                             style={[
                                                 Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
@@ -613,7 +618,7 @@ export default class RNPickerSelect extends PureComponent {
 
     renderAndroidNativePickerStyle() {
         const { disabled, Icon, style, pickerProps } = this.props;
-        const { selectedItem } = this.state;
+        const { selectedItem, itemWidth } = this.state;
 
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
@@ -621,7 +626,7 @@ export default class RNPickerSelect extends PureComponent {
                         <View style={[{flexDirection: 'row', justifyContent: 'center',paddingLeft: 0}]}>
                             {items.map((wheel, wheelIndex) => {
                                 return (
-                                    <View style={{width: '33%'}}>
+                                    <View style={{width: itemWidth[wheelIndex]}}>
                                         <Picker
                                             style={[
                                                 Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
@@ -648,7 +653,7 @@ export default class RNPickerSelect extends PureComponent {
 
     renderWeb() {
         const { disabled, style, pickerProps } = this.props;
-        const { selectedItem } = this.state;
+        const { selectedItem, itemWidth } = this.state;
 
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
@@ -656,7 +661,7 @@ export default class RNPickerSelect extends PureComponent {
                     <View style={[{flexDirection: 'row', justifyContent: 'center',paddingLeft: 0}]}>
                     {items.map((wheel, wheelIndex) => {
                         return (
-                            <View style={{width: '33%'}}>
+                            <View style={{width: itemWidth[wheelIndex]}}>
                                 <Picker
                                     style={[style.inputWeb]}
                                     testID="web_picker"
