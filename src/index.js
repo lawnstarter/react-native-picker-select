@@ -59,6 +59,9 @@ export default class RNPickerSelect extends PureComponent {
 
         // The width of the item picker for each wheel
         itemWidth: PropTypes.array,
+
+        // A function to return the current picker value as a string
+        valueToString: PropTypes.func,
     };
 
     static defaultProps = {
@@ -87,6 +90,7 @@ export default class RNPickerSelect extends PureComponent {
         Icon: null,
         InputAccessoryView: null,
         itemWidth: null,
+        valueToString: null,
     };
 
     static handlePlaceholder({ items, placeholder }) {
@@ -469,7 +473,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderTextInputOrChildren() {
-        const { children, style, textInputProps } = this.props;
+        const { children, style, textInputProps, valueToString } = this.props;
         const { selectedItem } = this.state;
 
         const containerStyle =
@@ -483,14 +487,18 @@ export default class RNPickerSelect extends PureComponent {
             );
         }
 
-        // Create the displayed label by concatenating values across all wheels.
         let label = '';
-        selectedItem.forEach(i => {
-            if (label.length > 0) {
-                label += ' ';
-            }
-            label += i.inputLabel || i.label;
-        });
+        if (!valueToString) {
+            // Create the displayed label by concatenating values across all wheels.
+            selectedItem.forEach(i => {
+                if (label.length > 0) {
+                    label += ' ';
+                }
+                label += i.inputLabel || i.label;
+            });
+        } else {
+            label = valueToString(selectedItem);
+        }
 
         return (
             <View pointerEvents="box-only" style={containerStyle}>
