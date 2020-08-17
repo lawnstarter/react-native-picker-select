@@ -23,8 +23,6 @@ For either platform, you can alternatively pass down a child element of your cho
 
 `npm install react-native-picker-select`
 
-If using React Native 0.60 or above - no additional steps required. Otherwise, see details [here](https://github.com/react-native-community/react-native-picker#readme).
-
 ### Basic Usage
 
 ```js
@@ -48,7 +46,7 @@ export const Dropdown = () => {
 
 | Version       | Notes                                                                                                                                                                   |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| >=&nbsp;8.0.0 | Uses [@react-native-community/picker](https://github.com/react-native-community/react-native-picker#readme). React Native 0.57 or above. If using Expo, SDK38 or above. |
+| >=&nbsp;8.0.0 | Uses [@react-native-community/picker](https://github.com/react-native-community/react-native-picker#readme). React Native 0.60 or above. If using Expo, SDK38 or above. |
 | >=&nbsp;3.0.0 | React v16.3 or above.                                                                                                                                                   |
 | <&nbsp;3.0.0  | React v16.2 or below.                                                                                                                                                   |
 
