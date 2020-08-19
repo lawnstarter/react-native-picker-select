@@ -1,12 +1,12 @@
 import {
     ModalProps,
-    PickerProps,
     TextInputProps,
     TextStyle,
     TouchableOpacityProps,
     ViewStyle,
 } from 'react-native';
 import React from 'react';
+import { PickerProps } from '@react-native-community/picker/typings/Picker';
 
 export interface Item {
     label: string;
