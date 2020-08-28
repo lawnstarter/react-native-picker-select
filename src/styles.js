@@ -4,6 +4,7 @@ export const defaultStyles = StyleSheet.create({
     viewContainer: {
         alignSelf: 'stretch',
     },
+    pickerContainer: {},
     iconContainer: {
         position: 'absolute',
         right: 0,
