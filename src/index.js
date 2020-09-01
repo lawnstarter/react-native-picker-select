@@ -8,14 +8,27 @@ import { defaultStyles } from './styles';
 export default class RNPickerSelect extends PureComponent {
     static propTypes = {
         onValueChange: PropTypes.func.isRequired,
-        items: PropTypes.arrayOf(
-            PropTypes.shape({
-                label: PropTypes.string.isRequired,
-                value: PropTypes.any.isRequired,
-                inputLabel: PropTypes.string,
-                key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-                color: PropTypes.string,
-            })
+        items: PropTypes.oneOfType([
+            PropTypes.arrayOf(
+                PropTypes.shape({
+                    label: PropTypes.string.isRequired,
+                    value: PropTypes.any.isRequired,
+                    inputLabel: PropTypes.string,
+                    key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+                    color: PropTypes.string,
+                })
+            ),
+            PropTypes.arrayOf(
+                PropTypes.arrayOf(
+                    PropTypes.shape({
+                    label: PropTypes.string.isRequired,
+                    value: PropTypes.any.isRequired,
+                    inputLabel: PropTypes.string,
+                    key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+                    color: PropTypes.string,
+                })
+            )
+        )]
         ).isRequired,
         value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
         labels: PropTypes.array,
