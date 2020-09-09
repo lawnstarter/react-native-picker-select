@@ -29,7 +29,7 @@ Add screenshots to help explain your problem. If screenshots aren't applicable t
 -   OS: [e.g. iOS8.1]
 -   react-native-picker-select version: [e.g. 4.3.0]
 -   react-native version: [e.g. 0.56]
--   react version: [e.g. 16.3]
+-   expo sdk version: [e.g. 38 or n/a]
 
 **Reproduction and/or code sample**<br /><!-- do not remove heading -->
 Provide a link to a reproduction of this issue on https://snack.expo.io **or an explanation why you can not**. Not including a snack link will result in a significant delay in our ability to address this issue.
