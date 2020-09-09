@@ -1,12 +1,12 @@
 import {
     ModalProps,
-    PickerProps,
     TextInputProps,
     TextStyle,
     TouchableOpacityProps,
     ViewStyle,
 } from 'react-native';
 import React from 'react';
+import { PickerProps } from '@react-native-community/picker/typings/Picker';
 
 export interface Item {
     label: string;
@@ -86,5 +86,8 @@ export interface PickerSelectProps {
     InputAccessoryView?: React.ReactNode;
 }
 
-declare class Picker extends React.Component<PickerSelectProps> {}
+declare class Picker extends React.Component<PickerSelectProps> {
+    togglePicker: (animate?: boolean, postToggleCallback?: () => void) => void;
+}
+
 export default Picker;
