@@ -1,3 +1,39 @@
+### 8.0.0
+
+##### Breaking Changes
+
+-   Now using [@react-native-community/picker](https://github.com/react-native-community/react-native-picker#readme) under the hood (#340). For that reason, this library now requires React Native 0.60 or above. If using Expo, SDK38 or above is required.
+-   Replaced item prop `displayValue` with `inputLabel` (#336)
+
+##### New
+
+-   Added web support (#316)
+
+---
+
+### 7.0.0
+
+##### Breaking Changes
+
+-   Deprecated prop `hideDoneBar` has been removed
+-   Deprecated prop `placeholderTextColor` has been removed
+-   Type definitions rewritten (#305)
+
+##### Chore
+
+-   Remove deprecated ColorPropType
+
+---
+
+### 6.6.0
+
+##### New
+
+-   Updated touchables to all be all TouchableOpacity (with override props available)
+-   Done text now animates on depress like native select dialog (#215)
+
+---
+
 ### 6.5.1
 
 ##### Bugfix

@@ -78,14 +78,8 @@ describe('RNPickerSelect', () => {
             <RNPickerSelect items={selectItems} placeholder={placeholder} onValueChange={noop} />
         );
 
-        wrapper
-            .find('[testID="ios_picker"]')
-            .props()
-            .onValueChange('orange', 2);
-        wrapper
-            .find('[testID="ios_picker"]')
-            .props()
-            .onValueChange('yellow', 3);
+        wrapper.find('[testID="ios_picker"]').props().onValueChange('orange', 2);
+        wrapper.find('[testID="ios_picker"]').props().onValueChange('yellow', 3);
         expect(wrapper.state().selectedItem.value).toEqual('yellow');
     });
 
@@ -136,10 +130,7 @@ describe('RNPickerSelect', () => {
             />
         );
 
-        wrapper
-            .find('[testID="ios_picker"]')
-            .props()
-            .onValueChange('orange', 2);
+        wrapper.find('[testID="ios_picker"]').props().onValueChange('orange', 2);
         expect(onValueChangeSpy).toHaveBeenCalledWith('orange', 2);
     });
 
@@ -148,7 +139,7 @@ describe('RNPickerSelect', () => {
             <RNPickerSelect items={selectItems} placeholder={placeholder} onValueChange={noop} />
         );
 
-        const touchable = wrapper.find('TouchableWithoutFeedback').at(1);
+        const touchable = wrapper.find('TouchableOpacity').at(1);
         touchable.simulate('press');
         expect(wrapper.state().showPicker).toEqual(true);
     });
@@ -163,17 +154,17 @@ describe('RNPickerSelect', () => {
             />
         );
 
-        const touchable = wrapper.find('TouchableWithoutFeedback').at(1);
+        const touchable = wrapper.find('TouchableOpacity').at(1);
         touchable.simulate('press');
         expect(wrapper.state().showPicker).toEqual(false);
     });
 
-    describe('when provided a displayValue item property', () => {
+    it('should show the value "RED" in the TextInput instead of the label "Red" when the inputLabel is set', () => {
         const items = [
             {
                 label: 'Red',
                 value: 'red',
-                displayValue: true,
+                inputLabel: 'RED',
             },
             {
                 label: 'Orange',
@@ -181,37 +172,13 @@ describe('RNPickerSelect', () => {
             },
         ];
 
-        it('should show the value (`red`) in the TextInput instead of the label (`Red`) when the displayValue is set to true', () => {
-            const wrapper = shallow(
-                <RNPickerSelect
-                    items={items}
-                    placeholder={{}}
-                    onValueChange={noop}
-                    useValueForTextInput
-                    value="red"
-                />
-            );
+        const wrapper = shallow(
+            <RNPickerSelect items={items} placeholder={{}} onValueChange={noop} value="red" />
+        );
 
-            const textInput = wrapper.find('[testID="text_input"]');
+        const textInput = wrapper.find('[testID="text_input"]');
 
-            expect(textInput.props().value).toEqual('red');
-        });
-
-        it('should show the label (`Orange`) in the TextInput instead of the value (`orange`) when the displayValue is set to false or it is not set', () => {
-            const wrapper = shallow(
-                <RNPickerSelect
-                    items={items}
-                    placeholder={{}}
-                    onValueChange={noop}
-                    useValueForTextInput
-                    value="orange"
-                />
-            );
-
-            const textInput = wrapper.find('[testID="text_input"]');
-
-            expect(textInput.props().value).toEqual('Orange');
-        });
+        expect(textInput.props().value).toEqual('RED');
     });
 
     it('should update the selected value when the `value` prop updates and call the onValueChange cb', () => {
@@ -296,10 +263,7 @@ describe('RNPickerSelect', () => {
             />
         );
 
-        wrapper
-            .find('[testID="ios_picker"]')
-            .props()
-            .onValueChange('orange', 2);
+        wrapper.find('[testID="ios_picker"]').props().onValueChange('orange', 2);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
         wrapper.setProps({ value: 'violet' });
         expect(wrapper.state().selectedItem).toEqual(placeholder);
@@ -309,10 +273,7 @@ describe('RNPickerSelect', () => {
         Platform.OS = 'android';
         const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={noop} />);
 
-        wrapper
-            .find('[testID="android_picker"]')
-            .props()
-            .onValueChange('orange', 2);
+        wrapper.find('[testID="android_picker"]').props().onValueChange('orange', 2);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
     });
 
@@ -328,6 +289,14 @@ describe('RNPickerSelect', () => {
         expect(component).toHaveLength(1);
     });
 
+    it('should set the selected value to state (Web)', () => {
+        Platform.OS = 'web';
+        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={noop} />);
+
+        wrapper.find('[testID="web_picker"]').props().onValueChange('orange', 2);
+        expect(wrapper.state().selectedItem.value).toEqual('orange');
+    });
+
     it('should call the onDonePress callback when set (iOS)', () => {
         Platform.OS = 'ios';
         const onDonePressSpy = jest.fn();
@@ -338,6 +307,20 @@ describe('RNPickerSelect', () => {
         wrapper.find('[testID="done_button"]').simulate('press');
 
         expect(onDonePressSpy).toHaveBeenCalledWith();
+        expect(onDonePressSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should update the Done styling during a press (iOS)', () => {
+        Platform.OS = 'ios';
+        const wrapper = shallow(<RNPickerSelect items={selectItems} onValueChange={noop} />);
+
+        const done_button = wrapper.find('[testID="done_button"]');
+
+        done_button.simulate('pressIn');
+        expect(wrapper.state().doneDepressed).toEqual(true);
+
+        done_button.simulate('pressOut');
+        expect(wrapper.state().doneDepressed).toEqual(false);
     });
 
     it('should call the onShow callback when set (iOS)', () => {
@@ -352,10 +335,7 @@ describe('RNPickerSelect', () => {
                 }}
             />
         );
-        wrapper
-            .find('[testID="ios_modal"]')
-            .props()
-            .onShow();
+        wrapper.find('[testID="ios_modal"]').props().onShow();
         expect(onShowSpy).toHaveBeenCalledWith();
     });
 
@@ -371,10 +351,7 @@ describe('RNPickerSelect', () => {
                 }}
             />
         );
-        wrapper
-            .find('[testID="ios_modal"]')
-            .props()
-            .onDismiss();
+        wrapper.find('[testID="ios_modal"]').props().onDismiss();
         expect(onDismissSpy).toHaveBeenCalledWith();
     });
 

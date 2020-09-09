@@ -1,0 +1,12 @@
+name: Autocloser
+on: [issues]
+jobs:
+  autoclose:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Autoclose issues that did not follow issue template
+      uses: roots/issue-closer@v1.1
+      with:
+        repo-token: ${{ secrets.GH_TOKEN }}
+        issue-close-message: "@${issue.user.login} this issue was automatically closed because it did not follow one of the available issue templates. See [here](https://github.com/lawnstarter/react-native-picker-select/issues/new/choose) for available options."
+        issue-pattern: ".*Additional detail*"
