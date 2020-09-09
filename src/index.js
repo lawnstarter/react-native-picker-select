@@ -1,16 +1,8 @@
 import React, { PureComponent } from 'react';
-import {
-    Keyboard,
-    Modal,
-    Picker,
-    Platform,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { Keyboard, Modal, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
+import { Picker } from '@react-native-community/picker';
 import { defaultStyles } from './styles';
 
 export default class RNPickerSelect extends PureComponent {
@@ -20,9 +12,9 @@ export default class RNPickerSelect extends PureComponent {
             PropTypes.shape({
                 label: PropTypes.string.isRequired,
                 value: PropTypes.any.isRequired,
+                inputLabel: PropTypes.string,
                 key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
                 color: PropTypes.string,
-                displayValue: PropTypes.bool,
             })
         ).isRequired,
         value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
@@ -413,7 +405,7 @@ export default class RNPickerSelect extends PureComponent {
                         Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
                         this.getPlaceholderStyle(),
                     ]}
-                    value={selectedItem.displayValue ? selectedItem.value : selectedItem.label}
+                    value={selectedItem.inputLabel ? selectedItem.inputLabel : selectedItem.label}
                     ref={this.setInputRef}
                     editable={false}
                     {...textInputProps}
@@ -534,6 +526,27 @@ export default class RNPickerSelect extends PureComponent {
         );
     }
 
+    renderWeb() {
+        const { disabled, style, pickerProps } = this.props;
+        const { selectedItem } = this.state;
+
+        return (
+            <View style={[defaultStyles.viewContainer, style.viewContainer]}>
+                <Picker
+                    style={[style.inputWeb]}
+                    testID="web_picker"
+                    enabled={!disabled}
+                    onValueChange={this.onValueChange}
+                    selectedValue={selectedItem.value}
+                    {...pickerProps}
+                >
+                    {this.renderPickerItems()}
+                </Picker>
+                {this.renderIcon()}
+            </View>
+        );
+    }
+
     render() {
         const { children, useNativeAndroidPickerStyle } = this.props;
 
@@ -541,10 +554,13 @@ export default class RNPickerSelect extends PureComponent {
             return this.renderIOS();
         }
 
+        if (Platform.OS === 'web') {
+            return this.renderWeb();
+        }
+
         if (children || !useNativeAndroidPickerStyle) {
             return this.renderAndroidHeadless();
         }
-
         return this.renderAndroidNativePickerStyle();
     }
 }

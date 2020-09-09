@@ -1,19 +1,25 @@
 import {
     ModalProps,
-    PickerProps,
     TextInputProps,
     TextStyle,
     TouchableOpacityProps,
     ViewStyle,
 } from 'react-native';
 import React from 'react';
+import { PickerProps } from '@react-native-community/picker/typings/Picker';
 
 export interface Item {
     label: string;
     value: any;
     key?: string | number;
     color?: string;
-    displayValue?: boolean;
+    /**
+     * Used when you want a different label displayed
+     * on the input than what is displayed on the Picker
+     *
+     * If falsy, label is used
+     */
+    inputLabel?: string;
 }
 
 export interface PickerStyle {
@@ -31,6 +37,7 @@ export interface PickerStyle {
     inputAndroidContainer?: ViewStyle;
     inputIOS?: TextStyle;
     inputIOSContainer?: ViewStyle;
+    inputWeb?: ViewStyle;
     modalViewBottom?: ViewStyle;
     modalViewMiddle?: ViewStyle;
     modalViewTop?: ViewStyle;
@@ -79,5 +86,8 @@ export interface PickerSelectProps {
     InputAccessoryView?: React.ReactNode;
 }
 
-declare class Picker extends React.Component<PickerSelectProps> {}
+declare class Picker extends React.Component<PickerSelectProps> {
+    togglePicker: (animate?: boolean, postToggleCallback?: () => void) => void;
+}
+
 export default Picker;
