@@ -3,6 +3,8 @@ import { Keyboard, Modal, Platform, Text, TextInput, TouchableOpacity, View } fr
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import { Picker } from '@react-native-community/picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 import { defaultStyles } from './styles';
 
 export default class RNPickerSelect extends PureComponent {
@@ -56,6 +58,10 @@ export default class RNPickerSelect extends PureComponent {
         // Custom Icon
         Icon: PropTypes.func,
         InputAccessoryView: PropTypes.func,
+
+        // Use date picker
+        useDatePicker: PropTypes.bool,
+        dateFormat: PropTypes.string,
     };
 
     static defaultProps = {
@@ -70,6 +76,8 @@ export default class RNPickerSelect extends PureComponent {
         style: {},
         children: null,
         useNativeAndroidPickerStyle: true,
+        useDatePicker: false,
+        dateFormat: 'M/D/YYYY',
         doneText: 'Done',
         onDonePress: null,
         onUpArrow: null,
@@ -92,20 +100,35 @@ export default class RNPickerSelect extends PureComponent {
         return [placeholder];
     }
 
+    static isDate(obj) {
+        return Object.prototype.toString.call(obj) === "[object Date]";
+    };
+
     static getSelectedItem({ items, key, value }) {
-        let idx = items.findIndex((item) => {
-            if (item.key && key) {
-                return isEqual(item.key, key);
+        if (!RNPickerSelect.isDate(value)) {
+            let idx = items.findIndex((item) => {
+                if (item.key && key) {
+                    return isEqual(item.key, key);
+                }
+                return isEqual(item.value, value);
+            });
+            if (idx === -1) {
+                idx = 0;
             }
-            return isEqual(item.value, value);
-        });
-        if (idx === -1) {
-            idx = 0;
+            return {
+                selectedItem: items[idx] || {},
+                idx,
+            };
+        } else {
+            return {
+                selectedItem: {
+                    color: null,
+                    label: null,
+                    value: value || new Date()
+                }
+            };
+
         }
-        return {
-            selectedItem: items[idx] || {},
-            idx,
-        };
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -162,6 +185,7 @@ export default class RNPickerSelect extends PureComponent {
 
         this.onUpArrow = this.onUpArrow.bind(this);
         this.onDownArrow = this.onDownArrow.bind(this);
+        this.onDateValueChange = this.onDateValueChange.bind(this);
         this.onValueChange = this.onValueChange.bind(this);
         this.onOrientationChange = this.onOrientationChange.bind(this);
         this.setInputRef = this.setInputRef.bind(this);
@@ -189,6 +213,20 @@ export default class RNPickerSelect extends PureComponent {
         this.setState((prevState) => {
             return {
                 selectedItem: prevState.items[index],
+            };
+        });
+    }
+
+    onDateValueChange(event, value) {
+        const { onValueChange } = this.props;
+
+        onValueChange(value);
+
+        this.setState((prevState) => {
+            let si = Object.assign({}, prevState.selectedItem);
+            si.value = value;
+            return {
+                selectedItem: si,
             };
         });
     }
@@ -382,7 +420,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderTextInputOrChildren() {
-        const { children, style, textInputProps } = this.props;
+        const { children, style, textInputProps, dateFormat } = this.props;
         const { selectedItem } = this.state;
 
         const containerStyle =
@@ -396,6 +434,14 @@ export default class RNPickerSelect extends PureComponent {
             );
         }
 
+        // Create the displayed label by concatenating values across all wheels.
+        let label = '';
+        if (!useDatePicker) {
+            label = selectedItem.inputLabel ? selectedItem.inputLabel : selectedItem.label;
+        } else {
+            label = moment(selectedItem[0].value).format(dateFormat);
+        }
+                
         return (
             <View pointerEvents="box-only" style={containerStyle}>
                 <TextInput
@@ -404,7 +450,7 @@ export default class RNPickerSelect extends PureComponent {
                         Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
                         this.getPlaceholderStyle(),
                     ]}
-                    value={selectedItem.inputLabel ? selectedItem.inputLabel : selectedItem.label}
+                    value={label}
                     ref={this.setInputRef}
                     editable={false}
                     {...textInputProps}
@@ -415,7 +461,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderIOS() {
-        const { style, modalProps, pickerProps, touchableWrapperProps } = this.props;
+        const { style, modalProps, pickerProps, touchableWrapperProps, useDatePicker } = this.props;
         const { animationType, orientation, selectedItem, showPicker } = this.state;
 
         return (
@@ -454,14 +500,24 @@ export default class RNPickerSelect extends PureComponent {
                             style.modalViewBottom,
                         ]}
                     >
-                        <Picker
-                            testID="ios_picker"
-                            onValueChange={this.onValueChange}
-                            selectedValue={selectedItem.value}
-                            {...pickerProps}
-                        >
-                            {this.renderPickerItems()}
-                        </Picker>
+                        {useDatePicker
+                        ? 
+                            <DateTimePicker
+                                testID="ios_date_picker"
+                                onChange={this.onDateValueChange}
+                                value={selectedItem.value}
+                                {...pickerProps}
+                            />
+                        :
+                            <Picker
+                                testID="ios_picker"
+                                onValueChange={this.onValueChange}
+                                selectedValue={selectedItem.value}
+                                {...pickerProps}
+                            >
+                                {this.renderPickerItems()}
+                            </Picker>
+                        }
                     </View>
                 </Modal>
             </View>
@@ -469,7 +525,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroidHeadless() {
-        const { disabled, Icon, style, pickerProps, onOpen, touchableWrapperProps } = this.props;
+        const { disabled, Icon, style, pickerProps, onOpen, touchableWrapperProps, useDatePicker } = this.props;
         const { selectedItem } = this.state;
 
         return (
@@ -481,45 +537,65 @@ export default class RNPickerSelect extends PureComponent {
             >
                 <View style={style.headlessAndroidContainer}>
                     {this.renderTextInputOrChildren()}
-                    <Picker
-                        style={[
-                            Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
-                            defaultStyles.headlessAndroidPicker,
-                            style.headlessAndroidPicker,
-                        ]}
-                        testID="android_picker_headless"
-                        enabled={!disabled}
-                        onValueChange={this.onValueChange}
-                        selectedValue={selectedItem.value}
-                        {...pickerProps}
-                    >
-                        {this.renderPickerItems()}
-                    </Picker>
+                    {useDatePicker
+                    ?
+                        <DateTimePicker
+                            testID="android_date_picker_headless"
+                            onChange={this.onDateValueChange}
+                            value={selectedItem.value}
+                            {...pickerProps}
+                        />
+                    :
+                        <Picker
+                            style={[
+                                Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
+                                defaultStyles.headlessAndroidPicker,
+                                style.headlessAndroidPicker,
+                            ]}
+                            testID="android_picker_headless"
+                            enabled={!disabled}
+                            onValueChange={this.onValueChange}
+                            selectedValue={selectedItem.value}
+                            {...pickerProps}
+                        >
+                            {this.renderPickerItems()}
+                        </Picker>
+                    }
                 </View>
             </TouchableOpacity>
         );
     }
 
     renderAndroidNativePickerStyle() {
-        const { disabled, Icon, style, pickerProps } = this.props;
+        const { disabled, Icon, style, pickerProps, useDatePicker } = this.props;
         const { selectedItem } = this.state;
 
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
-                <Picker
-                    style={[
-                        Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
-                        style.inputAndroid,
-                        this.getPlaceholderStyle(),
-                    ]}
-                    testID="android_picker"
-                    enabled={!disabled}
-                    onValueChange={this.onValueChange}
-                    selectedValue={selectedItem.value}
-                    {...pickerProps}
-                >
-                    {this.renderPickerItems()}
-                </Picker>
+                    {useDatePicker
+                    ?
+                        <DateTimePicker
+                            testID="android_date_picker_headless"
+                            onChange={this.onDateValueChange}
+                            value={selectedItem.value}
+                            {...pickerProps}
+                        />
+                    :
+                        <Picker
+                            style={[
+                                Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
+                                style.inputAndroid,
+                                this.getPlaceholderStyle(),
+                            ]}
+                            testID="android_picker"
+                            enabled={!disabled}
+                            onValueChange={this.onValueChange}
+                            selectedValue={selectedItem.value}
+                            {...pickerProps}
+                        >
+                            {this.renderPickerItems()}
+                        </Picker>
+                    }
                 {this.renderIcon()}
             </View>
         );
