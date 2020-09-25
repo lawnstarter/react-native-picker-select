@@ -5,6 +5,7 @@
 -   Locked @react-native-community/picker to 1.6.0 to fix Expo issues
 -   Add togglePicker method to Picker component typescript definition (#360)
 -   Fix wrong PickerProps import in index.d.ts (#352)
+-   Fixed inputWeb to be a TextStyle, not ViewStyle (#365)
 
 ---
 
