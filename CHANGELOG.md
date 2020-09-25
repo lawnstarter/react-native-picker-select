@@ -1,4 +1,14 @@
-### 8.0.0
+## 8.0.1
+
+##### Bugfix
+
+-   Locked @react-native-community/picker to 1.6.0 to fix Expo issues
+-   Add togglePicker method to Picker component typescript definition (#360)
+-   Fix wrong PickerProps import in index.d.ts (#352)
+
+---
+
+## 8.0.0
 
 ##### Breaking Changes
 
@@ -11,7 +21,7 @@
 
 ---
 
-### 7.0.0
+## 7.0.0
 
 ##### Breaking Changes
 
