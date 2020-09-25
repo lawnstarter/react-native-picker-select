@@ -1,6 +1,6 @@
 {
     "name": "react-native-picker-select",
-    "version": "8.0.0-beta.2",
+    "version": "8.0.1",
     "description": "A Picker component for React Native which emulates the native <select> interfaces for each platform",
     "license": "MIT",
     "author": "Michael Lefkowitz <lefkowitz.michael@gmail.com>",
@@ -24,7 +24,7 @@
         "/src"
     ],
     "dependencies": {
-        "@react-native-community/picker": "^1.6.0",
+        "@react-native-community/picker": "1.6.0",
         "lodash.isequal": "^4.5.0"
     },
     "devDependencies": {
