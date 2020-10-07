@@ -21,7 +21,20 @@ For either platform, you can alternatively pass down a child element of your cho
 
 ### Installing
 
-`npm install react-native-picker-select`
+```
+npm install react-native-picker-select
+
+
+# if you see a `Invariant Violation: requireNativeComponent "RNCPicker" was not found in the UIManager` error:
+
+# React Native users
+npm install @react-native-community/picker
+npx pod-install
+
+# Expo
+expo install @react-native-community/picker
+```
+
 
 ### Basic Usage
 
