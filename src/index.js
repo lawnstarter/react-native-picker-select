@@ -30,6 +30,7 @@ export default class RNPickerSelect extends PureComponent {
         children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
         onOpen: PropTypes.func,
         useNativeAndroidPickerStyle: PropTypes.bool,
+        fixAndroidTouchableBug: PropTypes.bool,
 
         // Custom Modal props (iOS only)
         doneText: PropTypes.string,
@@ -70,6 +71,7 @@ export default class RNPickerSelect extends PureComponent {
         style: {},
         children: null,
         useNativeAndroidPickerStyle: true,
+        fixAndroidTouchableBug: false,
         doneText: 'Done',
         onDonePress: null,
         onUpArrow: null,
@@ -465,11 +467,20 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroidHeadless() {
-        const { disabled, Icon, style, pickerProps, onOpen, touchableWrapperProps } = this.props;
+        const {
+            disabled,
+            Icon,
+            style,
+            pickerProps,
+            onOpen,
+            touchableWrapperProps,
+            fixAndroidTouchableBug,
+        } = this.props;
         const { selectedItem } = this.state;
 
+        const Component = fixAndroidTouchableBug ? View : TouchableOpacity;
         return (
-            <TouchableOpacity
+            <Component
                 testID="android_touchable_wrapper"
                 onPress={onOpen}
                 activeOpacity={1}
@@ -492,7 +503,7 @@ export default class RNPickerSelect extends PureComponent {
                         {this.renderPickerItems()}
                     </Picker>
                 </View>
-            </TouchableOpacity>
+            </Component>
         );
     }
 
@@ -556,6 +567,7 @@ export default class RNPickerSelect extends PureComponent {
         if (children || !useNativeAndroidPickerStyle) {
             return this.renderAndroidHeadless();
         }
+
         return this.renderAndroidNativePickerStyle();
     }
 }
