@@ -1,3 +1,11 @@
+## 8.0.2
+
+##### Bugfix
+
+-   Add `fixAndroidTouchableBug` prop (#354)
+
+---
+
 ## 8.0.1
 
 ##### Bugfix
