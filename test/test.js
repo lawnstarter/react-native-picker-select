@@ -386,6 +386,22 @@ describe('RNPickerSelect', () => {
         expect(onOpenSpy).toHaveBeenCalledWith();
     });
 
+    it('should use a View when fixAndroidTouchableBug=true (Android)', () => {
+        Platform.OS = 'android';
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                onValueChange={noop}
+                useNativeAndroidPickerStyle={false}
+                fixAndroidTouchableBug
+            />
+        );
+
+        const touchable = wrapper.find('[testID="android_touchable_wrapper"]');
+
+        expect(touchable.type().displayName).toEqual('View');
+    });
+
     it('should call the onClose callback when set', () => {
         Platform.OS = 'ios';
         const onCloseSpy = jest.fn();
