@@ -28,7 +28,7 @@ npm install react-native-picker-select
 # if you see a `Invariant Violation: requireNativeComponent "RNCPicker" was not found in the UIManager` error:
 
 # React Native users
-npm install @react-native-community/picker
+npm install @react-native-picker/picker
 npx pod-install
 
 # Expo
