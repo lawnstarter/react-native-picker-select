@@ -1,3 +1,11 @@
+## 8.0.3
+
+##### Bugfix
+
+-   Fix `Cannot update component inside function` error (#346)
+
+---
+
 ## 8.0.2
 
 ##### Bugfix

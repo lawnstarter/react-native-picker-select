@@ -110,32 +110,6 @@ export default class RNPickerSelect extends PureComponent {
         };
     }
 
-    componentDidUpdate = (prevProps, prevState) => {
-        // update items if items or placeholder prop changes
-        const items = RNPickerSelect.handlePlaceholder({
-            placeholder: this.props.placeholder,
-        }).concat(this.props.items);
-        const itemsChanged = !isEqual(prevState.items, items);
-
-        // update selectedItem if value prop is defined and differs from currently selected item
-        const { selectedItem, idx } = RNPickerSelect.getSelectedItem({
-            items,
-            key: this.props.itemKey,
-            value: this.props.value,
-        });
-        const selectedItemChanged =
-            !isEqual(this.props.value, undefined) && !isEqual(prevState.selectedItem, selectedItem);
-
-        if (itemsChanged || selectedItemChanged) {
-            this.props.onValueChange(selectedItem.value, idx);
-
-            this.setState({
-                ...(itemsChanged ? { items } : {}),
-                ...(selectedItemChanged ? { selectedItem } : {}),
-            });
-        }
-    };
-
     constructor(props) {
         super(props);
 
@@ -166,6 +140,32 @@ export default class RNPickerSelect extends PureComponent {
         this.togglePicker = this.togglePicker.bind(this);
         this.renderInputAccessoryView = this.renderInputAccessoryView.bind(this);
     }
+
+    componentDidUpdate = (prevProps, prevState) => {
+        // update items if items or placeholder prop changes
+        const items = RNPickerSelect.handlePlaceholder({
+            placeholder: this.props.placeholder,
+        }).concat(this.props.items);
+        const itemsChanged = !isEqual(prevState.items, items);
+
+        // update selectedItem if value prop is defined and differs from currently selected item
+        const { selectedItem, idx } = RNPickerSelect.getSelectedItem({
+            items,
+            key: this.props.itemKey,
+            value: this.props.value,
+        });
+        const selectedItemChanged =
+            !isEqual(this.props.value, undefined) && !isEqual(prevState.selectedItem, selectedItem);
+
+        if (itemsChanged || selectedItemChanged) {
+            this.props.onValueChange(selectedItem.value, idx);
+
+            this.setState({
+                ...(itemsChanged ? { items } : {}),
+                ...(selectedItemChanged ? { selectedItem } : {}),
+            });
+        }
+    };
 
     onUpArrow() {
         const { onUpArrow } = this.props;
