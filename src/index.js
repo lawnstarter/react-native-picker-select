@@ -57,6 +57,10 @@ export default class RNPickerSelect extends PureComponent {
         // Custom Icon
         Icon: PropTypes.func,
         InputAccessoryView: PropTypes.func,
+
+        // Accessibility props
+        accessible: PropTypes.bool,
+        accessibilityLabel: PropTypes.string,
     };
 
     static defaultProps = {
@@ -85,6 +89,8 @@ export default class RNPickerSelect extends PureComponent {
         touchableWrapperProps: {},
         Icon: null,
         InputAccessoryView: null,
+        accessible: true,
+        accessibilityLabel: '',
     };
 
     static handlePlaceholder({ placeholder }) {
@@ -142,23 +148,24 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     componentDidUpdate = (prevProps, prevState) => {
+        const { placeholder, itemKey, value, onValueChange } = this.props;
         // update items if items or placeholder prop changes
         const items = RNPickerSelect.handlePlaceholder({
-            placeholder: this.props.placeholder,
+            placeholder,
         }).concat(this.props.items);
         const itemsChanged = !isEqual(prevState.items, items);
 
         // update selectedItem if value prop is defined and differs from currently selected item
         const { selectedItem, idx } = RNPickerSelect.getSelectedItem({
             items,
-            key: this.props.itemKey,
-            value: this.props.value,
+            key: itemKey,
+            value,
         });
         const selectedItemChanged =
-            !isEqual(this.props.value, undefined) && !isEqual(prevState.selectedItem, selectedItem);
+            !isEqual(value, undefined) && !isEqual(prevState.selectedItem, selectedItem);
 
         if (itemsChanged || selectedItemChanged) {
-            this.props.onValueChange(selectedItem.value, idx);
+            onValueChange(selectedItem.value, idx);
 
             this.setState({
                 ...(itemsChanged ? { items } : {}),
@@ -413,13 +420,22 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderIOS() {
-        const { style, modalProps, pickerProps, touchableWrapperProps } = this.props;
+        const {
+            style,
+            modalProps,
+            pickerProps,
+            touchableWrapperProps,
+            accessible,
+            accessibilityLabel,
+        } = this.props;
         const { animationType, orientation, selectedItem, showPicker } = this.state;
 
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <TouchableOpacity
                     testID="ios_touchable_wrapper"
+                    accessible={accessible}
+                    accessibilityLabel={accessibilityLabel || null}
                     onPress={() => {
                         this.togglePicker(true);
                     }}
@@ -475,6 +491,8 @@ export default class RNPickerSelect extends PureComponent {
             onOpen,
             touchableWrapperProps,
             fixAndroidTouchableBug,
+            accessible,
+            accessibilityLabel,
         } = this.props;
         const { selectedItem } = this.state;
 
@@ -482,6 +500,8 @@ export default class RNPickerSelect extends PureComponent {
         return (
             <Component
                 testID="android_touchable_wrapper"
+                accessible={accessible}
+                accessibilityLabel={accessibilityLabel || null}
                 onPress={onOpen}
                 activeOpacity={1}
                 {...touchableWrapperProps}
@@ -508,7 +528,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroidNativePickerStyle() {
-        const { disabled, Icon, style, pickerProps } = this.props;
+        const { disabled, Icon, style, pickerProps, accessible, accessibilityLabel } = this.props;
         const { selectedItem } = this.state;
 
         return (
@@ -520,6 +540,8 @@ export default class RNPickerSelect extends PureComponent {
                         this.getPlaceholderStyle(),
                     ]}
                     testID="android_picker"
+                    accessible={accessible}
+                    accessibilityLabel={accessibilityLabel || null}
                     enabled={!disabled}
                     onValueChange={this.onValueChange}
                     selectedValue={selectedItem.value}
@@ -533,7 +555,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderWeb() {
-        const { disabled, style, pickerProps } = this.props;
+        const { disabled, style, pickerProps, accessible, accessibilityLabel } = this.props;
         const { selectedItem } = this.state;
 
         return (
@@ -541,6 +563,8 @@ export default class RNPickerSelect extends PureComponent {
                 <Picker
                     style={[style.inputWeb]}
                     testID="web_picker"
+                    accessible={accessible}
+                    accessibilityLabel={accessibilityLabel || null}
                     enabled={!disabled}
                     onValueChange={this.onValueChange}
                     selectedValue={selectedItem.value}

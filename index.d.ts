@@ -85,6 +85,8 @@ export interface PickerSelectProps {
     touchableWrapperProps?: CustomTouchableWrapperProps;
     Icon?: React.ReactNode;
     InputAccessoryView?: React.ReactNode;
+    accessible?: boolean;
+    accessibilityLabel?: string;
 }
 
 declare class Picker extends React.Component<PickerSelectProps> {
