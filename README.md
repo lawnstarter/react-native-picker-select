@@ -115,6 +115,37 @@ All properties mentioned below must be nested under the `style` prop. Examples o
 -   You can pass a component of your choosing (css, image, svg, etc..) for use as the icon. For ease of use, consider a library such as [react-native-shapes](https://github.com/lfkwtz/react-native-shapes) or [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons).
 -   Examples of different icons and their usage can be found [on the example snack](https://snack.expo.io/@lfkwtz/react-native-picker-select).
 
+## Accessibility
+
+If you need to add accessibility props to the rendered component, you may use `pickerProps` and `touchableWrapperProps` to pass these through.
+
+`pickerProps` accepts an object of props that get passed directly to the native `<Picker />` component.
+`touchableWrapperProps` also accepts an object of props, but this gets passed to a `<TouchableOpacity />` that toggles the visibility of the picker.
+
+### Accessibility Example
+
+In the example below, we render the picker with supplementary description text, but for screen readers, we omit this by passing just the title to the `accessibilityLabel` prop.
+
+```js
+const selectedItem = {
+    title: 'Selected item title',
+    description: 'Secondary long descriptive text ...',
+};
+
+export const Dropdown = () => {
+    return (
+        <RNPickerSelect
+            pickerProps={{
+                accessibilityLabel: selectedItem.title,
+            }}
+        >
+            <Text>{selectedItem.title}</Text>
+            <Text>{selectedItem.description}</Text>
+        </RNPickerSelect>
+    );
+};
+```
+
 ## Testing
 
 Test suite included. This component has been used and tested since React Native v0.51.
