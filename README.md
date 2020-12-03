@@ -120,7 +120,7 @@ All properties mentioned below must be nested under the `style` prop. Examples o
 If you need to add accessibility props to the rendered component, you may use `pickerProps` and `touchableWrapperProps` to pass these through.
 
 `pickerProps` accepts an object of props that get passed directly to the native `<Picker />` component.
-`touchableWrapperProps` also accepts an object of props, but this gets passed to a `<TouchableOpacity />` that toggles the visibility of the picker.
+`touchableWrapperProps` also accepts an object of props, but this gets passed to a `<TouchableOpacity />` that toggles the visibility of the picker.<sup>*note: `touchableWrapperProps` is not supported on web or when `useNativeAndroidPickerStyle={true}`</sup>
 
 ### Accessibility Example
 
