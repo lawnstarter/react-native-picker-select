@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/react-native-picker-select.svg)](https://badge.fury.io/js/react-native-picker-select)
 [![npm downloads](https://img.shields.io/npm/dm/react-native-picker-select.svg?style=flat-square)](https://www.npmjs.com/package/react-native-picker-select)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/095f5b1ee137705ed382/test_coverage)](https://codeclimate.com/github/lawnstarter/react-native-picker-select/test_coverage)
-[![CircleCI](https://circleci.com/gh/lawnstarter/react-native-picker-select.svg?style=svg)](https://circleci.com/gh/lawnstarter/react-native-picker-select)
+[![CircleCI](https://circleci.com/gh/lawnstarter/react-native-picker-select.svg?style=svg)](https://circleci.com/gh/lawnstarter/react-native-picker-select) [![Meercode CI Score](https://meercode.io/badge/lawnstarter/react-native-picker-select?type=ci-score&branch=master)](https://meercode.io/lawnstarter/react-native-picker-select)
 
 A Picker component for React Native which emulates the native `<select>` interfaces for iOS and Android
 
