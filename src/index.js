@@ -481,6 +481,7 @@ export default class RNPickerSelect extends PureComponent {
         const Component = fixAndroidTouchableBug ? View : TouchableOpacity;
         return (
             <Component
+                style = {fixAndroidTouchableBug && [defaultStyles.viewContainer, style.viewContainer]}
                 testID="android_touchable_wrapper"
                 onPress={onOpen}
                 activeOpacity={1}
