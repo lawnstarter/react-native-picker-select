@@ -25,11 +25,11 @@ For either platform, you can alternatively pass down a child element of your cho
 npm install react-native-picker-select
 
 # React Native users
-npm install @react-native-picker/picker
+npm install react-native-picker-select
 npx pod-install
 
 # Expo
-expo install @react-native-picker/picker
+expo install react-native-picker-select
 ```
 
 ### Basic Usage
