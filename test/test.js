@@ -415,7 +415,7 @@ describe('RNPickerSelect', () => {
         // Close
         touchable.simulate('press');
 
-        expect(onCloseSpy).toHaveBeenCalledWith();
+        expect(onCloseSpy).toHaveBeenCalledWith(true);
     });
 
     it('should close the modal when the empty area above the picker is tapped', () => {
