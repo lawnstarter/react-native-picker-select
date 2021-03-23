@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Keyboard, Modal, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
-import { Picker } from '@react-native-community/picker';
+import { Picker } from '@react-native-picker/picker';
 import { defaultStyles } from './styles';
 
 export default class RNPickerSelect extends PureComponent {
@@ -30,6 +30,7 @@ export default class RNPickerSelect extends PureComponent {
         children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
         onOpen: PropTypes.func,
         useNativeAndroidPickerStyle: PropTypes.bool,
+        fixAndroidTouchableBug: PropTypes.bool,
 
         // Custom Modal props (iOS only)
         doneText: PropTypes.string,
@@ -70,6 +71,7 @@ export default class RNPickerSelect extends PureComponent {
         style: {},
         children: null,
         useNativeAndroidPickerStyle: true,
+        fixAndroidTouchableBug: false,
         doneText: 'Done',
         onDonePress: null,
         onUpArrow: null,
@@ -108,36 +110,6 @@ export default class RNPickerSelect extends PureComponent {
         };
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        // update items if items or placeholder prop changes
-        const items = RNPickerSelect.handlePlaceholder({
-            placeholder: nextProps.placeholder,
-        }).concat(nextProps.items);
-        const itemsChanged = !isEqual(prevState.items, items);
-
-        // update selectedItem if value prop is defined and differs from currently selected item
-        const { selectedItem, idx } = RNPickerSelect.getSelectedItem({
-            items,
-            key: nextProps.itemKey,
-            value: nextProps.value,
-        });
-        const selectedItemChanged =
-            !isEqual(nextProps.value, undefined) && !isEqual(prevState.selectedItem, selectedItem);
-
-        if (itemsChanged || selectedItemChanged) {
-            if (selectedItemChanged) {
-                nextProps.onValueChange(selectedItem.value, idx);
-            }
-
-            return {
-                ...(itemsChanged ? { items } : {}),
-                ...(selectedItemChanged ? { selectedItem } : {}),
-            };
-        }
-
-        return null;
-    }
-
     constructor(props) {
         super(props);
 
@@ -168,6 +140,32 @@ export default class RNPickerSelect extends PureComponent {
         this.togglePicker = this.togglePicker.bind(this);
         this.renderInputAccessoryView = this.renderInputAccessoryView.bind(this);
     }
+
+    componentDidUpdate = (prevProps, prevState) => {
+        // update items if items or placeholder prop changes
+        const items = RNPickerSelect.handlePlaceholder({
+            placeholder: this.props.placeholder,
+        }).concat(this.props.items);
+        const itemsChanged = !isEqual(prevState.items, items);
+
+        // update selectedItem if value prop is defined and differs from currently selected item
+        const { selectedItem, idx } = RNPickerSelect.getSelectedItem({
+            items,
+            key: this.props.itemKey,
+            value: this.props.value,
+        });
+        const selectedItemChanged =
+            !isEqual(this.props.value, undefined) && !isEqual(prevState.selectedItem, selectedItem);
+
+        if (itemsChanged || selectedItemChanged) {
+            this.props.onValueChange(selectedItem.value, idx);
+
+            this.setState({
+                ...(itemsChanged ? { items } : {}),
+                ...(selectedItemChanged ? { selectedItem } : {}),
+            });
+        }
+    };
 
     onUpArrow() {
         const { onUpArrow } = this.props;
@@ -469,11 +467,20 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroidHeadless() {
-        const { disabled, Icon, style, pickerProps, onOpen, touchableWrapperProps } = this.props;
+        const {
+            disabled,
+            Icon,
+            style,
+            pickerProps,
+            onOpen,
+            touchableWrapperProps,
+            fixAndroidTouchableBug,
+        } = this.props;
         const { selectedItem } = this.state;
 
+        const Component = fixAndroidTouchableBug ? View : TouchableOpacity;
         return (
-            <TouchableOpacity
+            <Component
                 testID="android_touchable_wrapper"
                 onPress={onOpen}
                 activeOpacity={1}
@@ -496,7 +503,7 @@ export default class RNPickerSelect extends PureComponent {
                         {this.renderPickerItems()}
                     </Picker>
                 </View>
-            </TouchableOpacity>
+            </Component>
         );
     }
 
@@ -560,6 +567,7 @@ export default class RNPickerSelect extends PureComponent {
         if (children || !useNativeAndroidPickerStyle) {
             return this.renderAndroidHeadless();
         }
+
         return this.renderAndroidNativePickerStyle();
     }
 }

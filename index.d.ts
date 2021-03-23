@@ -6,7 +6,7 @@ import {
     ViewStyle,
 } from 'react-native';
 import React from 'react';
-import { PickerProps } from '@react-native-community/picker/typings/Picker';
+import { PickerProps } from '@react-native-picker/picker/typings/Picker';
 
 export interface Item {
     label: string;
@@ -37,7 +37,7 @@ export interface PickerStyle {
     inputAndroidContainer?: ViewStyle;
     inputIOS?: TextStyle;
     inputIOSContainer?: ViewStyle;
-    inputWeb?: ViewStyle;
+    inputWeb?: TextStyle;
     modalViewBottom?: ViewStyle;
     modalViewMiddle?: ViewStyle;
     modalViewTop?: ViewStyle;
@@ -72,6 +72,7 @@ export interface PickerSelectProps {
     children?: React.ReactNode;
     onOpen?: () => void;
     useNativeAndroidPickerStyle?: boolean;
+    fixAndroidTouchableBug?: boolean;
     doneText?: string;
     onDonePress?: () => void;
     onUpArrow?: () => void;
