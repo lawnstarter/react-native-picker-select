@@ -57,6 +57,9 @@ export default class RNPickerSelect extends PureComponent {
         // Custom Icon
         Icon: PropTypes.func,
         InputAccessoryView: PropTypes.func,
+
+        // Set number of line for item,
+        numberOfLines: PropTypes.number,
     };
 
     static defaultProps = {
@@ -474,6 +477,7 @@ export default class RNPickerSelect extends PureComponent {
             onOpen,
             touchableWrapperProps,
             fixAndroidTouchableBug,
+            numberOfLines,
         } = this.props;
         const { selectedItem } = this.state;
 
@@ -497,6 +501,7 @@ export default class RNPickerSelect extends PureComponent {
                         enabled={!disabled}
                         onValueChange={this.onValueChange}
                         selectedValue={selectedItem.value}
+                        numberOfLines={numberOfLines ?? 2}
                         {...pickerProps}
                     >
                         {this.renderPickerItems()}
@@ -507,7 +512,7 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderAndroidNativePickerStyle() {
-        const { disabled, Icon, style, pickerProps } = this.props;
+        const { disabled, Icon, style, pickerProps, numberOfLines } = this.props;
         const { selectedItem } = this.state;
 
         return (
@@ -522,6 +527,7 @@ export default class RNPickerSelect extends PureComponent {
                     enabled={!disabled}
                     onValueChange={this.onValueChange}
                     selectedValue={selectedItem.value}
+                    numberOfLines={numberOfLines ?? 2}
                     {...pickerProps}
                 >
                     {this.renderPickerItems()}
