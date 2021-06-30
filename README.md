@@ -22,10 +22,7 @@ For either platform, you can alternatively pass down a child element of your cho
 ### Installing
 
 ```
-npm install react-native-picker-select
-
-
-# if you see a `Invariant Violation: requireNativeComponent "RNCPicker" was not found in the UIManager` error:
+npm install react-native-community-select
 
 # React Native users
 npm install @react-native-community/picker
@@ -38,7 +35,7 @@ expo install @react-native-community/picker
 ### Basic Usage
 
 ```js
-import RNPickerSelect from 'react-native-picker-select';
+import RNPickerSelect from 'react-native-community-select';
 
 export const Dropdown = () => {
     return (
@@ -56,11 +53,11 @@ export const Dropdown = () => {
 
 ### Versioning
 
-| Version       | Notes                                                                                                                                                                   |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| >=&nbsp;8.0.0 | Uses [@react-native-community/picker](https://github.com/react-native-community/react-native-picker#readme). React Native 0.60 or above. If using Expo, SDK38 or above. |
-| >=&nbsp;3.0.0 | React v16.3 or above.                                                                                                                                                   |
-| <&nbsp;3.0.0  | React v16.2 or below.                                                                                                                                                   |
+| Version       | Notes                                                                                                                                                |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| >=&nbsp;8.0.0 | Uses [@react-native-picker/picker](https://github.com/react-native-picker/picker#readme). React Native 0.60 or above. If using Expo, SDK38 or above. |
+| >=&nbsp;3.0.0 | React v16.3 or above.                                                                                                                                |
+| <&nbsp;3.0.0  | React v16.2 or below.                                                                                                                                |
 
 ### Props
 
@@ -120,7 +117,7 @@ All properties mentioned below must be nested under the `style` prop. Examples o
 If you need to add accessibility props to the rendered component, you may use `pickerProps` and `touchableWrapperProps` to pass these through.
 
 `pickerProps` accepts an object of props that get passed directly to the native `<Picker />` component.
-`touchableWrapperProps` also accepts an object of props, but this gets passed to a `<TouchableOpacity />` that toggles the visibility of the picker.<sup>*note: `touchableWrapperProps` is not supported on web or when `useNativeAndroidPickerStyle={true}`</sup>
+`touchableWrapperProps` also accepts an object of props, but this gets passed to a `<TouchableOpacity />` that toggles the visibility of the picker.<sup>\*note: `touchableWrapperProps` is not supported on web or when `useNativeAndroidPickerStyle={true}`</sup>
 
 ### Accessibility Example
 

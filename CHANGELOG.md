@@ -1,3 +1,11 @@
+## 8.0.4
+
+##### Bugfix
+
+-   Moved dep to @react-native-picker/picker
+
+---
+
 ## 8.0.3
 
 ##### Bugfix

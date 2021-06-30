@@ -1,6 +1,6 @@
 {
     "name": "react-native-picker-select",
-    "version": "8.0.3",
+    "version": "8.0.4",
     "description": "A Picker component for React Native which emulates the native <select> interfaces for each platform",
     "license": "MIT",
     "author": "Michael Lefkowitz <lefkowitz.michael@gmail.com>",
@@ -70,7 +70,7 @@
             "enzyme-to-json/serializer"
         ],
         "transformIgnorePatterns": [
-            "node_modules/?!(@react-native-community/picker)"
+            "node_modules/?!(@react-native-picker/picker)"
         ]
     }
 }
