@@ -556,19 +556,17 @@ export default class RNPickerSelect extends PureComponent {
     render() {
         const { children, useNativeAndroidPickerStyle } = this.props;
 
-        if (Platform.OS === 'ios') {
-            return this.renderIOS();
+        switch (Platform.OS) {
+            case 'ios':
+                return this.renderIOS();
+            case 'web':
+                return this.renderWeb();
+            default:
+                if (children || !useNativeAndroidPickerStyle) {
+                    return this.renderAndroidHeadless();
+                }
+                return this.renderAndroidNativePickerStyle()
         }
-
-        if (Platform.OS === 'web') {
-            return this.renderWeb();
-        }
-
-        if (children || !useNativeAndroidPickerStyle) {
-            return this.renderAndroidHeadless();
-        }
-
-        return this.renderAndroidNativePickerStyle();
     }
 }
 
