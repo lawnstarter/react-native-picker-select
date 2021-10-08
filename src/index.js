@@ -428,40 +428,45 @@ export default class RNPickerSelect extends PureComponent {
                 >
                     {this.renderTextInputOrChildren()}
                 </TouchableOpacity>
-                <Modal
-                    testID="ios_modal"
-                    visible={showPicker}
-                    transparent
-                    animationType={animationType}
-                    supportedOrientations={['portrait', 'landscape']}
-                    onOrientationChange={this.onOrientationChange}
-                    {...modalProps}
-                >
-                    <TouchableOpacity
-                        style={[defaultStyles.modalViewTop, style.modalViewTop]}
-                        testID="ios_modal_top"
-                        onPress={() => {
-                            this.togglePicker(true);
-                        }}
-                    />
-                    {this.renderInputAccessoryView()}
-                    <View
-                        style={[
-                            defaultStyles.modalViewBottom,
-                            { height: orientation === 'portrait' ? 215 : 162 },
-                            style.modalViewBottom,
-                        ]}
-                    >
-                        <Picker
-                            testID="ios_picker"
-                            onValueChange={this.onValueChange}
-                            selectedValue={selectedItem.value}
-                            {...pickerProps}
+                {!!showPicker && (
+                    <View style={{flex: 1}}>
+                        <Modal
+                            testID="ios_modal"
+                            visible={showPicker}
+                            transparent
+                            animationType={animationType}
+                            supportedOrientations={['portrait', 'landscape']}
+                            onOrientationChange={this.onOrientationChange}
+                            {...modalProps}
                         >
-                            {this.renderPickerItems()}
-                        </Picker>
+                            <TouchableOpacity
+                                style={[defaultStyles.modalViewTop, style.modalViewTop]}
+                                testID="ios_modal_top"
+                                onPress={() => {
+                                    this.togglePicker(true);
+                                }}
+                            />
+                            {this.renderInputAccessoryView()}
+                            <View
+                                style={[
+                                    defaultStyles.modalViewBottom,
+                                    { height: orientation === 'portrait' ? 215 : 162 },
+                                    style.modalViewBottom,
+                                ]}
+                            >
+                                <Picker
+                                    testID="ios_picker"
+                                    onValueChange={this.onValueChange}
+                                    selectedValue={selectedItem.value}
+                                    {...pickerProps}
+                                >
+                                    {this.renderPickerItems()}
+                                </Picker>
+                            </View>
+                        </Modal>
                     </View>
-                </Modal>
+                )}
+
             </View>
         );
     }
