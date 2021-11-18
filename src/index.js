@@ -305,7 +305,7 @@ export default class RNPickerSelect extends PureComponent {
                 style={[
                     defaultStyles.modalViewMiddle,
                     this.isDarkTheme() ? defaultStyles.modalViewMiddleDark : {},
-                    style.modalViewMiddle,
+                    this.isDarkTheme() ? style.modalViewMiddleDark : style.modalViewMiddle,
                 ]}
                 testID="input_accessory_view"
             >
@@ -317,7 +317,8 @@ export default class RNPickerSelect extends PureComponent {
                         <View
                             style={[
                                 defaultStyles.chevron,
-                                style.chevron,
+                                this.isDarkTheme() ? defaultStyles.chevronDark : {},
+                                this.isDarkTheme() ? style.chevronDark : style.chevron,
                                 defaultStyles.chevronUp,
                                 style.chevronUp,
                                 onUpArrow ? [defaultStyles.chevronActive, style.chevronActive] : {},
@@ -332,7 +333,7 @@ export default class RNPickerSelect extends PureComponent {
                             style={[
                                 defaultStyles.chevron,
                                 this.isDarkTheme() ? defaultStyles.chevronDark : {},
-                                style.chevron,
+                                this.isDarkTheme() ? style.chevronDark : style.chevron,
                                 defaultStyles.chevronDown,
                                 style.chevronDown,
                                 onDownArrow
@@ -363,7 +364,7 @@ export default class RNPickerSelect extends PureComponent {
                             style={[
                                 defaultStyles.done,
                                 this.isDarkTheme() ? defaultStyles.doneDark : {},
-                                style.done,
+                                this.isDarkTheme() ? style.doneDark : style.done,
                                 doneDepressed
                                     ? [defaultStyles.doneDepressed, style.doneDepressed]
                                     : {},
@@ -465,7 +466,7 @@ export default class RNPickerSelect extends PureComponent {
                             defaultStyles.modalViewBottom,
                             this.isDarkTheme() ? defaultStyles.modalViewBottomDark : {},
                             { height: orientation === 'portrait' ? 215 : 162 },
-                            style.modalViewBottom,
+                            this.isDarkTheme() ? style.modalViewBottomDark : style.modalViewBottom,
                         ]}
                     >
                         <Picker
