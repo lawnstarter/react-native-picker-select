@@ -24,7 +24,6 @@
         "/src"
     ],
     "dependencies": {
-        "@react-native-picker/picker": "^1.8.3",
         "lodash.isequal": "^4.5.0"
     },
     "devDependencies": {
@@ -43,7 +42,11 @@
         "react": "16.6.1",
         "react-dom": "^16.6.1",
         "react-native": "0.57.7",
+        "@react-native-picker/picker": ">=2.1.0",
         "react-test-renderer": "^16.6.1"
+    },
+    "peerDependencies": {
+        "@react-native-picker/picker": ">=2.1.0"
     },
     "scripts": {
         "test": "jest",
