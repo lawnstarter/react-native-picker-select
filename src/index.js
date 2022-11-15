@@ -170,13 +170,13 @@ export default class RNPickerSelect extends PureComponent {
     onUpArrow() {
         const { onUpArrow } = this.props;
 
-        this.togglePicker(false, onUpArrow);
+        onUpArrow();
     }
 
     onDownArrow() {
         const { onDownArrow } = this.props;
 
-        this.togglePicker(false, onDownArrow);
+        onDownArrow();
     }
 
     onValueChange(value, index) {
