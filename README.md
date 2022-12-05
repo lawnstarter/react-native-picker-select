@@ -1,3 +1,6 @@
+# Plan for this fork
+This fork should be deprecated once [this PR](https://github.com/lawnstarter/react-native-picker-select/pull/464) has been merged into the upstream library.
+
 # react-native-picker-select
 
 [![npm version](https://badge.fury.io/js/react-native-picker-select.svg)](https://badge.fury.io/js/react-native-picker-select)
