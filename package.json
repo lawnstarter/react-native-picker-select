@@ -24,7 +24,9 @@
         "/src"
     ],
     "dependencies": {
+        "@react-native-community/eslint-config": "^3.2.0",
         "@react-native-picker/picker": "^2.4.8",
+        "eslint": "^8.29.0",
         "lodash.isequal": "^4.5.0",
         "semantic-release": "^19.0.5"
     },

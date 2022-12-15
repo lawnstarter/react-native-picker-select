@@ -1,5 +1,5 @@
 module.exports = {
-    extends: 'ls-react',
+    extends: '@react-native-community',
     env: {
         jest: true,
     },
