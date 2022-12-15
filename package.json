@@ -1,12 +1,12 @@
 {
-    "name": "react-native-picker-select",
-    "version": "8.0.4",
+    "name": "@awibox/react-native-picker-select",
+    "version": "9.0.0",
     "description": "A Picker component for React Native which emulates the native <select> interfaces for each platform",
     "license": "MIT",
     "author": "Michael Lefkowitz <lefkowitz.michael@gmail.com>",
     "repository": {
         "type": "git",
-        "url": "https://github.com/lawnstarter/react-native-picker-select.git"
+        "url": "https://github.com/awibox/react-native-picker-select.git"
     },
     "main": "src/index.js",
     "keywords": [
@@ -24,8 +24,9 @@
         "/src"
     ],
     "dependencies": {
-        "@react-native-picker/picker": "^1.8.3",
-        "lodash.isequal": "^4.5.0"
+        "@react-native-picker/picker": "^2.4.8",
+        "lodash.isequal": "^4.5.0",
+        "semantic-release": "^19.0.5"
     },
     "devDependencies": {
         "@types/react-native": "^0.60.22",
@@ -34,7 +35,6 @@
         "enzyme": "^3.7.0",
         "enzyme-adapter-react-16": "^1.7.0",
         "enzyme-to-json": "^3.3.5",
-        "eslint-config-ls-react": "https://github.com/lawnstarter/eslint-config-ls-react#3.0.0",
         "husky": "^2.4.0",
         "jest": "^23.6.0",
         "prettier": "^2.0.5",

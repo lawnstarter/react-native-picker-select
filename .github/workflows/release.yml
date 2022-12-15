@@ -1,0 +1,36 @@
+name: Release
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [14.x]
+        steps:
+            - uses: actions/checkout@v3.0.2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3.3.0
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - name: yarn install, lint, build, and test
+              run: |
+                  yarn install
+                  yarn lint
+                  yarn build
+                  yarn test
+              env:
+                  CI: true
+            - name: Coveralls GitHub Action
+              uses: coverallsapp/github-action@1.1.3
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+            - name: Release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+              run: npx semantic-release
