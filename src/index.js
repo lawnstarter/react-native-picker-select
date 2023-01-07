@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import { Picker } from '@react-native-picker/picker';
 import { defaultStyles } from './styles';
+import { Dimensions } from 'react-native';
+
+// Measuring the modal before rendering is not working reliably, so we need to hardcode the height
+// This height was tested thoroughly on several iPhone Models (from iPhone 8 to 14 Pro)
+const IOS_MODAL_HEIGHT = 262;
 
 export default class RNPickerSelect extends PureComponent {
     static propTypes = {
@@ -31,6 +36,8 @@ export default class RNPickerSelect extends PureComponent {
         onOpen: PropTypes.func,
         useNativeAndroidPickerStyle: PropTypes.bool,
         fixAndroidTouchableBug: PropTypes.bool,
+        scrollViewRef: PropTypes.any,
+        scrollViewContentOffsetY: PropTypes.number,
 
         // Custom Modal props (iOS only)
         doneText: PropTypes.string,
@@ -137,6 +144,7 @@ export default class RNPickerSelect extends PureComponent {
         this.onValueChange = this.onValueChange.bind(this);
         this.onOrientationChange = this.onOrientationChange.bind(this);
         this.setInputRef = this.setInputRef.bind(this);
+        this.scrollToInput = this.scrollToInput.bind(this);
         this.togglePicker = this.togglePicker.bind(this);
         this.renderInputAccessoryView = this.renderInputAccessoryView.bind(this);
     }
@@ -214,12 +222,37 @@ export default class RNPickerSelect extends PureComponent {
         return {};
     }
 
+    scrollToInput() {
+        if (
+            this.props.scrollViewRef == null ||
+            this.props.scrollViewContentOffsetY == null ||
+            this.inputRef == null
+        ) {
+            return;
+        }
+
+        this.inputRef.measureInWindow((_x, y, _width, height) => {
+            // Bottom y-position of TextInput on screen
+            const textInputBottomY = y + height;
+            // Top y-position of picker modal on screen
+            const modalY = Dimensions.get('window').height - IOS_MODAL_HEIGHT;
+
+            // If TextInput is below picker modal, scroll up
+            if (textInputBottomY > modalY) {
+                this.props.scrollViewRef.current.scrollTo({
+                    y: textInputBottomY - modalY + this.props.scrollViewContentOffsetY,
+                });
+            }
+        });
+    }
+
     triggerOpenCloseCallbacks() {
         const { onOpen, onClose } = this.props;
         const { showPicker } = this.state;
 
         if (!showPicker && onOpen) {
             onOpen();
+            this.scrollToInput();
         }
 
         if (showPicker && onClose) {
