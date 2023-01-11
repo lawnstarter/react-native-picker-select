@@ -12,6 +12,7 @@ export default class RNPickerSelect extends PureComponent {
             PropTypes.shape({
                 label: PropTypes.string.isRequired,
                 value: PropTypes.any.isRequired,
+                testID: PropTypes.string,
                 inputLabel: PropTypes.string,
                 key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
                 color: PropTypes.string,
@@ -269,6 +270,7 @@ export default class RNPickerSelect extends PureComponent {
                     value={item.value}
                     key={item.key || item.label}
                     color={item.color}
+                    testID={item.testID}
                 />
             );
         });
