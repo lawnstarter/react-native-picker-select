@@ -546,10 +546,10 @@ export default class RNPickerSelect extends PureComponent {
                     selectedValue={selectedItem.value}
                     {...pickerProps}
                     onPointerUp={(event) => {
-                    	Keyboard.dismiss();
-                    	if (pickerProps.onPointerUp) {
-                    		pickerProps.onPointerUp(event);
-                    	}
+                        Keyboard.dismiss();
+                        if (pickerProps.onPointerUp) {
+                            pickerProps.onPointerUp(event);
+                        }
                     }}
                 >
                     {this.renderPickerItems()}
