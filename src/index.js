@@ -1,13 +1,21 @@
 import React, { PureComponent } from 'react';
-import { Keyboard, Modal, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+    Dimensions,
+    Keyboard,
+    Modal,
+    Platform,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import { Picker } from '@react-native-picker/picker';
 import { defaultStyles } from './styles';
-import { Dimensions } from 'react-native';
 import { PickerAvoidingView } from './PickerAvoidingView';
 import { PickerStateContext, PickerStateProvider } from './PickerStateProvider';
-import { IOS_MODAL_HEIGHT } from './constants';
+import { IOS_MODAL_ANIMATION_DURATION_MS, IOS_MODAL_HEIGHT } from './constants';
 
 export default class RNPickerSelect extends PureComponent {
     static contextType = PickerStateContext;
@@ -240,9 +248,13 @@ export default class RNPickerSelect extends PureComponent {
 
             // If TextInput is below picker modal, scroll up
             if (textInputBottomY > modalY) {
-                this.props.scrollViewRef.current.scrollTo({
-                    y: textInputBottomY - modalY + this.props.scrollViewContentOffsetY,
-                });
+                // Wait until the modal animation finishes, so the scrolling is effective when PickerAvoidingView is
+                // used
+                setTimeout(() => {
+                    this.props.scrollViewRef.current.scrollTo({
+                        y: textInputBottomY - modalY + 10 + this.props.scrollViewContentOffsetY,
+                    });
+                }, IOS_MODAL_ANIMATION_DURATION_MS + 50);
             }
         });
     }
