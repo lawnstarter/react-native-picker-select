@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from "react-native";
+import { View } from 'react-native';
 
 /**
  * As, currently, only on iOS the picker's modal resembles the software keyboard
@@ -9,5 +9,7 @@ import { View } from "react-native";
  * within the PickerAvoidingView.
  */
 export function PickerAvoidingView(props) {
-    return <View {...props}>{props.children}</View>;
+    // eslint-disable-next-line no-unused-vars
+    const { enabled, ...viewProps } = props;
+    return <View {...viewProps}>{props.children}</View>;
 }

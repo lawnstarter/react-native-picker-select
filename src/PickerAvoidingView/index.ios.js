@@ -37,13 +37,15 @@ export function PickerAvoidingView(props) {
         }
     }, [isPickerOpen]);
 
-    return (
-        <View
-            style={StyleSheet.compose(props.style, {
-                paddingBottom: shouldAddSpace ? IOS_MODAL_HEIGHT : 0,
-            })}
-        >
-            {props.children}
-        </View>
-    );
+    const style = props.enabled
+        ? StyleSheet.compose(props.style, {
+              paddingBottom: shouldAddSpace ? IOS_MODAL_HEIGHT : 0,
+          })
+        : props.style;
+
+    return <View style={style}>{props.children}</View>;
 }
+
+PickerAvoidingView.defaultProps = {
+    enabled: true,
+};
