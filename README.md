@@ -152,3 +152,5 @@ Test suite included. This component has been used and tested since React Native 
 ## License
 
 react-native-picker-select is [MIT licensed](https://github.com/lawnstarter/react-native-picker-select/tree/master/LICENSE) and built with :heart: in Austin, TX by the team at [LawnStarter](https://lawnstarter.com)
+
+<!--- test comment -->
