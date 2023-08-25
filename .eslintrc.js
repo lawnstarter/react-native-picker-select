@@ -1,5 +1,5 @@
 module.exports = {
-    extends: 'ls-react',
+    extends: '@react-native-community',
     env: {
         jest: true,
     },
@@ -7,9 +7,9 @@ module.exports = {
         shallow: true,
     },
     rules: {
-        'import/no-extraneous-dependencies': 0,
-        'lodash/import-scope': 0,
-        'lodash/prefer-lodash-method': 0,
-        'lodash/prefer-noop': 0,
+        // 'import/no-extraneous-dependencies': 0,
+        // 'lodash/import-scope': 0,
+        // 'lodash/prefer-lodash-method': 0,
+        // 'lodash/prefer-noop': 0,
     },
 };

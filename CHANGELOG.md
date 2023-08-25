@@ -1,3 +1,11 @@
+## 8.0.5
+
+##### Bugfix
+
+-   Replace private eslint dependency
+
+---
+
 ## 8.0.4
 
 ##### Bugfix
