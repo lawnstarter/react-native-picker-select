@@ -429,6 +429,19 @@ describe('RNPickerSelect', () => {
         expect(wrapper.instance().togglePicker).toHaveBeenCalledWith(true);
     });
 
+    it('should use the dark theme when `darkTheme` prop is provided on iOS', () => {
+        Platform.OS = 'ios';
+
+        const wrapper = shallow(
+            <RNPickerSelect items={selectItems} onValueChange={noop} darkTheme />
+        );
+
+        const input_accessory_view = wrapper.find('[testID="input_accessory_view"]');
+        const darkThemeStyle = input_accessory_view.get(0).props.style[1];
+
+        expect(darkThemeStyle).toHaveProperty('backgroundColor', '#232323');
+    });
+
     // TODO - fix
     xdescribe('getDerivedStateFromProps', () => {
         it('should return null when nothing changes', () => {
