@@ -25,11 +25,13 @@ export interface Item {
 
 export interface PickerStyle {
     chevron?: ViewStyle;
+    chevronDark?: ViewStyle;
     chevronActive?: ViewStyle;
     chevronContainer?: ViewStyle;
     chevronDown?: ViewStyle;
     chevronUp?: ViewStyle;
     done?: TextStyle;
+    doneDark?: TextStyle;
     doneDepressed?: TextStyle;
     headlessAndroidContainer?: ViewStyle;
     headlessAndroidPicker?: ViewStyle;
@@ -40,7 +42,9 @@ export interface PickerStyle {
     inputIOSContainer?: ViewStyle;
     inputWeb?: TextStyle;
     modalViewBottom?: ViewStyle;
+    modalViewBottomDark?: ViewStyle;
     modalViewMiddle?: ViewStyle;
+    modalViewMiddleDark?: ViewStyle;
     modalViewTop?: ViewStyle;
     placeholder?: TextStyle;
     viewContainer?: ViewStyle;
@@ -86,6 +90,7 @@ export interface PickerSelectProps {
     touchableWrapperProps?: CustomTouchableWrapperProps;
     Icon?: React.ReactNode;
     InputAccessoryView?: React.ReactNode;
+    darkTheme?: boolean;
 }
 
 declare class Picker extends React.Component<PickerSelectProps> {
