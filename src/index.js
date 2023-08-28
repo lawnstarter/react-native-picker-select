@@ -31,6 +31,7 @@ export default class RNPickerSelect extends PureComponent {
         onOpen: PropTypes.func,
         useNativeAndroidPickerStyle: PropTypes.bool,
         fixAndroidTouchableBug: PropTypes.bool,
+        darkTheme: PropTypes.bool,
 
         // Custom Modal props (iOS only)
         doneText: PropTypes.string,
@@ -85,6 +86,7 @@ export default class RNPickerSelect extends PureComponent {
         touchableWrapperProps: {},
         Icon: null,
         InputAccessoryView: null,
+        darkTheme: false,
     };
 
     static handlePlaceholder({ placeholder }) {
@@ -214,6 +216,12 @@ export default class RNPickerSelect extends PureComponent {
         return {};
     }
 
+    isDarkTheme() {
+        const { darkTheme } = this.props;
+
+        return Platform.OS === 'ios' && darkTheme;
+    }
+
     triggerOpenCloseCallbacks() {
         const { onOpen, onClose } = this.props;
         const { showPicker } = this.state;
@@ -261,6 +269,7 @@ export default class RNPickerSelect extends PureComponent {
 
     renderPickerItems() {
         const { items } = this.state;
+        const defaultItemColor = this.isDarkTheme() ? '#fff' : undefined;
 
         return items.map((item) => {
             return (
@@ -268,7 +277,7 @@ export default class RNPickerSelect extends PureComponent {
                     label={item.label}
                     value={item.value}
                     key={item.key || item.label}
-                    color={item.color}
+                    color={item.color || defaultItemColor}
                 />
             );
         });
@@ -293,7 +302,11 @@ export default class RNPickerSelect extends PureComponent {
 
         return (
             <View
-                style={[defaultStyles.modalViewMiddle, style.modalViewMiddle]}
+                style={[
+                    defaultStyles.modalViewMiddle,
+                    this.isDarkTheme() ? defaultStyles.modalViewMiddleDark : {},
+                    this.isDarkTheme() ? style.modalViewMiddleDark : style.modalViewMiddle,
+                ]}
                 testID="input_accessory_view"
             >
                 <View style={[defaultStyles.chevronContainer, style.chevronContainer]}>
@@ -304,7 +317,8 @@ export default class RNPickerSelect extends PureComponent {
                         <View
                             style={[
                                 defaultStyles.chevron,
-                                style.chevron,
+                                this.isDarkTheme() ? defaultStyles.chevronDark : {},
+                                this.isDarkTheme() ? style.chevronDark : style.chevron,
                                 defaultStyles.chevronUp,
                                 style.chevronUp,
                                 onUpArrow ? [defaultStyles.chevronActive, style.chevronActive] : {},
@@ -318,7 +332,8 @@ export default class RNPickerSelect extends PureComponent {
                         <View
                             style={[
                                 defaultStyles.chevron,
-                                style.chevron,
+                                this.isDarkTheme() ? defaultStyles.chevronDark : {},
+                                this.isDarkTheme() ? style.chevronDark : style.chevron,
                                 defaultStyles.chevronDown,
                                 style.chevronDown,
                                 onDownArrow
@@ -348,7 +363,8 @@ export default class RNPickerSelect extends PureComponent {
                             allowFontScaling={false}
                             style={[
                                 defaultStyles.done,
-                                style.done,
+                                this.isDarkTheme() ? defaultStyles.doneDark : {},
+                                this.isDarkTheme() ? style.doneDark : style.done,
                                 doneDepressed
                                     ? [defaultStyles.doneDepressed, style.doneDepressed]
                                     : {},
@@ -448,8 +464,9 @@ export default class RNPickerSelect extends PureComponent {
                     <View
                         style={[
                             defaultStyles.modalViewBottom,
+                            this.isDarkTheme() ? defaultStyles.modalViewBottomDark : {},
                             { height: orientation === 'portrait' ? 215 : 162 },
-                            style.modalViewBottom,
+                            this.isDarkTheme() ? style.modalViewBottomDark : style.modalViewBottom,
                         ]}
                     >
                         <Picker
