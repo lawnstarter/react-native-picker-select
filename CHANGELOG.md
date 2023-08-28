@@ -1,3 +1,17 @@
+## 8.1.0
+
+##### New
+
+-   Dark mode support (#513)
+-   donePressed on onClose callback (#319)
+-   testID available on each item (#498)
+
+##### Bugfix
+
+-   Fixed reliance on now-private dep (#513)
+
+---
+
 ## 8.0.4
 
 ##### Bugfix
