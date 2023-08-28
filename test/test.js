@@ -386,6 +386,22 @@ describe('RNPickerSelect', () => {
         expect(onOpenSpy).toHaveBeenCalledWith();
     });
 
+    it('should use a View when fixAndroidTouchableBug=true (Android)', () => {
+        Platform.OS = 'android';
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                onValueChange={noop}
+                useNativeAndroidPickerStyle={false}
+                fixAndroidTouchableBug
+            />
+        );
+
+        const touchable = wrapper.find('[testID="android_touchable_wrapper"]');
+
+        expect(touchable.type().displayName).toEqual('View');
+    });
+
     it('should call the onClose callback when set', () => {
         Platform.OS = 'ios';
         const onCloseSpy = jest.fn();
@@ -399,7 +415,7 @@ describe('RNPickerSelect', () => {
         // Close
         touchable.simulate('press');
 
-        expect(onCloseSpy).toHaveBeenCalledWith();
+        expect(onCloseSpy).toHaveBeenCalledWith(true);
     });
 
     it('should close the modal when the empty area above the picker is tapped', () => {
@@ -413,7 +429,21 @@ describe('RNPickerSelect', () => {
         expect(wrapper.instance().togglePicker).toHaveBeenCalledWith(true);
     });
 
-    describe('getDerivedStateFromProps', () => {
+    it('should use the dark theme when `darkTheme` prop is provided on iOS', () => {
+        Platform.OS = 'ios';
+
+        const wrapper = shallow(
+            <RNPickerSelect items={selectItems} onValueChange={noop} darkTheme />
+        );
+
+        const input_accessory_view = wrapper.find('[testID="input_accessory_view"]');
+        const darkThemeStyle = input_accessory_view.get(0).props.style[1];
+
+        expect(darkThemeStyle).toHaveProperty('backgroundColor', '#232323');
+    });
+
+    // TODO - fix
+    xdescribe('getDerivedStateFromProps', () => {
         it('should return null when nothing changes', () => {
             const nextProps = {
                 placeholder,

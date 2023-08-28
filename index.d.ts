@@ -6,7 +6,7 @@ import {
     ViewStyle,
 } from 'react-native';
 import React from 'react';
-import { PickerProps } from '@react-native-community/picker/typings/Picker';
+import { PickerProps } from '@react-native-picker/picker/typings/Picker';
 
 export interface Item {
     label: string;
@@ -24,11 +24,13 @@ export interface Item {
 
 export interface PickerStyle {
     chevron?: ViewStyle;
+    chevronDark?: ViewStyle;
     chevronActive?: ViewStyle;
     chevronContainer?: ViewStyle;
     chevronDown?: ViewStyle;
     chevronUp?: ViewStyle;
     done?: TextStyle;
+    doneDark?: TextStyle;
     doneDepressed?: TextStyle;
     headlessAndroidContainer?: ViewStyle;
     headlessAndroidPicker?: ViewStyle;
@@ -37,9 +39,11 @@ export interface PickerStyle {
     inputAndroidContainer?: ViewStyle;
     inputIOS?: TextStyle;
     inputIOSContainer?: ViewStyle;
-    inputWeb?: ViewStyle;
+    inputWeb?: TextStyle;
     modalViewBottom?: ViewStyle;
+    modalViewBottomDark?: ViewStyle;
     modalViewMiddle?: ViewStyle;
+    modalViewMiddleDark?: ViewStyle;
     modalViewTop?: ViewStyle;
     placeholder?: TextStyle;
     viewContainer?: ViewStyle;
@@ -72,6 +76,7 @@ export interface PickerSelectProps {
     children?: React.ReactNode;
     onOpen?: () => void;
     useNativeAndroidPickerStyle?: boolean;
+    fixAndroidTouchableBug?: boolean;
     doneText?: string;
     onDonePress?: () => void;
     onUpArrow?: () => void;
@@ -84,6 +89,7 @@ export interface PickerSelectProps {
     touchableWrapperProps?: CustomTouchableWrapperProps;
     Icon?: React.ReactNode;
     InputAccessoryView?: React.ReactNode;
+    darkTheme?: boolean;
 }
 
 declare class Picker extends React.Component<PickerSelectProps> {

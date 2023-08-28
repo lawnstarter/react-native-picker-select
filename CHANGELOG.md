@@ -1,4 +1,53 @@
-### 8.0.0
+## 8.1.0
+
+##### New
+
+-   Dark mode support (#513)
+-   donePressed on onClose callback (#319)
+-   testID available on each item (#498)
+
+##### Bugfix
+
+-   Fixed reliance on now-private dep (#513)
+
+---
+
+## 8.0.4
+
+##### Bugfix
+
+-   Moved dep to @react-native-picker/picker
+
+---
+
+## 8.0.3
+
+##### Bugfix
+
+-   Fix `Cannot update component inside function` error (#346)
+
+---
+
+## 8.0.2
+
+##### Bugfix
+
+-   Add `fixAndroidTouchableBug` prop (#354)
+
+---
+
+## 8.0.1
+
+##### Bugfix
+
+-   Locked @react-native-community/picker to 1.6.0 to fix Expo issues
+-   Add togglePicker method to Picker component typescript definition (#360)
+-   Fix wrong PickerProps import in index.d.ts (#352)
+-   Fixed inputWeb to be a TextStyle, not ViewStyle (#365)
+
+---
+
+## 8.0.0
 
 ##### Breaking Changes
 
@@ -11,7 +60,7 @@
 
 ---
 
-### 7.0.0
+## 7.0.0
 
 ##### Breaking Changes
 
