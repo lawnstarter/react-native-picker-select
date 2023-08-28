@@ -17,7 +17,7 @@ export default class RNPickerSelect extends PureComponent {
                 color: PropTypes.string,
             })
         ).isRequired,
-        value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
+        value: PropTypes.any,
         placeholder: PropTypes.shape({
             label: PropTypes.string,
             value: PropTypes.any,
@@ -27,7 +27,7 @@ export default class RNPickerSelect extends PureComponent {
         disabled: PropTypes.bool,
         itemKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         style: PropTypes.shape({}),
-        children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
+        children: PropTypes.any,
         onOpen: PropTypes.func,
         useNativeAndroidPickerStyle: PropTypes.bool,
         fixAndroidTouchableBug: PropTypes.bool,
