@@ -22,6 +22,10 @@ export const defaultStyles = StyleSheet.create({
         borderTopColor: '#dedede',
         zIndex: 2,
     },
+    modalViewMiddleDark: {
+        backgroundColor: '#232323',
+        borderTopColor: '#252525',
+    },
     chevronContainer: {
         flexDirection: 'row',
     },
@@ -32,6 +36,9 @@ export const defaultStyles = StyleSheet.create({
         borderColor: '#a1a1a1',
         borderTopWidth: 1.5,
         borderRightWidth: 1.5,
+    },
+    chevronDark: {
+        borderColor: '#707070',
     },
     chevronUp: {
         marginLeft: 11,
@@ -51,12 +58,18 @@ export const defaultStyles = StyleSheet.create({
         paddingTop: 1,
         paddingRight: 11,
     },
+    doneDark: {
+        color: '#fff',
+    },
     doneDepressed: {
         fontSize: 19,
     },
     modalViewBottom: {
         justifyContent: 'center',
         backgroundColor: '#d0d4da',
+    },
+    modalViewBottomDark: {
+        backgroundColor: '#252525',
     },
     placeholder: {
         color: '#c7c7cd',
