@@ -9,7 +9,7 @@ jobs:
             CC_TEST_REPORTER_ID: 9b36beb22e04451e6414fcc28926f995c253d94877f616b50d192255196fbb68
         docker:
             # specify the version you desire here
-            - image: circleci/node:12.19.0-stretch-browsers
+            - image: circleci/node:12.22-bullseye-browsers
 
             # Specify service dependencies here if necessary
             # CircleCI maintains a library of pre-built images
