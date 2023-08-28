@@ -222,7 +222,7 @@ export default class RNPickerSelect extends PureComponent {
         return Platform.OS === 'ios' && darkTheme;
     }
 
-    triggerOpenCloseCallbacks() {
+    triggerOpenCloseCallbacks(donePressed) {
         const { onOpen, onClose } = this.props;
         const { showPicker } = this.state;
 
@@ -231,11 +231,11 @@ export default class RNPickerSelect extends PureComponent {
         }
 
         if (showPicker && onClose) {
-            onClose();
+            onClose(donePressed);
         }
     }
 
-    togglePicker(animate = false, postToggleCallback) {
+    togglePicker(animate = false, postToggleCallback, donePressed = false) {
         const { modalProps, disabled } = this.props;
         const { showPicker } = this.state;
 
@@ -250,7 +250,7 @@ export default class RNPickerSelect extends PureComponent {
         const animationType =
             modalProps && modalProps.animationType ? modalProps.animationType : 'slide';
 
-        this.triggerOpenCloseCallbacks();
+        this.triggerOpenCloseCallbacks(donePressed);
 
         this.setState(
             (prevState) => {
@@ -346,7 +346,7 @@ export default class RNPickerSelect extends PureComponent {
                 <TouchableOpacity
                     testID="done_button"
                     onPress={() => {
-                        this.togglePicker(true, onDonePress);
+                        this.togglePicker(true, onDonePress, true);
                     }}
                     onPressIn={() => {
                         this.setState({ doneDepressed: true });
