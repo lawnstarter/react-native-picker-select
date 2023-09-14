@@ -14,10 +14,6 @@ import isEqual from 'lodash.isequal';
 import { Picker } from '@react-native-picker/picker';
 import { defaultStyles } from './styles';
 
-// Measuring the modal before rendering is not working reliably, so we need to hardcode the height
-// This height was tested thoroughly on several iPhone Models (from iPhone 8 to 14 Pro)
-const IOS_MODAL_HEIGHT = 262;
-
 export default class RNPickerSelect extends PureComponent {
     static propTypes = {
         onValueChange: PropTypes.func.isRequired,
@@ -235,7 +231,7 @@ export default class RNPickerSelect extends PureComponent {
         return {};
     }
 
-    scrollToInput() {
+    scrollToInput(iosModalHeight) {
         if (
             this.props.scrollViewRef == null ||
             this.props.scrollViewContentOffsetY == null ||
@@ -248,7 +244,7 @@ export default class RNPickerSelect extends PureComponent {
             // Bottom y-position of TextInput on screen
             const textInputBottomY = y + height;
             // Top y-position of picker modal on screen
-            const modalY = Dimensions.get('window').height - IOS_MODAL_HEIGHT;
+            const modalY = Dimensions.get('window').height - /* IOS_MODAL_HEIGHT */ iosModalHeight;
 
             // If TextInput is below picker modal, scroll up
             if (textInputBottomY > modalY) {
@@ -271,7 +267,10 @@ export default class RNPickerSelect extends PureComponent {
 
         if (!showPicker && onOpen) {
             onOpen();
-            this.scrollToInput();
+            this.setState({ shouldScrollToInputOnNextMeasure: true });
+            if (this.context && this.context.setIsModalShown) {
+                this.context.setIsModalShown(true);
+            }
         }
 
         if (showPicker && onClose) {
@@ -476,7 +475,6 @@ export default class RNPickerSelect extends PureComponent {
     renderIOS() {
         const { style, modalProps, pickerProps, touchableWrapperProps } = this.props;
         const { animationType, orientation, selectedItem, showPicker } = this.state;
-
         return (
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <TouchableOpacity
@@ -497,31 +495,52 @@ export default class RNPickerSelect extends PureComponent {
                     supportedOrientations={['portrait', 'landscape']}
                     onOrientationChange={this.onOrientationChange}
                     {...modalProps}
+                    onShow={() => {
+                        if (modalProps.onShow) {
+                            modalProps.onShow();
+                        }
+                    }}
                 >
-                    <TouchableOpacity
-                        style={[defaultStyles.modalViewTop, style.modalViewTop]}
-                        testID="ios_modal_top"
-                        onPress={() => {
-                            this.togglePicker(true);
-                        }}
-                    />
-                    {this.renderInputAccessoryView()}
-                    <View
-                        style={[
-                            defaultStyles.modalViewBottom,
-                            this.isDarkTheme() ? defaultStyles.modalViewBottomDark : {},
-                            { height: orientation === 'portrait' ? 215 : 162 },
-                            this.isDarkTheme() ? style.modalViewBottomDark : style.modalViewBottom,
-                        ]}
-                    >
-                        <Picker
-                            testID="ios_picker"
-                            onValueChange={this.onValueChange}
-                            selectedValue={selectedItem.value}
-                            {...pickerProps}
+                    <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                        <View
+                            onLayout={({ nativeEvent: { layout } }) => {
+                                if (this.state.shouldScrollToInputOnNextMeasure) {
+                                    setTimeout(() => {
+                                        this.scrollToInput(layout.height);
+                                        this.setState({ shouldScrollToInputOnNextMeasure: false });
+                                    }, 100);
+                                }
+                            }}
                         >
-                            {this.renderPickerItems()}
-                        </Picker>
+                            {/* <View style={{ flex: 1 }} /> */}
+                            <TouchableOpacity
+                                style={[defaultStyles.modalViewTop, style.modalViewTop]}
+                                testID="ios_modal_top"
+                                onPress={() => {
+                                    this.togglePicker(true);
+                                }}
+                            />
+                            {this.renderInputAccessoryView()}
+                            <View
+                                style={[
+                                    defaultStyles.modalViewBottom,
+                                    this.isDarkTheme() ? defaultStyles.modalViewBottomDark : {},
+                                    { height: orientation === 'portrait' ? 215 : 162 },
+                                    this.isDarkTheme()
+                                        ? style.modalViewBottomDark
+                                        : style.modalViewBottom,
+                                ]}
+                            >
+                                <Picker
+                                    testID="ios_picker"
+                                    onValueChange={this.onValueChange}
+                                    selectedValue={selectedItem.value}
+                                    {...pickerProps}
+                                >
+                                    {this.renderPickerItems()}
+                                </Picker>
+                            </View>
+                        </View>
                     </View>
                 </Modal>
             </View>
