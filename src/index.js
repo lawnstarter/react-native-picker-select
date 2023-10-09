@@ -438,6 +438,8 @@ export default class RNPickerSelect extends PureComponent {
             <View style={[defaultStyles.viewContainer, style.viewContainer]}>
                 <TouchableOpacity
                     testID="ios_touchable_wrapper"
+                    accessibilityRole="combobox"
+                    accessibilityHint="Double tap to open selector"          
                     onPress={() => {
                         this.togglePicker(true);
                     }}
@@ -456,6 +458,7 @@ export default class RNPickerSelect extends PureComponent {
                     {...modalProps}
                 >
                     <TouchableOpacity
+                        accessibilityElementsHidden
                         style={[defaultStyles.modalViewTop, style.modalViewTop]}
                         testID="ios_modal_top"
                         onPress={() => {
@@ -500,6 +503,10 @@ export default class RNPickerSelect extends PureComponent {
         const Component = fixAndroidTouchableBug ? View : TouchableOpacity;
         return (
             <Component
+                accessibilityRole="combobox"
+                accessibilityHint="Double tap to open selector"
+                accessible
+                onAccessibilityTap={onOpen}
                 testID="android_touchable_wrapper"
                 onPress={onOpen}
                 activeOpacity={1}
