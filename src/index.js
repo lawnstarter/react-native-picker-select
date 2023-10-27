@@ -208,6 +208,15 @@ export default class RNPickerSelect extends PureComponent {
         });
     }
 
+    onIosModalContentRendered({ nativeEvent: { layout } }) {
+        if (this.state.shouldScrollToInputOnNextMeasure) {
+            setTimeout(() => {
+                this.scrollToInput(layout.height);
+                this.setState({ shouldScrollToInputOnNextMeasure: false });
+            }, 100);
+        }
+    }
+
     onOrientationChange({ nativeEvent }) {
         this.setState({
             orientation: nativeEvent.orientation,
@@ -502,17 +511,7 @@ export default class RNPickerSelect extends PureComponent {
                     }}
                 >
                     <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                        <View
-                            onLayout={({ nativeEvent: { layout } }) => {
-                                if (this.state.shouldScrollToInputOnNextMeasure) {
-                                    setTimeout(() => {
-                                        this.scrollToInput(layout.height);
-                                        this.setState({ shouldScrollToInputOnNextMeasure: false });
-                                    }, 100);
-                                }
-                            }}
-                        >
-                            {/* <View style={{ flex: 1 }} /> */}
+                        <View onLayout={this.onIosModalContentRendered}>
                             <TouchableOpacity
                                 style={[defaultStyles.modalViewTop, style.modalViewTop]}
                                 testID="ios_modal_top"
