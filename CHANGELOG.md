@@ -1,3 +1,11 @@
+## 9.0.0
+
+##### Breaking Changes
+
+-   Moved `react-native-picker` to peerDependencies and upgraded to ^2.4.0 (#523)
+
+---
+
 ## 8.1.0
 
 ##### New
