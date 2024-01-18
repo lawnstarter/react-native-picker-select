@@ -1,3 +1,5 @@
+/* @jest-environment jsdom */
+
 import React, { useRef, useState } from 'react';
 import { View, ScrollView } from 'react-native';
 import RNPickerSelect from '../src';
