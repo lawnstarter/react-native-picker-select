@@ -75,9 +75,7 @@
     },
     "jest": {
         "preset": "react-native",
-        "setupFilesAfterEnv": [
-            "./test/setupAfterEnv.js"
-        ],
+        "setupTestFrameworkScriptFile": "./test/setupAfterEnv.js",
         "testMatch": [
             "<rootDir>/test/test.js",
             "<rootDir>/test/*.test.*"
@@ -85,8 +83,12 @@
         "snapshotSerializers": [
             "enzyme-to-json/serializer"
         ],
+        "transform": {
+            "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
+        },
         "transformIgnorePatterns": [
             "node_modules/?!(@react-native-picker/picker)"
-        ]
+        ],
+        "testEnvironment": "jsdom"
     }
 }
