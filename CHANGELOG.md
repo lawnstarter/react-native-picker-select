@@ -1,3 +1,10 @@
+## 9.0.1
+
+##### Bugfix
+
+-   Correct types for PickerStyle interface (#528)
+-   Fix Icon prop type (#529)
+
 ## 9.0.0
 
 ##### Breaking Changes
