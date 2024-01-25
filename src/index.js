@@ -102,7 +102,10 @@ export default class RNPickerSelect extends PureComponent {
             if (item.key && key) {
                 return isEqual(item.key, key);
             }
-            return isEqual(item.value, value);
+            if(item.value && value){
+                return isEqual(item.value, value);
+            }
+            return false
         });
         if (idx === -1) {
             idx = 0;
