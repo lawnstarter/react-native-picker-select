@@ -106,8 +106,8 @@ export default class RNPickerSelect extends PureComponent {
             if (isObject(item.value) && isObject(value)) {
                 return isEqual(item.value, value);
             }
-            // do shallow comparison to avoid type-difference issues
-            return item.value == value;
+            // convert to string to make sure types match
+            return isEqual(String(item.value), String(value));
         });
         if (idx === -1) {
             idx = 0;
