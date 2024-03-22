@@ -1,3 +1,9 @@
+## 9.1.0
+
+##### Bugfix
+
+-   Improve comparison in getSelectedItem (#543)
+
 ## 9.0.1
 
 ##### Bugfix
