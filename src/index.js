@@ -1,8 +1,9 @@
+import { Picker } from '@react-native-picker/picker';
+import isEqual from 'lodash.isequal';
+import isObject from 'lodash.isobject';
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { Keyboard, Modal, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import PropTypes from 'prop-types';
-import isEqual from 'lodash.isequal';
-import { Picker } from '@react-native-picker/picker';
 import { defaultStyles } from './styles';
 
 export default class RNPickerSelect extends PureComponent {
@@ -102,7 +103,11 @@ export default class RNPickerSelect extends PureComponent {
             if (item.key && key) {
                 return isEqual(item.key, key);
             }
-            return isEqual(item.value, value);
+            if (isObject(item.value) && isObject(value)) {
+                return isEqual(item.value, value);
+            }
+            // do shallow comparison to avoid type-difference issues
+            return item.value == value;
         });
         if (idx === -1) {
             idx = 0;
