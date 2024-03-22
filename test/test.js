@@ -171,8 +171,8 @@ describe('RNPickerSelect', () => {
             />
         );
 
-        wrapper.find('[testID="ios_picker"]').props().onValueChange('orange', 2);
-        expect(onValueChangeSpy).toHaveBeenCalledWith('orange', 2);
+        wrapper.find('[testID="ios_picker"]').props().onValueChange(objectSelectItems[5].value, 5);
+        expect(onValueChangeSpy).toHaveBeenCalledWith(objectSelectItems[5].value, 5);
     });
 
     it('should show the picker when pressed', () => {
