@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, Keyboard, View } from 'react-native';
+import { Keyboard, Platform, View } from 'react-native';
 import RNPickerSelect from '../src';
 
 const selectItems = [
@@ -26,6 +26,33 @@ const selectItems = [
     {
         label: 'Indigo',
         value: 'indigo',
+    },
+];
+
+const objectSelectItems = [
+    {
+        label: 'Red',
+        value: { label: 'red' },
+    },
+    {
+        label: 'Orange',
+        value: { label: 'orange' },
+    },
+    {
+        label: 'Yellow',
+        value: { label: 'yellow' },
+    },
+    {
+        label: 'Green',
+        value: { label: 'green' },
+    },
+    {
+        label: 'Blue',
+        value: { label: 'blue' },
+    },
+    {
+        label: 'Indigo',
+        value: { label: 'indigo' },
     },
 ];
 
@@ -132,6 +159,20 @@ describe('RNPickerSelect', () => {
 
         wrapper.find('[testID="ios_picker"]').props().onValueChange('orange', 2);
         expect(onValueChangeSpy).toHaveBeenCalledWith('orange', 2);
+    });
+
+    it('should return the expected option to a callback passed into onSelect when the value is an object', () => {
+        const onValueChangeSpy = jest.fn();
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={objectSelectItems}
+                placeholder={placeholder}
+                onValueChange={onValueChangeSpy}
+            />
+        );
+
+        wrapper.find('[testID="ios_picker"]').props().onValueChange(objectSelectItems[5].value, 5);
+        expect(onValueChangeSpy).toHaveBeenCalledWith(objectSelectItems[5].value, 5);
     });
 
     it('should show the picker when pressed', () => {
