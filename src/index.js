@@ -420,6 +420,7 @@ export default class RNPickerSelect extends PureComponent {
         return (
             <View pointerEvents="box-only" style={containerStyle}>
                 <TextInput
+                    pointerEvents="none"
                     testID="text_input"
                     style={[
                         Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
