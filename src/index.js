@@ -275,7 +275,9 @@ export default class RNPickerSelect extends PureComponent {
 
     renderPickerItems() {
         const { items } = this.state;
+        const { style } = this.props;
         const defaultItemColor = this.isDarkTheme() ? '#fff' : undefined;
+        const fontSize = (style && style.fontSize) ? style.fontSize : 16;
 
         return items.map((item) => {
             return (
@@ -285,6 +287,7 @@ export default class RNPickerSelect extends PureComponent {
                     key={item.key || item.label}
                     color={item.color || defaultItemColor}
                     testID={item.testID}
+                    style={{fontSize}}
                 />
             );
         });
