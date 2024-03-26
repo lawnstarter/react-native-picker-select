@@ -82,7 +82,7 @@ export interface PickerSelectProps {
     onDonePress?: () => void;
     onUpArrow?: () => void;
     onDownArrow?: () => void;
-    onClose?: () => void;
+    onClose?: (donePressed: boolean) => void;
     modalProps?: CustomModalProps;
     textInputProps?: CustomTextInputProps;
     pickerProps?: CustomPickerProps;
