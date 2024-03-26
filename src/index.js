@@ -166,8 +166,6 @@ export default class RNPickerSelect extends PureComponent {
             !isEqual(this.props.value, undefined) && !isEqual(prevState.selectedItem, selectedItem);
 
         if (itemsChanged || selectedItemChanged) {
-            this.props.onValueChange(selectedItem.value, idx);
-
             this.setState({
                 ...(itemsChanged ? { items } : {}),
                 ...(selectedItemChanged ? { selectedItem } : {}),
@@ -190,13 +188,11 @@ export default class RNPickerSelect extends PureComponent {
     onValueChange(value, index) {
         const { onValueChange } = this.props;
 
-        onValueChange(value, index);
-
         this.setState((prevState) => {
             return {
                 selectedItem: prevState.items[index],
             };
-        });
+        }, () => onValueChange(value, index));
     }
 
     onOrientationChange({ nativeEvent }) {
