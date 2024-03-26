@@ -523,6 +523,12 @@ export default class RNPickerSelect extends PureComponent {
                         onValueChange={this.onValueChange}
                         selectedValue={selectedItem.value}
                         {...pickerProps}
+                        onFocus={() => {
+                            Keyboard.dismiss();
+                            if (pickerProps.onFocus) {
+                                pickerProps.onFocus();
+                            }
+                        }}
                     >
                         {this.renderPickerItems()}
                     </Picker>
@@ -548,6 +554,12 @@ export default class RNPickerSelect extends PureComponent {
                     onValueChange={this.onValueChange}
                     selectedValue={selectedItem.value}
                     {...pickerProps}
+                    onFocus={() => {
+                        Keyboard.dismiss();
+                        if (pickerProps.onFocus) {
+                            pickerProps.onFocus();
+                        }
+                    }}
                 >
                     {this.renderPickerItems()}
                 </Picker>
