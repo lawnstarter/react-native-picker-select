@@ -4,6 +4,13 @@
 
 -   Improve comparison in getSelectedItem (#543)
 
+## [9.1.1](https://github.com/lawnstarter/react-native-picker-select/compare/9.0.1...v9.1.1) (2024-03-29)
+
+
+### Build System
+
+* **package:** release 9.1.1 ([f7c7646](https://github.com/lawnstarter/react-native-picker-select/commit/f7c764608f58598422b92fee19d3a96e5124c508))
+
 ## 9.0.1
 
 ##### Bugfix
