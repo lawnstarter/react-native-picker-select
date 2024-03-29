@@ -28,10 +28,12 @@
     "lodash.isobject": "^3.0.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.2.1",
     "@react-native-picker/picker": "^2.4.0",
     "@types/react-native": "^0.60.22",
     "babel-jest": "^23.6.0",
     "babel-preset-react-native": "^4.0.1",
+    "cz-ls-commits": "^1.1.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "enzyme-to-json": "^3.3.5",
