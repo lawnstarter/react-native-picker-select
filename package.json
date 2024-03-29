@@ -53,7 +53,7 @@
     "react": "16.6.1",
     "react-dom": "^16.6.1",
     "react-native": "0.57.7",
-    "react-test-renderer": "^16.6.1"
+    "react-test-renderer": "^18.2.0"
   },
   "peerDependencies": {
     "@react-native-picker/picker": "^2.4.0"
