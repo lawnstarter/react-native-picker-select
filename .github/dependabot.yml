@@ -11,6 +11,10 @@ updates:
       interval: weekly
       time: '10:00'
       timezone: America/New_York
+    commit-message:
+      prefix: 'build'
+      prefix-development: 'build'
+      include: 'scope'
     groups:
       prettier:
         patterns:
