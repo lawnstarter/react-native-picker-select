@@ -1,0 +1,38 @@
+name: build
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: yarn
+          node-version-file: .nvmrc
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Run ESLint
+        run: yarn lint
+
+      - name: Setup Code Climate
+        uses: remarkablemark/setup-codeclimate@v2
+
+      - name: Run Tests and Upload Coverage
+        run: |
+          cc-test-reporter before-build
+          yarn test:coverage
+          cc-test-reporter after-build --exit-code $?
+        env:
+          CC_TEST_REPORTER_ID: 9b36beb22e04451e6414fcc28926f995c253d94877f616b50d192255196fbb68
+
+      - name: Codecov
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
