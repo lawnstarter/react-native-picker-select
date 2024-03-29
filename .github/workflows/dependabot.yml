@@ -1,0 +1,16 @@
+name: dependabot
+on: pull_request_target
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]' && contains(github.event.pull_request.title, 'deps-dev')
+    steps:
+      - name: Approve Dependabot PR
+        run: gh pr review --approve ${{ github.event.pull_request.html_url }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
