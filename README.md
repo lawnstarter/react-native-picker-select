@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/react-native-picker-select.svg)](https://badge.fury.io/js/react-native-picker-select)
 [![npm downloads](https://img.shields.io/npm/dm/react-native-picker-select.svg?style=flat-square)](https://www.npmjs.com/package/react-native-picker-select)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/095f5b1ee137705ed382/test_coverage)](https://codeclimate.com/github/lawnstarter/react-native-picker-select/test_coverage)
-[![CircleCI](https://circleci.com/gh/lawnstarter/react-native-picker-select.svg?style=svg)](https://circleci.com/gh/lawnstarter/react-native-picker-select)
+[![build](https://github.com/lawnstarter/react-native-picker-select/actions/workflows/build.yml/badge.svg)](https://github.com/lawnstarter/react-native-picker-select/actions/workflows/build.yml)
 
 A Picker component for React Native which emulates the native `<select>` interfaces for iOS and Android
 
@@ -23,7 +23,7 @@ For either platform, you can alternatively pass down a child element of your cho
 
 This package is built around and depends on [@react-native-picker/picker](https://github.com/react-native-picker/picker). Please make sure you install it correctly (as seen below in installation steps).
 
-```
+```sh
 npm install react-native-picker-select
 
 # React Native users
@@ -40,16 +40,16 @@ expo install @react-native-picker/picker
 import RNPickerSelect from 'react-native-picker-select';
 
 export const Dropdown = () => {
-    return (
-        <RNPickerSelect
-            onValueChange={(value) => console.log(value)}
-            items={[
-                { label: 'Football', value: 'football' },
-                { label: 'Baseball', value: 'baseball' },
-                { label: 'Hockey', value: 'hockey' },
-            ]}
-        />
-    );
+  return (
+    <RNPickerSelect
+      onValueChange={(value) => console.log(value)}
+      items={[
+        { label: 'Football', value: 'football' },
+        { label: 'Baseball', value: 'baseball' },
+        { label: 'Hockey', value: 'hockey' },
+      ]}
+    />
+  );
 };
 ```
 
@@ -94,26 +94,26 @@ All properties mentioned below must be nested under the `style` prop. Examples o
 
 #### iOS-specific
 
--   The component wraps a TextInput without styling. You can target the TextInput styling with `inputIOS`.
--   Other styles that can be modified for iOS are named `inputIOSContainer`, `placeholder`, `viewContainer`, `chevronContainer`, `chevron`, `chevronUp`, `chevronDown`, `chevronActive`, `done`, `modalViewTop`, `modalViewMiddle`, and `modalViewBottom`
+- The component wraps a TextInput without styling. You can target the TextInput styling with `inputIOS`.
+- Other styles that can be modified for iOS are named `inputIOSContainer`, `placeholder`, `viewContainer`, `chevronContainer`, `chevron`, `chevronUp`, `chevronDown`, `chevronActive`, `done`, `modalViewTop`, `modalViewMiddle`, and `modalViewBottom`
 
 #### Android-specific
 
--   The native Picker in its inactive state acts looks similar to a TextInput, but it has limitations on custom styling. Any styling that is possible can be applied via `inputAndroid`.
--   You can add some styling customization to the active-state native Picker, [but that requires modifying some xml files](https://stackoverflow.com/a/39141949/1437023)
--   If you set the prop `useNativeAndroidPickerStyle` to false, the component will allow a few other style objects: `inputAndroidContainer`, `placeholder`, and `inputAndroid`
--   Other styles that can be modified for Android are named `headlessAndroidContainer` and `viewContainer`
+- The native Picker in its inactive state acts looks similar to a TextInput, but it has limitations on custom styling. Any styling that is possible can be applied via `inputAndroid`.
+- You can add some styling customization to the active-state native Picker, [but that requires modifying some xml files](https://stackoverflow.com/a/39141949/1437023)
+- If you set the prop `useNativeAndroidPickerStyle` to false, the component will allow a few other style objects: `inputAndroidContainer`, `placeholder`, and `inputAndroid`
+- Other styles that can be modified for Android are named `headlessAndroidContainer` and `viewContainer`
 
 #### Web-specific
 
--   The component creates a select tag
--   The styling of this select tag can be modified using a nested object with the key `inputWeb`
+- The component creates a select tag
+- The styling of this select tag can be modified using a nested object with the key `inputWeb`
 
 ### Icon
 
--   If a component is passed in via the `Icon` prop - it will be rendered with `{ position: 'absolute', right: 0 }` applied to its wrapping container. You can modify these values and add additional spacing to position the icon as needed by modifying `iconContainer`. You'll probably also want to add some `paddingRight` to your input styling to avoid any longer text appearing behind the icon.
--   You can pass a component of your choosing (css, image, svg, etc..) for use as the icon. For ease of use, consider a library such as [react-native-shapes](https://github.com/lfkwtz/react-native-shapes) or [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons).
--   Examples of different icons and their usage can be found [on the example snack](https://snack.expo.io/@lfkwtz/react-native-picker-select).
+- If a component is passed in via the `Icon` prop - it will be rendered with `{ position: 'absolute', right: 0 }` applied to its wrapping container. You can modify these values and add additional spacing to position the icon as needed by modifying `iconContainer`. You'll probably also want to add some `paddingRight` to your input styling to avoid any longer text appearing behind the icon.
+- You can pass a component of your choosing (css, image, svg, etc..) for use as the icon. For ease of use, consider a library such as [react-native-shapes](https://github.com/lfkwtz/react-native-shapes) or [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons).
+- Examples of different icons and their usage can be found [on the example snack](https://snack.expo.io/@lfkwtz/react-native-picker-select).
 
 ## Accessibility
 
@@ -128,21 +128,21 @@ In the example below, we render the picker with supplementary description text, 
 
 ```js
 const selectedItem = {
-    title: 'Selected item title',
-    description: 'Secondary long descriptive text ...',
+  title: 'Selected item title',
+  description: 'Secondary long descriptive text ...',
 };
 
 export const Dropdown = () => {
-    return (
-        <RNPickerSelect
-            pickerProps={{
-                accessibilityLabel: selectedItem.title,
-            }}
-        >
-            <Text>{selectedItem.title}</Text>
-            <Text>{selectedItem.description}</Text>
-        </RNPickerSelect>
-    );
+  return (
+    <RNPickerSelect
+      pickerProps={{
+        accessibilityLabel: selectedItem.title,
+      }}
+    >
+      <Text>{selectedItem.title}</Text>
+      <Text>{selectedItem.description}</Text>
+    </RNPickerSelect>
+  );
 };
 ```
 
