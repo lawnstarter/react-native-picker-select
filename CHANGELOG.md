@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.1.3](https://github.com/lawnstarter/react-native-picker-select/compare/v9.1.2...v9.1.3) (2024-04-01)
+
+
+### Documentation
+
+* **readme:** update README.md ([#331](https://github.com/lawnstarter/react-native-picker-select/issues/331)) ([36bca74](https://github.com/lawnstarter/react-native-picker-select/commit/36bca74fecaa66bcf17b65a360e423db692c3f13))
+
 ## [9.1.2](https://github.com/lawnstarter/react-native-picker-select/compare/v9.1.1...v9.1.2) (2024-04-01)
 
 
