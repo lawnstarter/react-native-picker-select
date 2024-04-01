@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.1.2](https://github.com/lawnstarter/react-native-picker-select/compare/v9.1.1...v9.1.2) (2024-04-01)
+
+
+### Bug Fixes
+
+* **types:** missing type definition for 'donePressed' parameter in 'onClose' callback ([#545](https://github.com/lawnstarter/react-native-picker-select/issues/545)) ([d39f880](https://github.com/lawnstarter/react-native-picker-select/commit/d39f880d1d866a81a84b5b1dd70e00f6001a3572))
+
 ## [9.1.1](https://github.com/lawnstarter/react-native-picker-select/compare/v9.1.0...v9.1.1) (2024-03-29)
 
 ### Build System
