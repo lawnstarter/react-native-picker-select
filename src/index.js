@@ -90,6 +90,7 @@ export default class RNPickerSelect extends PureComponent {
     Icon: null,
     InputAccessoryView: null,
     darkTheme: false,
+    dropdownItemStyle: {},
   };
 
   static handlePlaceholder({ placeholder }) {
