@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.2.0](https://github.com/lawnstarter/react-native-picker-select/compare/v9.1.3...v9.2.0) (2024-07-26)
+
+
+### Features
+
+* add prop dropdownItemStyle ([#600](https://github.com/lawnstarter/react-native-picker-select/issues/600)) ([b5f19ad](https://github.com/lawnstarter/react-native-picker-select/commit/b5f19ad02a7cb06d00dd681f54358d2a21712262))
+
 ## [9.1.3](https://github.com/lawnstarter/react-native-picker-select/compare/v9.1.2...v9.1.3) (2024-04-01)
 
 
