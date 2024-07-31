@@ -14,6 +14,7 @@ export interface Item {
     value: any;
     key?: string | number;
     color?: string;
+    testID?: string;
     /**
      * Used when you want a different label displayed
      * on the input than what is displayed on the Picker
