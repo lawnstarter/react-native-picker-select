@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.3.0](https://github.com/lawnstarter/react-native-picker-select/compare/v9.2.0...v9.3.0) (2024-08-12)
+
+
+### Features
+
+* apply custom styling to active dropdown item ([#609](https://github.com/lawnstarter/react-native-picker-select/issues/609)) ([4626a4e](https://github.com/lawnstarter/react-native-picker-select/commit/4626a4e595c2143020771dbb2fc7838dee8daa83)), closes [#608](https://github.com/lawnstarter/react-native-picker-select/issues/608)
+
 ## [9.2.0](https://github.com/lawnstarter/react-native-picker-select/compare/v9.1.3...v9.2.0) (2024-07-26)
 
 
