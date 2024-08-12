@@ -555,4 +555,28 @@ describe('RNPickerSelect', () => {
             });
         });
     });
+    
+    it('should apply custom styles to dropdown items', () => {
+        const customDropdownItemStyle = {
+          backgroundColor: '#d0d4da',
+          color: '#000',
+        };
+  
+        const wrapper = shallow(
+          <RNPickerSelect
+            items={selectItems}
+            placeholder={placeholder}
+            onValueChange={noop}
+            dropdownItemStyle={customDropdownItemStyle}
+          />
+        );
+  
+        wrapper.find('[testID="ios_touchable_wrapper"]').simulate('press');
+  
+        const pickerItems = wrapper.find('Picker').find('Picker.Item');
+  
+        pickerItems.forEach((item) => {
+          expect(item.props().style).toEqual(customDropdownItemStyle);
+        });
+      });
 });
