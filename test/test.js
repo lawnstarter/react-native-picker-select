@@ -621,4 +621,5 @@ describe('RNPickerSelect', () => {
         // Check styles applied to the active item
         expect(activeItem.prop('style')).toEqual(customActiveItemStyle);
       });
+
 });

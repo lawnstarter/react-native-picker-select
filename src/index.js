@@ -280,6 +280,7 @@ export default class RNPickerSelect extends PureComponent {
   renderPickerItems() {
     const { items, selectedItem } = this.state;
     const defaultItemColor = this.isDarkTheme() ? '#fff' : undefined;
+
     const { dropdownItemStyle, activeItemStyle } = this.props;
 
     return items.map((item) => {
