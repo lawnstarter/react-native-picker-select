@@ -579,4 +579,47 @@ describe('RNPickerSelect', () => {
           expect(item.props().style).toEqual(customDropdownItemStyle);
         });
       });
+
+      it('should apply custom styles to the active dropdown item', () => {
+        const customActiveItemStyle = {
+          backgroundColor: '#d0d4da',
+          color: '#000',
+        };
+    
+        const selectItems = [
+          { label: 'Item 1', value: 'item1', key: '1' },
+          { label: 'Item 2', value: 'item2', key: '2' },
+        ];
+    
+        const placeholder = { label: 'Select an item...', value: null };
+    
+        const wrapper = shallow(
+          <RNPickerSelect
+            items={selectItems}
+            placeholder={placeholder}
+            onValueChange={() => {}}
+            activeItemStyle={customActiveItemStyle}
+            value="item2" // Select "Item 2"
+          />
+        );
+    
+        // Open the picker
+        wrapper.find('[testID="ios_touchable_wrapper"]').simulate('press');
+    
+        // Find picker items
+        const pickerItems = wrapper.find('Picker').find('PickerItem');
+    
+        // Ensure picker items are found
+        expect(pickerItems.length).toBeGreaterThan(0);
+    
+        // Check if the active item has the custom styles
+        const activeItem = pickerItems.findWhere((item) => item.prop('value') === 'item2');
+    
+        // Ensure activeItem is found
+        expect(activeItem.exists()).toBe(true);
+    
+        // Check styles applied to the active item
+        expect(activeItem.prop('style')).toEqual(customActiveItemStyle);
+      });
+
 });
