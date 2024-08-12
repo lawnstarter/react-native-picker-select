@@ -285,7 +285,7 @@ export default class RNPickerSelect extends PureComponent {
     return items.map((item) => {
       return (
         <Picker.Item
-          style={selectedItem.value === item.value ? dropdownItemStyle : activeItemStyle}
+          style={selectedItem.value === item.value ? activeItemStyle : dropdownItemStyle}
           label={item.label}
           value={item.value}
           key={item.key || item.label}

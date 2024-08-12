@@ -91,6 +91,8 @@ export interface PickerSelectProps {
     Icon?: React.FC;
     InputAccessoryView?: React.ReactNode;
     darkTheme?: boolean;
+    dropdownItemStyle?: StyleProp<ViewStyle>,
+    activeItemStyle?: StyleProp<ViewStyle>,
 }
 
 declare class Picker extends React.Component<PickerSelectProps> {
