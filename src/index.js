@@ -61,6 +61,7 @@ export default class RNPickerSelect extends PureComponent {
     Icon: PropTypes.func,
     InputAccessoryView: PropTypes.func,
     dropdownItemStyle: PropTypes.shape({}),
+    activeItemStyle:  PropTypes.shape({}),
   };
 
   static defaultProps = {
@@ -276,14 +277,14 @@ export default class RNPickerSelect extends PureComponent {
   }
 
   renderPickerItems() {
-    const { items } = this.state;
+    const { items , selectedItem} = this.state;
     const defaultItemColor = this.isDarkTheme() ? '#fff' : undefined;
-    const { dropdownItemStyle } = this.props;
+    const { dropdownItemStyle, activeItemStyle } = this.props;
 
     return items.map((item) => {
       return (
         <Picker.Item
-          style={dropdownItemStyle}
+          style={selectedItem.value===item.value? dropdownItemStyle : activeItemStyle}
           label={item.label}
           value={item.value}
           key={item.key || item.label}
