@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.3.1](https://github.com/lawnstarter/react-native-picker-select/compare/v9.3.0...v9.3.1) (2024-08-12)
+
+
+### Bug Fixes
+
+* **types:** add prop testID to index.d.ts ([#605](https://github.com/lawnstarter/react-native-picker-select/issues/605)) ([3fbe1cf](https://github.com/lawnstarter/react-native-picker-select/commit/3fbe1cfa7681988bc6edb1f020be726c76269041))
+
 ## [9.3.0](https://github.com/lawnstarter/react-native-picker-select/compare/v9.2.0...v9.3.0) (2024-08-12)
 
 
