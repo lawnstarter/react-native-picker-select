@@ -1011,9 +1011,9 @@
   integrity sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==
 
 "@react-native-picker/picker@^2.4.0":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.5.1.tgz#dfa13d5b97bfbedf1f7e7c608181a82f1d58b351"
-  integrity sha512-/sADUfQsosMRYtrqqL3ZYZSECRygj0fXtpRLqxJfwuMEoqfvfn40756R6B1alzusVvDRZFI0ari0iQid56hA/Q==
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.8.0.tgz#441ce47bcf7d227fe616d5b906350448f6327a01"
+  integrity sha512-nNU3T3DUi0NDmOEv34aGvV3tDybfIo4Di+1AaNceiImhRFD/dvBWIEgkVfOKUsC/biqv1Yo7td+2BrDL0gyZcw==
 
 "@rtsao/scc@^1.1.0":
   version "1.1.0"
