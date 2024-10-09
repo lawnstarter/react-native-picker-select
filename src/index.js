@@ -62,6 +62,7 @@ export default class RNPickerSelect extends PureComponent {
     InputAccessoryView: PropTypes.func,
     dropdownItemStyle: PropTypes.shape({}),
     activeItemStyle: PropTypes.shape({}),
+    modalContainerStyle: PropTypes.shape({}),
   };
 
   static defaultProps = {
@@ -93,6 +94,7 @@ export default class RNPickerSelect extends PureComponent {
     darkTheme: false,
     dropdownItemStyle: {},
     activeItemStyle: {},
+    modalContainerStyle: {},
   };
 
   static handlePlaceholder({ placeholder }) {
@@ -504,6 +506,7 @@ export default class RNPickerSelect extends PureComponent {
       onOpen,
       touchableWrapperProps,
       fixAndroidTouchableBug,
+      modalContainerStyle,
     } = this.props;
     const { selectedItem } = this.state;
 
@@ -515,7 +518,7 @@ export default class RNPickerSelect extends PureComponent {
         activeOpacity={1}
         {...touchableWrapperProps}
       >
-        <View style={style.headlessAndroidContainer}>
+        <View style={[style.headlessAndroidContainer, modalContainerStyle]}>
           {this.renderTextInputOrChildren()}
           <Picker
             style={[
@@ -537,11 +540,11 @@ export default class RNPickerSelect extends PureComponent {
   }
 
   renderAndroidNativePickerStyle() {
-    const { disabled, Icon, style, pickerProps } = this.props;
+    const { disabled, Icon, style, pickerProps, modalContainerStyle } = this.props;
     const { selectedItem } = this.state;
 
     return (
-      <View style={[defaultStyles.viewContainer, style.viewContainer]}>
+      <View style={[defaultStyles.viewContainer, style.viewContainer, modalContainerStyle]}>
         <Picker
           style={[
             Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
