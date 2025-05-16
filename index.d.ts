@@ -90,7 +90,7 @@ export interface PickerSelectProps {
     touchableDoneProps?: CustomTouchableDoneProps;
     touchableWrapperProps?: CustomTouchableWrapperProps;
     Icon?: React.FC;
-    InputAccessoryView?: React.ReactNode;
+    InputAccessoryView?: () => React.ReactNode;
     darkTheme?: boolean;
     dropdownItemStyle?: StyleProp<ViewStyle>,
     activeItemStyle?: StyleProp<ViewStyle>,
