@@ -519,7 +519,7 @@ export default class RNPickerSelect extends PureComponent {
           {this.renderTextInputOrChildren()}
           <Picker
             style={[
-              Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
+              Icon ? { display: 'none' } : {}, // to hide native icon
               defaultStyles.headlessAndroidPicker,
               style.headlessAndroidPicker,
             ]}
@@ -544,7 +544,7 @@ export default class RNPickerSelect extends PureComponent {
       <View style={[defaultStyles.viewContainer, style.viewContainer]}>
         <Picker
           style={[
-            Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
+            Icon ? { display: 'none' } : {}, // to hide native icon
             style.inputAndroid,
             this.getPlaceholderStyle(),
           ]}
