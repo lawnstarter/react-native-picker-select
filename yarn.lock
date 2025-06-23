@@ -3799,9 +3799,9 @@ eslint-plugin-jsx-a11y@^6.5.1:
     string.prototype.includes "^2.0.1"
 
 eslint-plugin-prettier@^5.1.3:
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-5.4.1.tgz#99b55d7dd70047886b2222fdd853665f180b36af"
-  integrity sha512-9dF+KuU/Ilkq27A8idRP7N2DH8iUR6qXcjF3FR2wETY21PZdBrIjwCau8oboyGj9b7etWmTGEeM8e7oOed6ZWg==
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-5.5.0.tgz#cf763962f90bad035db03ca008ffb0c9b359fb16"
+  integrity sha512-8qsOYwkkGrahrgoUv76NZi23koqXOGiiEzXMrT8Q7VcYaUISR+5MorIUxfWqYXN0fN/31WbSrxCxFkVQ43wwrA==
   dependencies:
     prettier-linter-helpers "^1.0.0"
     synckit "^0.11.7"
@@ -7969,9 +7969,9 @@ prettier-linter-helpers@^1.0.0:
     fast-diff "^1.1.2"
 
 prettier@^3.2.5:
-  version "3.5.3"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.5.3.tgz#4fc2ce0d657e7a02e602549f053b239cb7dfe1b5"
-  integrity sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.6.0.tgz#18ec98d62cb0757a5d4eab40253ff3e6d0fc8dea"
+  integrity sha512-ujSB9uXHJKzM/2GBuE0hBOUgC77CN3Bnpqa+g80bkv3T3A93wL/xlzDATHhnhkzifz/UE2SNOvmbTz5hSkDlHw==
 
 pretty-format@^23.4.1, pretty-format@^23.6.0:
   version "23.6.0"
