@@ -28,7 +28,7 @@
     "lodash.isobject": "^3.0.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.2.1",
+    "@commitlint/cli": "^20.0.0",
     "@react-native-picker/picker": "^2.4.0",
     "@types/react-native": "^0.60.22",
     "babel-jest": "^23.6.0",
