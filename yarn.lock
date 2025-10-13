@@ -8219,10 +8219,10 @@ react-is@^16.12.0, react-is@^16.13.1, react-is@^16.4.1, react-is@^16.6.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-is@^19.1.1:
-  version "19.1.1"
-  resolved "https://registry.yarnpkg.com/react-is/-/react-is-19.1.1.tgz#038ebe313cf18e1fd1235d51c87360eb87f7c36a"
-  integrity sha512-tr41fA15Vn8p4X9ntI+yCyeGSf1TlYaY5vlTZfQmeLBrFo3psOPX6HhTDnFNL9uj3EhP0KAQ80cugCl4b4BERA==
+react-is@^19.2.0:
+  version "19.2.0"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-19.2.0.tgz#ddc3b4a4e0f3336c3847f18b806506388d7b9973"
+  integrity sha512-x3Ax3kNSMIIkyVYhWPyO09bu0uttcAIoecO/um/rKGQ4EltYWVYtyiGkS/3xMynrbVQdS69Jhlv8FXUEZehlzA==
 
 react-native@0.57.7:
   version "0.57.7"
@@ -8301,12 +8301,12 @@ react-test-renderer@^16.0.0-0:
     react-is "^16.4.1"
 
 react-test-renderer@^19.0.0:
-  version "19.1.1"
-  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-19.1.1.tgz#c1e57b7a9c7291e3f52c489022071ac39f55155a"
-  integrity sha512-aGRXI+zcBTtg0diHofc7+Vy97nomBs9WHHFY1Csl3iV0x6xucjNYZZAkiVKGiNYUv23ecOex5jE67t8ZzqYObA==
+  version "19.2.0"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-19.2.0.tgz#5c9782b4a4ba0630a77d7ce092779fdf9ccde209"
+  integrity sha512-zLCFMHFE9vy/w3AxO0zNxy6aAupnCuLSVOJYDe/Tp+ayGI1f2PLQsFVPANSD42gdSbmYx5oN+1VWDhcXtq7hAQ==
   dependencies:
-    react-is "^19.1.1"
-    scheduler "^0.26.0"
+    react-is "^19.2.0"
+    scheduler "^0.27.0"
 
 react-timer-mixin@^0.13.2:
   version "0.13.4"
@@ -8889,10 +8889,10 @@ scheduler@^0.19.1:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
-scheduler@^0.26.0:
-  version "0.26.0"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.26.0.tgz#4ce8a8c2a2095f13ea11bf9a445be50c555d6337"
-  integrity sha512-NlHwttCI/l5gCPR3D1nNXtWABUmBwvZpEQiD4IXSbIDq8BzLIK/7Ir5gTFSGZDUu37K5cMNp0hFtzO38sC7gWA==
+scheduler@^0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.27.0.tgz#0c4ef82d67d1e5c1e359e8fc76d3a87f045fe5bd"
+  integrity sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==
 
 "semver@2 || 3 || 4 || 5", semver@^5.0.3, semver@^5.1.0, semver@^5.3.0, semver@^5.4.1, semver@^5.5.0, semver@^5.5.1, semver@^5.6.0:
   version "5.7.1"
