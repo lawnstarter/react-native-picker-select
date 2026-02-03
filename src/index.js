@@ -160,14 +160,15 @@ export default class RNPickerSelect extends PureComponent {
     }).concat(this.props.items);
     const itemsChanged = !isEqual(prevState.items, items);
 
-    // update selectedItem if value prop is defined and differs from currently selected item
+    // update selectedItem if value or itemKey prop is defined and differs from currently selected item
     const { selectedItem, idx } = RNPickerSelect.getSelectedItem({
       items,
       key: this.props.itemKey,
       value: this.props.value,
     });
     const selectedItemChanged =
-      !isEqual(this.props.value, undefined) && !isEqual(prevState.selectedItem, selectedItem);
+      (!isEqual(this.props.value, undefined) && !isEqual(prevState.selectedItem, selectedItem)) ||
+      (!isEqual(this.props.itemKey, prevProps.itemKey));
 
     if (itemsChanged || selectedItemChanged) {
       this.props.onValueChange(selectedItem.value, idx);
@@ -331,8 +332,7 @@ export default class RNPickerSelect extends PureComponent {
             <View
               style={[
                 defaultStyles.chevron,
-                this.isDarkTheme() ? defaultStyles.chevronDark : {},
-                this.isDarkTheme() ? style.chevronDark : style.chevron,
+                style.chevron,
                 defaultStyles.chevronUp,
                 style.chevronUp,
                 onUpArrow ? [defaultStyles.chevronActive, style.chevronActive] : {},
@@ -346,8 +346,7 @@ export default class RNPickerSelect extends PureComponent {
             <View
               style={[
                 defaultStyles.chevron,
-                this.isDarkTheme() ? defaultStyles.chevronDark : {},
-                this.isDarkTheme() ? style.chevronDark : style.chevron,
+                style.chevron,
                 defaultStyles.chevronDown,
                 style.chevronDown,
                 onDownArrow ? [defaultStyles.chevronActive, style.chevronActive] : {},
@@ -361,28 +360,41 @@ export default class RNPickerSelect extends PureComponent {
             this.togglePicker(true, onDonePress, true);
           }}
           onPressIn={() => {
-            this.setState({ doneDepressed: true });
+            this.setState({
+              doneDepressed: true,
+            });
           }}
           onPressOut={() => {
-            this.setState({ doneDepressed: false });
+            this.setState({
+              doneDepressed: false,
+            });
           }}
-          hitSlop={{
-            top: 4,
-            right: 4,
-            bottom: 4,
-            left: 4,
-          }}
+          hitSlop={{ top: 4, right: 4, bottom: 4, left: 4 }}
           {...touchableDoneProps}
         >
-          <View testID="needed_for_touchable">
+          <View
+            accessible
+            accessibilityRole="button"
+            accessibilityLabel={doneText}
+            style={[
+              defaultStyles.done,
+              this.isDarkTheme() ? defaultStyles.doneDark : {},
+              this.isDarkTheme() ? style.doneDark : style.done,
+              doneDepressed
+                ? [defaultStyles.doneDepressed, style.doneDepressed]
+                : {},
+            ]}
+          >
             <Text
-              testID="done_text"
               allowFontScaling={false}
+              adjustsFontSizeToFit={false}
               style={[
-                defaultStyles.done,
-                this.isDarkTheme() ? defaultStyles.doneDark : {},
-                this.isDarkTheme() ? style.doneDark : style.done,
-                doneDepressed ? [defaultStyles.doneDepressed, style.doneDepressed] : {},
+                defaultStyles.doneText,
+                this.isDarkTheme() ? defaultStyles.doneTextDark : {},
+                this.isDarkTheme() ? style.doneTextDark : style.doneText,
+                doneDepressed
+                  ? [defaultStyles.doneTextDepressed, style.doneTextDepressed]
+                  : {},
               ]}
             >
               {doneText}
@@ -394,30 +406,32 @@ export default class RNPickerSelect extends PureComponent {
   }
 
   renderIcon() {
-    const { style, Icon } = this.props;
+    const { Icon } = this.props;
 
-    if (!Icon) {
-      return null;
+    if (Icon) {
+      return <Icon testID="icon_ios" />;
     }
 
-    return (
-      <View testID="icon_container" style={[defaultStyles.iconContainer, style.iconContainer]}>
-        <Icon testID="icon" />
-      </View>
-    );
+    return null;
   }
 
   renderTextInputOrChildren() {
-    const { children, style, textInputProps } = this.props;
+    const { children, style, textInputProps, fixAndroidTouchableBug } = this.props;
     const { selectedItem } = this.state;
 
-    const containerStyle =
-      Platform.OS === 'ios' ? style.inputIOSContainer : style.inputAndroidContainer;
+    const containerStyle = Platform.OS === 'android' && fixAndroidTouchableBug
+      ? { height: 0, width: 0, flex: 1 }
+      : {};
 
     if (children) {
       return (
         <View pointerEvents="box-only" style={containerStyle}>
-          {children}
+          {React.Children.map(children, (child) =>
+            React.cloneElement(child, {
+              pointerEvents: 'none',
+              style: [child.props.style, this.getPlaceholderStyle()],
+            })
+          )}
         </View>
       );
     }
@@ -426,11 +440,8 @@ export default class RNPickerSelect extends PureComponent {
       <View pointerEvents="box-only" style={containerStyle}>
         <TextInput
           testID="text_input"
-          style={[
-            Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
-            this.getPlaceholderStyle(),
-          ]}
-          value={selectedItem.inputLabel ? selectedItem.inputLabel : selectedItem.label}
+          style={[style.inputIOS, this.getPlaceholderStyle()]}
+          value={selectedItem.inputLabel || selectedItem.label}
           ref={this.setInputRef}
           editable={false}
           {...textInputProps}
@@ -441,7 +452,7 @@ export default class RNPickerSelect extends PureComponent {
   }
 
   renderIOS() {
-    const { style, modalProps, pickerProps, touchableWrapperProps } = this.props;
+    const { doneText, modalProps, pickerProps, style } = this.props;
     const { animationType, orientation, selectedItem, showPicker } = this.state;
 
     return (
@@ -452,24 +463,29 @@ export default class RNPickerSelect extends PureComponent {
             this.togglePicker(true);
           }}
           activeOpacity={1}
-          {...touchableWrapperProps}
         >
           {this.renderTextInputOrChildren()}
         </TouchableOpacity>
+
         <Modal
           testID="ios_modal"
           visible={showPicker}
           transparent
           animationType={animationType}
           supportedOrientations={['portrait', 'landscape']}
+          onDismiss={() => {
+            this.togglePicker(true, undefined, true);
+          }}
+          onRequestClose={() => {
+            this.togglePicker(true, undefined, true);
+          }}
           onOrientationChange={this.onOrientationChange}
           {...modalProps}
         >
           <TouchableOpacity
             style={[defaultStyles.modalViewTop, style.modalViewTop]}
-            testID="ios_modal_top"
             onPress={() => {
-              this.togglePicker(true);
+              this.togglePicker(true, undefined, true);
             }}
           />
           {this.renderInputAccessoryView()}
@@ -477,14 +493,14 @@ export default class RNPickerSelect extends PureComponent {
             style={[
               defaultStyles.modalViewBottom,
               this.isDarkTheme() ? defaultStyles.modalViewBottomDark : {},
-              { height: orientation === 'portrait' ? 215 : 162 },
               this.isDarkTheme() ? style.modalViewBottomDark : style.modalViewBottom,
             ]}
           >
             <Picker
               testID="ios_picker"
-              onValueChange={this.onValueChange}
               selectedValue={selectedItem.value}
+              onValueChange={this.onValueChange}
+              prompt={doneText}
               {...pickerProps}
             >
               {this.renderPickerItems()}
@@ -496,67 +512,43 @@ export default class RNPickerSelect extends PureComponent {
   }
 
   renderAndroidHeadless() {
-    const {
-      disabled,
-      Icon,
-      style,
-      pickerProps,
-      onOpen,
-      touchableWrapperProps,
-      fixAndroidTouchableBug,
-    } = this.props;
+    const { pickerProps, style, disabled } = this.props;
     const { selectedItem } = this.state;
 
-    const Component = fixAndroidTouchableBug ? View : TouchableOpacity;
     return (
-      <Component
-        testID="android_touchable_wrapper"
-        onPress={onOpen}
-        activeOpacity={1}
-        {...touchableWrapperProps}
-      >
-        <View style={style.headlessAndroidContainer}>
-          {this.renderTextInputOrChildren()}
-          <Picker
-            style={[
-              Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
-              defaultStyles.headlessAndroidPicker,
-              style.headlessAndroidPicker,
-            ]}
-            testID="android_picker_headless"
-            enabled={!disabled}
-            onValueChange={this.onValueChange}
-            selectedValue={selectedItem.value}
-            {...pickerProps}
-          >
-            {this.renderPickerItems()}
-          </Picker>
-        </View>
-      </Component>
+      <View style={style.headlessAndroidContainer}>
+        {this.renderTextInputOrChildren()}
+
+        <Picker
+          style={{ position: 'absolute', top: 0, width: '100%', height: '100%' }}
+          testID="android_picker_headless"
+          selectedValue={selectedItem.value}
+          onValueChange={this.onValueChange}
+          enabled={!disabled}
+          {...pickerProps}
+        >
+          {this.renderPickerItems()}
+        </Picker>
+      </View>
     );
   }
 
   renderAndroidNativePickerStyle() {
-    const { disabled, Icon, style, pickerProps } = this.props;
+    const { pickerProps, style, disabled } = this.props;
     const { selectedItem } = this.state;
 
     return (
       <View style={[defaultStyles.viewContainer, style.viewContainer]}>
         <Picker
-          style={[
-            Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
-            style.inputAndroid,
-            this.getPlaceholderStyle(),
-          ]}
+          style={[defaultStyles.inputAndroid, style.inputAndroid]}
           testID="android_picker"
-          enabled={!disabled}
-          onValueChange={this.onValueChange}
           selectedValue={selectedItem.value}
+          onValueChange={this.onValueChange}
+          enabled={!disabled}
           {...pickerProps}
         >
           {this.renderPickerItems()}
         </Picker>
-        {this.renderIcon()}
       </View>
     );
   }
@@ -567,23 +559,27 @@ export default class RNPickerSelect extends PureComponent {
 
     return (
       <View style={[defaultStyles.viewContainer, style.viewContainer]}>
-        <Picker
-          style={[style.inputWeb]}
-          testID="web_picker"
-          enabled={!disabled}
-          onValueChange={this.onValueChange}
-          selectedValue={selectedItem.value}
+        <select
+          disabled={disabled}
+          onChange={(e) => {
+            this.onValueChange(e.target.value, e.target.selectedIndex);
+          }}
+          style={[defaultStyles.inputWeb, style.inputWeb]}
+          value={selectedItem.value}
           {...pickerProps}
         >
-          {this.renderPickerItems()}
-        </Picker>
-        {this.renderIcon()}
+          {this.renderPickerItems().map((item) => (
+            <option key={item.key} value={item.props.value}>
+              {item.props.label}
+            </option>
+          ))}
+        </select>
       </View>
     );
   }
 
   render() {
-    const { children, useNativeAndroidPickerStyle } = this.props;
+    const { useNativeAndroidPickerStyle, fixAndroidTouchableBug } = this.props;
 
     if (Platform.OS === 'ios') {
       return this.renderIOS();
@@ -593,11 +589,11 @@ export default class RNPickerSelect extends PureComponent {
       return this.renderWeb();
     }
 
-    if (children || !useNativeAndroidPickerStyle) {
-      return this.renderAndroidHeadless();
+    if (useNativeAndroidPickerStyle) {
+      return this.renderAndroidNativePickerStyle();
     }
 
-    return this.renderAndroidNativePickerStyle();
+    return this.renderAndroidHeadless();
   }
 }
 
