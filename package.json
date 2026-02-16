@@ -33,7 +33,7 @@
     "@types/react-native": "^0.60.22",
     "babel-jest": "^23.6.0",
     "babel-preset-react-native": "^4.0.1",
-    "cz-ls-commits": "^1.1.0",
+    "cz-ls-commits": "^3.0.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "enzyme-to-json": "^3.3.5",
