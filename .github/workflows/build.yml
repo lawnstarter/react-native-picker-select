@@ -28,9 +28,3 @@ jobs:
 
       - name: Run Tests
         run: yarn test:coverage
-
-      - name: Upload coverage to Qlty
-        uses: qltysh/qlty-action/coverage@v2
-        with:
-          oidc: true
-          files: coverage/lcov.info
