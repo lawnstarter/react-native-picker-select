@@ -416,14 +416,14 @@ export default class RNPickerSelect extends PureComponent {
 
     if (children) {
       return (
-        <View pointerEvents="box-only" style={containerStyle}>
+        <View pointerEvents="none" style={containerStyle}>
           {children}
         </View>
       );
     }
 
     return (
-      <View pointerEvents="box-only" style={containerStyle}>
+      <View pointerEvents="none" style={containerStyle}>
         <TextInput
           testID="text_input"
           style={[
