@@ -2946,13 +2946,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-picker/picker@npm:^2.4.0":
-  version: 2.5.1
-  resolution: "@react-native-picker/picker@npm:2.5.1"
+"@react-native-picker/picker@npm:^2.11.3":
+  version: 2.11.4
+  resolution: "@react-native-picker/picker@npm:2.11.4"
   peerDependencies:
-    react: ">=16"
-    react-native: ">=0.57"
-  checksum: 10c0/98acf94b72f3af01db1a189e3b2bd3004d92c9e8403596d25f2665de38fdf86c58abf84b0bec77195a85946fae8f327422fbd0f4fa0a3d362814491076fc8102
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/3c9947c1a3022ffa35008cc479b718585b106ff70a5fb0f24c4117bf2eaaf5f60795cba20271af50a01d3a878d5dc06661ea1c1315664898524e291e7412a18f
   languageName: node
   linkType: hard
 
@@ -10263,7 +10263,7 @@ __metadata:
     "@babel/preset-flow": "npm:^7.0.0"
     "@babel/preset-react": "npm:^7.0.0"
     "@commitlint/cli": "npm:^20.1.0"
-    "@react-native-picker/picker": "npm:^2.4.0"
+    "@react-native-picker/picker": "npm:^2.11.3"
     "@testing-library/jest-native": "npm:^5.4.3"
     "@testing-library/react-native": "npm:^12.0.0"
     "@types/react-native": "npm:^0.73.0"
@@ -10287,7 +10287,7 @@ __metadata:
     react-native: "npm:0.73.0"
     react-test-renderer: "npm:^18.2.0"
   peerDependencies:
-    "@react-native-picker/picker": ^2.4.0
+    "@react-native-picker/picker": ^2.11.3
   languageName: unknown
   linkType: soft
 
