@@ -68,8 +68,8 @@
   },
   "jest": {
     "preset": "react-native",
-    "setupFilesAfterFramework": [
-      "@testing-library/jest-native/extend-expect"
+    "setupFilesAfterEnv": [
+      "./test/setup.js"
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!(react-native|@react-native|@react-native-picker/picker)/)"
