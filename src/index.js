@@ -107,7 +107,7 @@ export default class RNPickerSelect extends PureComponent {
 
   static getSelectedItem({ items, key, value }) {
     let idx = items.findIndex((item) => {
-      if (item.key && key) {
+      if (item.key != null && key != null) {
         return isEqual(item.key, key);
       }
       if (isObject(item.value) || isObject(value)) {
